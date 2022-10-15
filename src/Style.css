@@ -5,6 +5,10 @@ html,
 body,
 #root {
   height: 100%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 body {
@@ -17,11 +21,13 @@ body {
 }
 
 .container {
+  width: 100%;
   height: 100%;
+  background-color: #333333;
 }
 
 .nav {
-  position: relative;
+  position: absolute;
   padding: 30px;
   background-color: rgb(174, 182, 182);
   width: 300px;
@@ -34,18 +40,18 @@ body {
   font-size: 3rem;
   font-weight: 700;
 }
-.keyword {
+.nav .keyword {
   padding: 20px;
 }
-.keyword ul {
+.nav .keyword ul {
   display: grid;
   grid-template-columns: 100px 100px;
   gap: 10px;
 }
-.keyword ul li {
+.nav .keyword ul li {
   cursor: pointer;
 }
-.keyword ul li span {
+.nav .keyword ul li span {
   display: inline-block;
   font-size: 20px;
   width: 100px;
@@ -56,15 +62,15 @@ body {
   border-radius: 25px;
 }
 
-.keyword ul li .off {
+.nav .keyword ul li .off {
   background-color: steelblue;
   color: aliceblue;
 }
-h2 {
+.nav h2 {
   font-size: 2rem;
   font-weight: 700;
 }
-.selected span {
+.nav .selected span {
   display: inline-block;
   font-size: 1.2rem;
   margin: 10px;
@@ -81,4 +87,175 @@ h2 {
   padding-left: 5px;
   background-color: lightskyblue;
   border-radius: 0 100px 100px 0;
+  cursor: pointer;
+}
+
+.space {
+  position: relative;
+  padding-left: 340px;
+}
+
+.space .star {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-color: aliceblue;
+  border-radius: 50px;
+  text-align: center;
+  top: 200px;
+}
+
+.space .star:nth-child(1) {
+  top: 200px;
+  left: 800px;
+}
+.space .star:nth-child(2) {
+  top: 200px;
+  left: 1400px;
+}
+.space .star:nth-child(3) {
+  top: 600px;
+  left: 1100px;
+}
+
+/* ----------------------info-------------------------- */
+
+.space .song_info {
+  display: grid;
+  gap: 20px;
+  position: absolute;
+  background-color: #333333;
+  border: 3px solid aliceblue;
+  border-radius: 15px;
+  top: 110%;
+  left: -50%;
+  padding: 20px;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.space .song_info .title {
+  font-size: 1.1rem;
+  text-align: center;
+  background-color: aliceblue;
+  width: 100%;
+  padding: 10px 0;
+  font-weight: 700;
+  border-radius: 25px;
+}
+
+.space .song_info .thumbnail {
+  background-color: aliceblue;
+  background-image: url(https://t1.daumcdn.net/news/201904/07/fnnewsi/20190407131759582paxb.jpg);
+  background-size: 160px;
+  width: 160px;
+  height: 80px;
+  box-shadow: 0 0 3px 0 #00000033;
+}
+
+.space .song_info .song_play_btn {
+  font-size: 1.2rem;
+  padding: 10px 50px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+}
+.space .star:hover .song_info {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* ----------------------filter-------------------------- */
+.star_filter {
+  padding: 20px;
+}
+.star_filter ul {
+  display: flex;
+  position: relative;
+  margin-bottom: 100px;
+  justify-content: center;
+}
+.star_filter ul li {
+  color: aliceblue;
+  border: 3px solid aliceblue;
+  border-radius: 25px;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+.star_filter ul li.active {
+  border: 3px solid aliceblue;
+  background-color: aliceblue;
+  color: #333333;
+}
+.star_filter .product {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 100px 100px 100px;
+  gap: 200px;
+}
+
+.star_filter .product .itemBox {
+  position: relative;
+}
+
+.star_filter .product .itemBox.hide {
+  background-color: midnightblue;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.star_filter .product .itemBox .item_img {
+  background-color: lightblue;
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+}
+
+.song_info {
+  display: grid;
+  gap: 20px;
+  position: absolute;
+  background-color: #333333;
+  border: 3px solid aliceblue;
+  border-radius: 15px;
+  top: calc(100% + 15px);
+  left: -50%;
+  padding: 20px;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 1988;
+}
+
+.song_info .title {
+  font-size: 1.1rem;
+  text-align: center;
+  background-color: aliceblue;
+  width: 100%;
+  padding: 10px 0;
+  font-weight: 700;
+  border-radius: 25px;
+}
+
+.song_info .thumbnail {
+  background-color: aliceblue;
+  background-image: url(https://t1.daumcdn.net/news/201904/07/fnnewsi/20190407131759582paxb.jpg);
+  background-size: 160px;
+  width: 160px;
+  height: 80px;
+  box-shadow: 0 0 3px 0 #00000033;
+}
+
+.song_info .song_play_btn {
+  font-size: 1.2rem;
+  padding: 10px 50px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+}
+.itemBox:hover .song_info {
+  visibility: visible;
+  opacity: 1;
 }
