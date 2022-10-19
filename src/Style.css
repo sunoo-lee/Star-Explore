@@ -20,22 +20,36 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+:root {
+  --bg_color: #222222;
+}
+
 .container {
   width: 100%;
   height: 100%;
-  background-color: #333333;
+  background-color: var(--bg_color);
 }
 
 .nav {
+  z-index: 10000;
   position: absolute;
   padding: 30px;
-  background-color: rgb(174, 182, 182);
+  background-color: #ffffff;
+  background-color: rgb(255, 255, 255);
   width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
+  transform: translateX(-300px);
+  transition: 0.3s;
+  justify-content: space-around;
 }
+
+.nav.active {
+  transform: translateX(0px);
+}
+
 .nav h1 {
   font-size: 3rem;
   font-weight: 700;
@@ -58,17 +72,18 @@ body {
   height: 40px;
   line-height: 40px;
   text-align: center;
-  background-color: lightskyblue;
+  background-color: steelblue;
+  color: aliceblue;
   border-radius: 25px;
 }
 
-.nav .keyword ul li .off {
-  background-color: steelblue;
-  color: aliceblue;
+.nav .keyword ul li span.on {
+  background-color: lightskyblue;
 }
 .nav h2 {
   font-size: 2rem;
   font-weight: 700;
+  text-align: center;
 }
 .nav .selected span {
   display: inline-block;
@@ -77,17 +92,21 @@ body {
 }
 .nav .nav_toggle {
   position: absolute;
-  right: -50px;
-  width: 50px;
-  height: 100px;
+  top: 20px;
+  right: -60px;
+  width: 60px;
+  padding: 10px 20px;
   font-size: 1.8rem;
   text-align: center;
   font-weight: 700;
-  writing-mode: vertical-lr;
   padding-left: 5px;
-  background-color: lightskyblue;
+  background-color: #ffffff;
   border-radius: 0 100px 100px 0;
   cursor: pointer;
+  transition: 0.3s;
+}
+.nav .nav_toggle:hover {
+  background-color: darkgrey;
 }
 
 .space {
@@ -118,13 +137,22 @@ body {
   left: 1100px;
 }
 
+.star_line {
+  content: "";
+  position: absolute;
+  width: 428px;
+  height: 3px;
+  border-top: 3px dotted aliceblue;
+  transform-origin: top left;
+}
+
 /* ----------------------info-------------------------- */
 
 .space .song_info {
   display: grid;
   gap: 20px;
   position: absolute;
-  background-color: #333333;
+  background-color: var(--bg_color);
   border: 3px solid aliceblue;
   border-radius: 15px;
   top: 110%;
@@ -187,17 +215,14 @@ body {
 .star_filter ul li.active {
   border: 3px solid aliceblue;
   background-color: aliceblue;
-  color: #333333;
+  color: var(--bg_color);
 }
 .star_filter .product {
   display: grid;
   justify-content: center;
   grid-template-columns: 100px 100px 100px;
   gap: 200px;
-}
-
-.star_filter .product .itemBox {
-  position: relative;
+  margin-top: 100px;
 }
 
 .star_filter .product .itemBox.hide {
@@ -207,7 +232,7 @@ body {
 }
 
 .star_filter .product .itemBox .item_img {
-  background-color: lightblue;
+  background-color: aliceblue;
   width: 100px;
   height: 100px;
   border-radius: 100px;
@@ -217,7 +242,7 @@ body {
   display: grid;
   gap: 20px;
   position: absolute;
-  background-color: #333333;
+  background-color: var(--bg_color);
   border: 3px solid aliceblue;
   border-radius: 15px;
   top: calc(100% + 15px);
@@ -258,4 +283,99 @@ body {
 .itemBox:hover .song_info {
   visibility: visible;
   opacity: 1;
+}
+
+/* ----------------------search-------------------------- */
+
+.nav .search_form {
+  display: flex;
+  width: 100%;
+}
+
+.nav .search_form input {
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 5px 10px;
+  border: 3px solid var(--bg_color);
+  border-right: none;
+  border-radius: 25px 0px 0px 25px;
+}
+.nav .search_form button {
+  padding-right: 10px;
+  width: 60px;
+  border: 3px solid var(--bg_color);
+  border-left: 1px solid var(--bg_color);
+  border-radius: 0px 25px 25px 0px;
+  background-color: #ffffff;
+}
+
+.nav .search_form input:focus {
+  outline: none;
+}
+.search_form:focus-within {
+  border-radius: 25px;
+  box-shadow: 0 0 5px 0 #209aeb;
+}
+
+.search {
+  position: relative;
+  bottom: 0px;
+  width: 100%;
+  background-color: var(--bg_color);
+  border-radius: 25px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.search .search_title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  border: 1px solid var(--bg_color);
+  background-color: #ffffff;
+  border-radius: 25px;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+}
+
+.search .search_img {
+  width: 200px;
+  height: 200px;
+  background-color: #ffffff;
+  background-image: url(https://t1.daumcdn.net/news/201904/07/fnnewsi/20190407131759582paxb.jpg);
+  background-size: 380px;
+  background-position: center;
+  border-radius: 200px;
+  border: 1px solid var(--bg_color);
+  overflow: hidden;
+}
+
+.search .search_keywords {
+  display: grid;
+  width: 200px;
+  grid-template-columns: auto auto;
+  gap: 10px;
+}
+
+.search .search_keywords li {
+  background-color: #ffffff;
+  border: 1px solid var(--bg_color);
+  font-weight: 700;
+  text-align: center;
+  width: 100px;
+  padding: 10px;
+  border-radius: 50px;
+  font-size: 1.4rem;
+}
+
+.search .search_play_btn {
+  width: 100%;
+  padding: 5px 20px;
+  font-size: 2rem;
+  border-radius: 20px;
+  border: none;
+  background-color: #ffffff;
 }
