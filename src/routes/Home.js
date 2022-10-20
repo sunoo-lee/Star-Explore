@@ -81,6 +81,10 @@ const Home = () => {
   const onSubmit = (event) => {
     event.preventDefault();
   };
+  const resize = useRef();
+  const onAnimTest = () => {
+    resize.current.classList.toggle("toggle");
+  };
   return (
     <div className="container">
       <div ref={nav_toggle} className="nav active">
@@ -124,12 +128,6 @@ const Home = () => {
               </li>
             </ul>
           </div>
-          {/* <div className="selected">
-            {select.map((key, index) => (
-              <span key={index}>{key}</span>
-            ))}
-          </div>
-          <h2>선택된 키워드</h2> */}
         </div>
         <div className="search">
           <span className="search_title">사건의 지평선</span>
@@ -155,7 +153,10 @@ const Home = () => {
         </div>
       </div>
       <div className="star_filter">
-        <div className="product">
+        <button onClick={onAnimTest} className="anim_test">
+          toggle
+        </button>
+        <div ref={resize} className="product">
           <div
             onClick={draw_line}
             id="star1"
