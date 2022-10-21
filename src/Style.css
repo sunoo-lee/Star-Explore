@@ -9,6 +9,12 @@ body,
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+::-webkit-scrollbar {
+  display: none;
 }
 
 body {
@@ -18,6 +24,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg_color);
 }
 
 :root {
@@ -32,7 +39,7 @@ body {
 
 .nav {
   z-index: 10000;
-  position: absolute;
+  position: fixed;
   padding: 30px;
   background-color: #ffffff;
   background-color: rgb(255, 255, 255);
@@ -118,87 +125,19 @@ body {
   transform-origin: top left;
 }
 
-/* ----------------------info-------------------------- */
-
-.space .song_info {
-  display: grid;
-  gap: 20px;
-  position: absolute;
-  background-color: var(--bg_color);
-  border: 3px solid aliceblue;
-  border-radius: 15px;
-  top: 110%;
-  left: -50%;
-  padding: 20px;
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.3s;
-}
-
-.space .song_info .title {
-  font-size: 1.1rem;
-  text-align: center;
-  background-color: aliceblue;
-  width: 100%;
-  padding: 10px 0;
-  font-weight: 700;
-  border-radius: 25px;
-}
-
-.space .song_info .thumbnail {
-  background-color: aliceblue;
-  background-image: url(https://t1.daumcdn.net/news/201904/07/fnnewsi/20190407131759582paxb.jpg);
-  background-size: 160px;
-  width: 160px;
-  height: 80px;
-  box-shadow: 0 0 3px 0 #00000033;
-}
-
-.space .song_info .song_play_btn {
-  font-size: 1.2rem;
-  padding: 10px 50px;
-  border-radius: 15px;
-  border: none;
-  cursor: pointer;
-}
-.space .star:hover .song_info {
-  visibility: visible;
-  opacity: 1;
-}
-
 /* ----------------------filter-------------------------- */
 .star_filter {
   padding: 20px;
 }
-.star_filter ul {
-  display: flex;
-  position: relative;
-  margin-bottom: 100px;
-  justify-content: center;
-}
-.star_filter ul li {
-  color: aliceblue;
-  border: 3px solid aliceblue;
-  border-radius: 25px;
-  padding: 10px 20px;
-  margin: 0 10px;
-  cursor: pointer;
-}
-.star_filter ul li.active {
-  border: 3px solid aliceblue;
-  background-color: aliceblue;
-  color: var(--bg_color);
-}
 .star_filter .product {
   display: grid;
   justify-content: center;
-  grid-template-columns: 20px 20px 20px;
-  gap: 400px;
+  grid-template-columns: 20px 20px 20px 20px;
+  gap: 400px 600px;
   margin-top: 100px;
 }
 
 .star_filter .product .itemBox.hide {
-  background-color: midnightblue;
   visibility: hidden;
   opacity: 0;
 }
@@ -210,18 +149,38 @@ body {
   border-radius: 100px;
 }
 
+.star_filter .product {
+  transform-origin: center;
+  transition: 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+.star_filter .product.toggle {
+  transform: scale(0.5);
+}
+
+.star_filter .product .itemBox {
+  cursor: pointer;
+  transition: 0.2s;
+}
+.star_filter .product.toggle .itemBox {
+  transition: 0.3s;
+  transform: scale(2);
+}
+.star_filter .product.toggle .itemBox .song_info {
+  transition: 0.2s;
+}
+.star_filter .product .itemBox .star_line {
+  transform: scale(0.8);
+}
+
+/* ----------------------info-------------------------- */
+
 .song_info {
   display: grid;
-  gap: 20px;
   position: absolute;
-  background-color: var(--bg_color);
-  border: 3px solid aliceblue;
-  border-radius: 15px;
-  transform: translateX(-52px) translateY(15px);
-  padding: 20px;
+  transform: translateX(-45%) translateY(-75px);
   visibility: hidden;
   opacity: 0;
-  transition: all 0.3s;
+  transition: all 0.2s;
   z-index: 1988;
 }
 
@@ -229,28 +188,12 @@ body {
   font-size: 1.1rem;
   text-align: center;
   background-color: aliceblue;
-  width: 100%;
+  width: 160px;
   padding: 10px 0;
   font-weight: 700;
   border-radius: 25px;
 }
 
-.song_info .thumbnail {
-  background-color: aliceblue;
-  background-image: url(https://t1.daumcdn.net/news/201904/07/fnnewsi/20190407131759582paxb.jpg);
-  background-size: 160px;
-  width: 160px;
-  height: 80px;
-  box-shadow: 0 0 3px 0 #00000033;
-}
-
-.song_info .song_play_btn {
-  font-size: 1.2rem;
-  padding: 10px 50px;
-  border-radius: 15px;
-  border: none;
-  cursor: pointer;
-}
 .itemBox:hover .song_info {
   visibility: visible;
   opacity: 1;
@@ -310,6 +253,7 @@ body {
   padding: 10px;
   text-align: center;
   width: 100%;
+  height: 44px;
 }
 
 .search .search_img {
@@ -337,6 +281,7 @@ body {
   font-weight: 700;
   text-align: center;
   width: 100px;
+  height: 44px;
   padding: 10px;
   border-radius: 50px;
   font-size: 1.4rem;
@@ -355,21 +300,4 @@ body {
   position: absolute;
   padding: 10px 20px;
   left: 50%;
-}
-.star_filter {
-  overflow: hidden;
-}
-.star_filter .product {
-  transform-origin: center;
-  transition: 0.3s;
-}
-.star_filter .product.toggle {
-  transform: scale(0.8);
-}
-.star_filter .product .itemBox {
-  transition: 0.3s;
-  transition-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
-}
-.star_filter .product.toggle .itemBox {
-  transform: scale(1.2);
 }

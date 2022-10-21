@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
+import Star from "../components/Star";
 
 const Home = () => {
   const [select, setSelect] = useState([]);
@@ -9,13 +10,79 @@ const Home = () => {
   const selectedKey = useRef([]);
   const nav_toggle = useRef();
 
+  const [data, setData] = useState([]);
+  const [playerTag, setPlayerTag] = useState([]);
+
+  const star_data = [
+    {
+      title: "오르트구름",
+      key1: "first",
+      key2: "fall",
+    },
+    {
+      title: "살별",
+      key1: "second",
+      key2: "rock",
+    },
+    {
+      title: "물의 여행",
+      key1: "third",
+      key2: "winter",
+    },
+    {
+      title: "반짝, 빛을 내",
+      key1: "fourth",
+      key2: "space",
+    },
+    {
+      title: "6년 230일",
+      key1: "first",
+      key2: "ballad",
+    },
+    {
+      title: "P.R.R.W",
+      key1: "second",
+      key2: "jazz",
+      key3: "winter",
+    },
+    {
+      title: "나는 계획이 있다",
+      key1: "first",
+      key2: "rock",
+      key3: "winter",
+    },
+    {
+      title: "Truly",
+      key1: "second",
+      key2: "ballad",
+      key3: "fall",
+    },
+    {
+      title: "별의 조각",
+      key1: "fourth",
+      key2: "jazz",
+      key3: "winter",
+    },
+    {
+      title: "하나의 달",
+      key1: "third",
+      key2: "rock",
+      key3: "fall",
+    },
+    {
+      title: "사건의 지평선",
+      key1: "second",
+      key2: "space",
+      key3: "winter",
+    },
+  ];
+
   const onClick = (event) => {
     const keyword_btn = event.target;
     keyword_btn.classList.toggle("on");
 
     const selected = event.target.innerText;
     const selectedValue = keyword_btn.parentElement.dataset.filter;
-    console.dir(selectedValue);
 
     if (keyword_btn.className === "on") {
       setSelect([...select, selected]);
@@ -54,12 +121,16 @@ const Home = () => {
       line.classList.add("star_line");
       line.style.borderColor = "aliceblue";
       line.style.width = `${result}px`;
-      line.style.transform = `translate(50px, 50px) rotate(${degree}deg)`;
+      line.style.transform = `translate(10px, 10px) rotate(${degree}deg)`;
       event.target.append(line);
     }
   }
+  useEffect(() => {
+    setData(star_data);
+  }, []);
 
   useEffect(() => {
+    console.log(typeof selectedKey.current);
     for (let i = 0; i < selectedKey.current.length; ++i) {
       const keyValues = Object.values(selectedKey.current[i].dataset);
       const intersection = selectValue.filter((item) =>
@@ -75,7 +146,6 @@ const Home = () => {
 
   const navToggle = () => {
     nav_toggle.current.classList.toggle("active");
-    console.dir(nav_toggle.current.className);
   };
 
   const onSubmit = (event) => {
@@ -85,10 +155,31 @@ const Home = () => {
   const onAnimTest = () => {
     resize.current.classList.toggle("toggle");
   };
+  const zoomScroll = () => {
+    const zoomElement = document.querySelector(".star_filter");
+    let zoom = 1;
+    const ZOOM_SPEED = 0.1;
+
+    document.addEventListener("wheel", function (e) {
+      if (e.deltaY > 0) {
+        zoomElement.style.transform = `scale(${(zoom += ZOOM_SPEED)})`;
+      } else {
+        zoomElement.style.transform = `scale(${(zoom -= ZOOM_SPEED)})`;
+      }
+    });
+  };
+
+  const playerChange = (event) => {
+    // console.dir(event.target.parentNode.childNodes[1].childNodes[0].innerHTML);
+    const player_title =
+      event.target.parentNode.childNodes[1].childNodes[0].innerHTML;
+    const tags = Object.values(event.target.parentNode.dataset);
+    setPlayerTag([player_title, ...tags]);
+    console.log(playerTag);
+  };
   return (
     <div className="container">
       <div ref={nav_toggle} className="nav active">
-        {/* <h1>검색하기</h1> */}
         <form className="search_form" onSubmit={onSubmit}>
           <input type="text" placeholder="사건의 지평선" />
           <button>검색</button>
@@ -130,7 +221,7 @@ const Home = () => {
           </div>
         </div>
         <div className="search">
-          <span className="search_title">사건의 지평선</span>
+          <span className="search_title">{playerTag[0]}</span>
           <div className="search_img">
             {/* <iframe
               width="200"
@@ -141,10 +232,10 @@ const Home = () => {
             ></iframe> */}
           </div>
           <ul className="search_keywords">
-            <li>6집</li>
-            <li>가을</li>
-            <li>우주</li>
-            <li>피아노</li>
+            <li>{playerTag[1]}</li>
+            <li>{playerTag[2]}</li>
+            <li>{playerTag[3]}</li>
+            <li>{playerTag[4]}</li>
           </ul>
           <button className="search_play_btn">▶</button>
         </div>
@@ -157,130 +248,17 @@ const Home = () => {
           toggle
         </button>
         <div ref={resize} className="product">
-          <div
-            onClick={draw_line}
-            id="star1"
-            ref={(item) => (selectedKey.current[0] = item)}
-            className="itemBox"
-            data-key1="first"
-            data-key2="fall"
-          >
-            <div className="item_img"></div>
-            <div className="song_info">
-              <span className="title">사건의 지평선</span>
-              <div className="thumbnail"></div>
-              <button className="song_play_btn">▶</button>
-            </div>
-          </div>
-          <div
-            onClick={draw_line}
-            id="star2"
-            ref={(item) => (selectedKey.current[1] = item)}
-            className="itemBox"
-            data-key1="second"
-            data-key2="rock"
-          >
-            <div className="item_img"></div>
-            <div className="song_info">
-              <span className="title">사건의 지평선</span>
-              <div className="thumbnail"></div>
-              <button className="song_play_btn">▶</button>
-            </div>
-          </div>
-          <div
-            onClick={draw_line}
-            ref={(item) => (selectedKey.current[2] = item)}
-            className="itemBox"
-            data-key1="first"
-            data-key2="winter"
-          >
-            <div className="item_img"></div>
-            <div className="song_info">
-              <span className="title">사건의 지평선</span>
-              <div className="thumbnail"></div>
-              <button className="song_play_btn">▶</button>
-            </div>
-          </div>
-          <div
-            ref={(item) => (selectedKey.current[3] = item)}
-            className="itemBox"
-            data-key1="second"
-            data-key2="ballad"
-            data-key3="space"
-          >
-            <div className="item_img"></div>
-            <div className="song_info">
-              <span className="title">사건의 지평선</span>
-              <div className="thumbnail"></div>
-              <button className="song_play_btn">▶</button>
-            </div>
-          </div>
-          <div
-            ref={(item) => (selectedKey.current[4] = item)}
-            className="itemBox"
-            data-key1="fourth"
-            data-key2="rock"
-            data-key3="fall"
-          >
-            <div className="item_img"></div>
-          </div>
-          <div
-            ref={(item) => (selectedKey.current[5] = item)}
-            className="itemBox"
-            data-key1="third"
-            data-key2="jazz"
-            data-key3="space"
-          >
-            <div className="item_img"></div>
-            <div className="song_info">
-              <span className="title">사건의 지평선</span>
-              <div className="thumbnail"></div>
-              <button className="song_play_btn">▶</button>
-            </div>
-          </div>
-          <div
-            onClick={draw_line}
-            ref={(item) => (selectedKey.current[6] = item)}
-            className="itemBox"
-            data-key1="third"
-            data-key2="rock"
-            data-key3="winter"
-          >
-            <div className="item_img"></div>
-            <div className="song_info">
-              <span className="title">사건의 지평선</span>
-              <div className="thumbnail"></div>
-              <button className="song_play_btn">▶</button>
-            </div>
-          </div>
-          <div
-            ref={(item) => (selectedKey.current[7] = item)}
-            className="itemBox"
-            data-key1="fourth"
-            data-key2="space"
-            data-key3="jazz"
-          >
-            <div className="item_img"></div>
-            <div className="song_info">
-              <span className="title">사건의 지평선</span>
-              <div className="thumbnail"></div>
-              <button className="song_play_btn">▶</button>
-            </div>
-          </div>
-          <div
-            ref={(item) => (selectedKey.current[8] = item)}
-            className="itemBox"
-            data-key1="fourth"
-            data-key2="ballad"
-            data-key3="winter"
-          >
-            <div className="item_img"></div>
-            <div className="song_info">
-              <span className="title">사건의 지평선</span>
-              <div className="thumbnail"></div>
-              <button className="song_play_btn">▶</button>
-            </div>
-          </div>
+          {data.map((star, index) => (
+            <Star
+              ref={(item) => (selectedKey.current[index] = item)}
+              key={index}
+              key1={star.key1}
+              key2={star.key2}
+              key3={star.key3}
+              title={star.title}
+              onClick={playerChange}
+            />
+          ))}
         </div>
       </div>
     </div>
