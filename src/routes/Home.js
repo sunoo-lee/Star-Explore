@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faPlay,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import Star from "../components/Star";
 
 const Home = () => {
@@ -8,10 +12,30 @@ const Home = () => {
   const [selectValue, setSelectValue] = useState([]);
 
   const selectedKey = useRef([]);
-  const nav_toggle = useRef();
+  let nav_toggle = useRef();
+  const [nav, setNav] = useState(false);
 
   const [data, setData] = useState([]);
-  const [playerTag, setPlayerTag] = useState([]);
+  const [playerTag, setPlayerTag] = useState([
+    "Select Music",
+    "#1",
+    "#2",
+    "#3",
+    "#4",
+  ]);
+
+  const keyword_list = [
+    { data: "first", keyword: "1집" },
+    { data: "second", keyword: "2집" },
+    { data: "third", keyword: "3집" },
+    { data: "fourth", keyword: "4집" },
+    { data: "space", keyword: "우주" },
+    { data: "fall", keyword: "가을" },
+    { data: "winter", keyword: "겨울" },
+    { data: "rock", keyword: "락" },
+    { data: "ballad", keyword: "발라드" },
+    { data: "jazz", keyword: "재즈" },
+  ];
 
   const star_data = [
     {
@@ -130,7 +154,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log(typeof selectedKey.current);
     for (let i = 0; i < selectedKey.current.length; ++i) {
       const keyValues = Object.values(selectedKey.current[i].dataset);
       const intersection = selectValue.filter((item) =>
@@ -144,10 +167,6 @@ const Home = () => {
     }
   }, [selectValue]);
 
-  const navToggle = () => {
-    nav_toggle.current.classList.toggle("active");
-  };
-
   const onSubmit = (event) => {
     event.preventDefault();
   };
@@ -155,28 +174,32 @@ const Home = () => {
   const onAnimTest = () => {
     resize.current.classList.toggle("toggle");
   };
-  const zoomScroll = () => {
-    const zoomElement = document.querySelector(".star_filter");
-    let zoom = 1;
-    const ZOOM_SPEED = 0.1;
+  // const zoomScroll = () => {
+  //   const zoomElement = document.querySelector(".star_filter");
+  //   let zoom = 1;
+  //   const ZOOM_SPEED = 0.1;
 
-    document.addEventListener("wheel", function (e) {
-      if (e.deltaY > 0) {
-        zoomElement.style.transform = `scale(${(zoom += ZOOM_SPEED)})`;
-      } else {
-        zoomElement.style.transform = `scale(${(zoom -= ZOOM_SPEED)})`;
-      }
-    });
-  };
+  //   document.addEventListener("wheel", function (e) {
+  //     if (e.deltaY > 0) {
+  //       zoomElement.style.transform = `scale(${(zoom += ZOOM_SPEED)})`;
+  //     } else {
+  //       zoomElement.style.transform = `scale(${(zoom -= ZOOM_SPEED)})`;
+  //     }
+  //   });
+  // };
 
   const playerChange = (event) => {
-    // console.dir(event.target.parentNode.childNodes[1].childNodes[0].innerHTML);
     const player_title =
       event.target.parentNode.childNodes[1].childNodes[0].innerHTML;
     const tags = Object.values(event.target.parentNode.dataset);
     setPlayerTag([player_title, ...tags]);
-    console.log(playerTag);
   };
+
+  const navToggle = () => {
+    nav_toggle.current.classList.toggle("active");
+    setNav(!nav);
+  };
+
   return (
     <div className="container">
       <div ref={nav_toggle} className="nav active">
@@ -187,60 +210,33 @@ const Home = () => {
         <div className="keyword_search">
           <div className="keyword">
             <ul>
-              <li data-filter="first">
-                <span onClick={onClick}>1집</span>
-              </li>
-              <li data-filter="second">
-                <span onClick={onClick}>2집</span>
-              </li>
-              <li data-filter="third">
-                <span onClick={onClick}>3집</span>
-              </li>
-              <li data-filter="fourth">
-                <span onClick={onClick}>4집</span>
-              </li>
-              <li data-filter="space">
-                <span onClick={onClick}>우주</span>
-              </li>
-              <li data-filter="fall">
-                <span onClick={onClick}>가을</span>
-              </li>
-              <li data-filter="winter">
-                <span onClick={onClick}>겨울</span>
-              </li>
-              <li data-filter="rock">
-                <span onClick={onClick}>락</span>
-              </li>
-              <li data-filter="ballad">
-                <span onClick={onClick}>발라드</span>
-              </li>
-              <li data-filter="jazz">
-                <span onClick={onClick}>재즈</span>
-              </li>
+              {keyword_list.map((item, index) => (
+                <li data-filter={item.data} key={index}>
+                  <span onClick={onClick}>{item.keyword}</span>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
         <div className="search">
           <span className="search_title">{playerTag[0]}</span>
-          <div className="search_img">
-            {/* <iframe
-              width="200"
-              height="200"
-              src="https://www.youtube.com/embed/BBdC1rl5sKY"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            ></iframe> */}
-          </div>
+          <div className="search_img"></div>
           <ul className="search_keywords">
             <li>{playerTag[1]}</li>
             <li>{playerTag[2]}</li>
             <li>{playerTag[3]}</li>
             <li>{playerTag[4]}</li>
           </ul>
-          <button className="search_play_btn">▶</button>
+          <button className="search_play_btn">
+            <FontAwesomeIcon icon={faPlay} />
+          </button>
         </div>
         <div className="nav_toggle active" onClick={navToggle}>
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
+          {nav ? (
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          ) : (
+            <FontAwesomeIcon icon={faXmark} />
+          )}
         </div>
       </div>
       <div className="star_filter">
