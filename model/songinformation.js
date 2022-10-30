@@ -9,7 +9,8 @@ const SongInformation = function(songInformation) {
 };
 
 SongInformation.findByTitle = (SEsongtitle, result) => {
-    sql.query('SELECT * FROM `MUSIC INFORMATION` where `song title` = ${SEsongtitle}', (err, res) => {
+    sql.query(  `SELECT * FROM 'MUSIC INFORMATION'
+                where 'song title' = '${SEsongtitle}%'`, (err, res) => { //첫문자부터, 해당 문자 포함한 노래 제목 검색
         if (err) {
             console.log("error: ", err);
             result(err, null);
