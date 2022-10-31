@@ -128,6 +128,11 @@ const Home = () => {
         selectedKey.current[i].classList.remove("hide");
       }
     }
+    if (selectValue.length > 0) {
+      resize.current.classList.add("toggle");
+    } else if (selectValue.length === 0) {
+      resize.current.classList.remove("toggle");
+    }
   }, [selectValue]);
 
   const onSubmit = (event) => {
@@ -157,9 +162,9 @@ const Home = () => {
       />
       <div className="container">
         <div className="star_filter">
-          <button onClick={onAnimTest} className="anim_test">
+          {/* <button onClick={onAnimTest} className="anim_test">
             toggle
-          </button>
+          </button> */}
           <div ref={resize} className="product">
             {data.map((star, index) => (
               <Star
