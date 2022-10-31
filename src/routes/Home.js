@@ -1,11 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMagnifyingGlass,
-  faPlay,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
 import Star from "../components/Star";
+import Navigation from "../components/Navigation";
 
 const Home = () => {
   const [select, setSelect] = useState([]);
@@ -117,38 +112,6 @@ const Home = () => {
     }
   };
 
-  function draw_line(event) {
-    const childLine = event.target.childNodes;
-    if (childLine.length !== 0) {
-      event.target.innerHTML = "";
-    } else if (childLine.length === 0) {
-      let x = event.target.offsetLeft;
-      let y = event.target.offsetTop;
-
-      let targetX = selectedKey.current[5].offsetLeft;
-      let targetY = selectedKey.current[5].offsetTop;
-
-      let resultX = targetX - x;
-      let resultY = targetY - y;
-
-      const result = Math.sqrt(Math.pow(resultX, 2) + Math.pow(resultY, 2));
-
-      const radian = Math.atan(resultX / resultY);
-      let degree;
-      if (resultX < 0 || resultY < 0) {
-        degree = 270 - 57 * radian;
-      } else if (resultX >= 0 && resultY >= 0) {
-        degree = 90 - 57 * radian;
-      }
-
-      let line = document.createElement("div");
-      line.classList.add("star_line");
-      line.style.borderColor = "aliceblue";
-      line.style.width = `${result}px`;
-      line.style.transform = `translate(10px, 10px) rotate(${degree}deg)`;
-      event.target.append(line);
-    }
-  }
   useEffect(() => {
     setData(star_data);
   }, []);
@@ -174,90 +137,45 @@ const Home = () => {
   const onAnimTest = () => {
     resize.current.classList.toggle("toggle");
   };
-  // const zoomScroll = () => {
-  //   const zoomElement = document.querySelector(".star_filter");
-  //   let zoom = 1;
-  //   const ZOOM_SPEED = 0.1;
 
-  //   document.addEventListener("wheel", function (e) {
-  //     if (e.deltaY > 0) {
-  //       zoomElement.style.transform = `scale(${(zoom += ZOOM_SPEED)})`;
-  //     } else {
-  //       zoomElement.style.transform = `scale(${(zoom -= ZOOM_SPEED)})`;
-  //     }
-  //   });
-  // };
-
-  const playerChange = (event) => {
-    const player_title =
-      event.target.parentNode.childNodes[1].childNodes[0].innerHTML;
-    const tags = Object.values(event.target.parentNode.dataset);
-    setPlayerTag([player_title, ...tags]);
-  };
+  const toggleBtn = useRef();
 
   const navToggle = () => {
+    toggleBtn.current.classList.toggle("active");
     nav_toggle.current.classList.toggle("active");
+    document.body.classList.toggle("stop-scroll", nav);
     setNav(!nav);
   };
 
   return (
-    <div className="container">
-      <div ref={nav_toggle} className="nav active">
-        <form className="search_form" onSubmit={onSubmit}>
-          <input type="text" placeholder="사건의 지평선" />
-          <button>검색</button>
-        </form>
-        <div className="keyword_search">
-          <div className="keyword">
-            <ul>
-              {keyword_list.map((item, index) => (
-                <li data-filter={item.data} key={index}>
-                  <span onClick={onClick}>{item.keyword}</span>
-                </li>
-              ))}
-            </ul>
+    <>
+      <Navigation
+        onSubmit={onSubmit}
+        keyword_list={keyword_list}
+        onClick={onClick}
+        playerTag={playerTag}
+      />
+      <div className="container">
+        <div className="star_filter">
+          <button onClick={onAnimTest} className="anim_test">
+            toggle
+          </button>
+          <div ref={resize} className="product">
+            {data.map((star, index) => (
+              <Star
+                ref={(item) => (selectedKey.current[index] = item)}
+                key={index}
+                key1={star.key1}
+                key2={star.key2}
+                key3={star.key3}
+                title={star.title}
+                // onClick={playerChange}
+              />
+            ))}
           </div>
         </div>
-        <div className="search">
-          <span className="search_title">{playerTag[0]}</span>
-          <div className="search_img"></div>
-          <ul className="search_keywords">
-            <li>{playerTag[1]}</li>
-            <li>{playerTag[2]}</li>
-            <li>{playerTag[3]}</li>
-            <li>{playerTag[4]}</li>
-          </ul>
-          <button className="search_play_btn">
-            <FontAwesomeIcon icon={faPlay} />
-          </button>
-        </div>
-        <div className="nav_toggle active" onClick={navToggle}>
-          {nav ? (
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
-          ) : (
-            <FontAwesomeIcon icon={faXmark} />
-          )}
-        </div>
       </div>
-      <div className="star_filter">
-        <button onClick={onAnimTest} className="anim_test">
-          toggle
-        </button>
-        <div ref={resize} className="product">
-          {data.map((star, index) => (
-            <Star
-              ref={(item) => (selectedKey.current[index] = item)}
-              key={index}
-              key1={star.key1}
-              key2={star.key2}
-              key3={star.key3}
-              title={star.title}
-              onClick={playerChange}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import { ReactComponent as StarImg } from "../asset/별_심벌-05.svg";
 
 const Star = (prop, ref) => {
   return (
@@ -10,7 +11,9 @@ const Star = (prop, ref) => {
       data-key3={prop.key3}
       onClick={prop.onClick}
     >
-      <div className="item_img"></div>
+      <div className="item_img">
+        <StarImg />
+      </div>
       <div className="song_info">
         <span className="title">{prop.title}</span>
       </div>

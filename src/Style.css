@@ -2,9 +2,9 @@
   box-sizing: border-box;
 }
 html,
-body,
-#root {
-  height: 100%;
+body {
+  width: 100vw;
+  height: 100vh;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -25,6 +25,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg_color);
+  background-color: #6c8291;
 }
 
 :root {
@@ -32,14 +33,16 @@ body {
 }
 
 .container {
-  width: 100%;
-  height: 100%;
+  /* width: 100vw; */
+  /* height: 100vh; */
   background-color: var(--bg_color);
 }
 
 .nav {
   z-index: 10000;
   position: fixed;
+  /* float: left; */
+  /* position: sticky; */
   padding: 30px;
   background-color: #ffffff;
   background-color: rgb(255, 255, 255);
@@ -47,10 +50,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  height: 100vh;
   transform: translateX(-300px);
   transition: 0.3s;
   justify-content: space-around;
+  top: 0vh;
+  left: 0vw;
+  right: 100vw;
 }
 
 .nav.active {
@@ -112,10 +118,6 @@ body {
   cursor: pointer;
   transition: 0.3s;
 }
-.nav .nav_toggle:hover {
-  background-color: darkgrey;
-}
-
 .star_line {
   content: "";
   position: absolute;
@@ -132,8 +134,8 @@ body {
 .star_filter .product {
   display: grid;
   justify-content: center;
-  grid-template-columns: 20px 20px 20px 20px;
-  gap: 400px 600px;
+  grid-template-columns: 40px 40px 40px 40px;
+  gap: 200px 300px;
   margin-top: 100px;
 }
 
@@ -143,9 +145,9 @@ body {
 }
 
 .star_filter .product .itemBox .item_img {
-  background-color: aliceblue;
-  width: 20px;
-  height: 20px;
+  /* background-color: aliceblue; */
+  /* width: 40px; */
+  /* height: 40px; */
   border-radius: 100px;
 }
 
@@ -300,4 +302,38 @@ body {
   position: absolute;
   padding: 10px 20px;
   left: 50%;
+}
+
+@media all and (max-width: 1023px) {
+  /* 타블렛 */
+}
+
+@media all and (max-width: 768px) {
+  /* 모바일 */
+  .nav {
+    width: calc(100vw);
+    transform: translateX(-100vw);
+    backdrop-filter: blur(4px);
+    background-color: #ffffff88;
+  }
+  .nav.active {
+    transform: translateX(0px);
+  }
+  .nav_toggle {
+    right: -60px;
+    background-color: #ffffff;
+  }
+  /* .nav .nav_toggle:hover {
+    background-color: #ffffff;
+  } */
+  .nav_toggle.active {
+    color: #ffffff;
+    background-color: transparent;
+    right: 0px;
+    transform: rotate(360deg);
+  }
+}
+
+.stop-scroll {
+  overflow: hidden;
 }
