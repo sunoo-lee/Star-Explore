@@ -20,80 +20,95 @@ const Home = () => {
   ]);
 
   const keyword_list = [
-    { data: "first", keyword: "1집" },
-    { data: "second", keyword: "2집" },
-    { data: "third", keyword: "3집" },
-    { data: "fourth", keyword: "4집" },
-    { data: "space", keyword: "우주" },
-    { data: "fall", keyword: "가을" },
-    { data: "winter", keyword: "겨울" },
-    { data: "rock", keyword: "락" },
-    { data: "ballad", keyword: "발라드" },
-    { data: "jazz", keyword: "재즈" },
+    { data: "first", keyword: "시원한" },
+    { data: "second", keyword: "따뜻한" },
+    { data: "third", keyword: "시니컬한" },
+    { data: "fourth", keyword: "흥겨운" },
+    { data: "space", keyword: "설레는" },
+    { data: "fall", keyword: "그리운" },
+    { data: "winter", keyword: "벅차는" },
+    { data: "rock", keyword: "지겨운" },
+    { data: "ballad", keyword: "나른한" },
+    { data: "jazz", keyword: "애절한" },
+    { data: "jazz", keyword: "담담한" },
+    { data: "jazz", keyword: "신비로운" },
+    { data: "jazz", keyword: "청량한" },
+    { data: "jazz", keyword: "간절한" },
   ];
 
   const star_data = [
     {
+      title: "사건의 지평선",
+      key1: "first",
+      key2: "fall",
+      x: 450,
+      y: 550,
+    },
+    {
       title: "오르트구름",
       key1: "first",
       key2: "fall",
+      x: 540,
+      y: 240,
     },
+    // {
+    //   title: "살별",
+    //   key1: "second",
+    //   key2: "rock",
+    // },
+    // {
+    //   title: "물의 여행",
+    //   key1: "third",
+    //   key2: "winter",
+    // },
+    // {
+    //   title: "반짝, 빛을 내",
+    //   key1: "fourth",
+    //   key2: "space",
+    // },
+    // {
+    //   title: "6년 230일",
+    //   key1: "first",
+    //   key2: "ballad",
+    // },
+    // {
+    //   title: "P.R.R.W",
+    //   key1: "second",
+    //   key2: "jazz",
+    //   key3: "winter",
+    // },
     {
-      title: "살별",
-      key1: "second",
-      key2: "rock",
-    },
-    {
-      title: "물의 여행",
-      key1: "third",
-      key2: "winter",
-    },
-    {
-      title: "반짝, 빛을 내",
-      key1: "fourth",
-      key2: "space",
-    },
-    {
-      title: "6년 230일",
+      title: "AQUALOVERS 〜DEEP into the night〜",
       key1: "first",
-      key2: "ballad",
-    },
-    {
-      title: "P.R.R.W",
-      key1: "second",
-      key2: "jazz",
-      key3: "winter",
-    },
-    {
-      title: "나는 계획이 있다",
-      key1: "first",
       key2: "rock",
       key3: "winter",
+      x: 880,
+      y: 380,
     },
-    {
-      title: "Truly",
-      key1: "second",
-      key2: "ballad",
-      key3: "fall",
-    },
-    {
-      title: "별의 조각",
-      key1: "fourth",
-      key2: "jazz",
-      key3: "winter",
-    },
-    {
-      title: "하나의 달",
-      key1: "third",
-      key2: "rock",
-      key3: "fall",
-    },
-    {
-      title: "사건의 지평선",
-      key1: "second",
-      key2: "space",
-      key3: "winter",
-    },
+    // {
+    //   title: "Truly",
+    //   key1: "second",
+    //   key2: "ballad",
+    //   key3: "fall",
+    // },
+    // {
+    //   title: "별의 조각",
+    //   key1: "fourth",
+    //   key2: "jazz",
+    //   key3: "winter",
+    // },
+    // {
+    //   title: "하나의 달",
+    //   key1: "third",
+    //   key2: "rock",
+    //   key3: "fall",
+    // },
+    // {
+    //   title: "사건의 지평선",
+    //   key1: "second",
+    //   key2: "space",
+    //   key3: "winter",
+    // },
   ];
 
   const onClick = (event) => {
@@ -160,11 +175,77 @@ const Home = () => {
         onClick={onClick}
         playerTag={playerTag}
       />
+      <div className="select_key">
+        <ul>
+          <li>
+            <span>시원한</span>
+          </li>
+          <li>
+            <span>청량한</span>
+          </li>
+          <li>
+            <span>우주</span>
+          </li>
+        </ul>
+      </div>
+      <div className="result_container">
+        <div className="result_box">
+          <div className="result_header">result: 000</div>
+          <div className="result_list">
+            <ul>
+              <li>사건의 지평선</li>
+              <li>혜성</li>
+              <li>블랙홀</li>
+              <li>물의 여행</li>
+              <li>오르트구름</li>
+              <li>하나의 달</li>
+              <li>별의 조각</li>
+              <li>사건의 지평선</li>
+              <li>혜성</li>
+              <li>블랙홀</li>
+              <li>물의 여행</li>
+              <li>오르트구름</li>
+              <li>하나의 달</li>
+              <li>별의 조각</li>
+            </ul>
+          </div>
+        </div>
+        <div className="player_box">
+          <div className="play_btn"></div>
+          <div className="thumbnail"></div>
+          <div className="song_data">
+            <div className="song_title">사건의 지평선</div>
+            <div className="song_detail">
+              ENDTHEORY / 락 / 2022.01.30 / ♥ 52명
+            </div>
+          </div>
+          <ul className="keyword_list">
+            <li>
+              <span>시원한</span>
+            </li>
+            <li>
+              <span>따뜻한</span>
+            </li>
+            <li>
+              <span>우주</span>
+            </li>
+            <li>
+              <span>청량한</span>
+            </li>
+            <li>
+              <span>-</span>
+            </li>
+            <li>
+              <span>-</span>
+            </li>
+          </ul>
+        </div>
+      </div>
       <div className="container">
         <div className="star_filter">
-          {/* <button onClick={onAnimTest} className="anim_test">
+          <button onClick={onAnimTest} className="anim_test">
             toggle
-          </button> */}
+          </button>
           <div ref={resize} className="product">
             {data.map((star, index) => (
               <Star
@@ -174,7 +255,8 @@ const Home = () => {
                 key2={star.key2}
                 key3={star.key3}
                 title={star.title}
-                // onClick={playerChange}
+                x={star.x}
+                y={star.y}
               />
             ))}
           </div>

@@ -1,10 +1,6 @@
-import {
-  faMagnifyingGlass,
-  faPlay,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useRef, useState, forwardRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
 
 const Navigation = (prop, ref) => {
   const toggleBtn = useRef();
@@ -19,42 +15,49 @@ const Navigation = (prop, ref) => {
   };
 
   return (
-    <nav>
-      <div ref={nav_toggle} className="nav active">
-        <form className="search_form" onSubmit={prop.onSubmit}>
-          <input type="text" placeholder="사건의 지평선" />
-          <button>검색</button>
-        </form>
-        <div className="keyword_search">
-          <div className="keyword">
-            <ul>
-              {prop.keyword_list.map((item, index) => (
-                <li data-filter={item.data} key={index}>
-                  <span onClick={prop.onClick}>{item.keyword}</span>
-                </li>
-              ))}
-            </ul>
+    <nav ref={nav_toggle} className="nav active">
+      <div className="nav_header">
+        <div className="header_top">
+          <h1>keyword</h1>
+          <div className="nav_tabs">
+            <div className="tab_button active"></div>
+            <div className="tab_button"></div>
           </div>
         </div>
-        <div className="search">
-          <span className="search_title">{prop.playerTag[0]}</span>
-          <div className="search_img"></div>
-          <ul className="search_keywords">
-            <li>{prop.playerTag[1]}</li>
-            <li>{prop.playerTag[2]}</li>
-            <li>{prop.playerTag[3]}</li>
-            <li>{prop.playerTag[4]}</li>
-          </ul>
-          <button className="search_play_btn">
-            <FontAwesomeIcon icon={faPlay} />
-          </button>
+        <div className="refresh_btn">
+          <FontAwesomeIcon icon={faArrowRotateRight} />
         </div>
-        <div ref={toggleBtn} className="nav_toggle active" onClick={navToggle}>
-          {nav ? (
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
-          ) : (
-            <FontAwesomeIcon icon={faXmark} />
-          )}
+      </div>
+      <div className="keyword_search">
+        <div className="keyword">
+          <h2>emotion</h2>
+          <ul className="key_1">
+            {prop.keyword_list.map((item, index) => (
+              <li data-filter={item.data} key={index}>
+                <span onClick={prop.onClick}>{item.keyword}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="keyword">
+          <h2>theme</h2>
+          <ul className="key_2">
+            {prop.keyword_list.map((item, index) => (
+              <li data-filter={item.data} key={index}>
+                <span onClick={prop.onClick}>{item.keyword}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="keyword">
+          <h2>genre</h2>
+          <ul className="key_3">
+            {prop.keyword_list.map((item, index) => (
+              <li data-filter={item.data} key={index}>
+                <span onClick={prop.onClick}>{item.keyword}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </nav>

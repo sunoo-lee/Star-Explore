@@ -310,7 +310,7 @@ body {
 
 @media all and (max-width: 768px) {
   /* 모바일 */
-  .nav {
+  /* .nav {
     width: calc(100vw);
     transform: translateX(-100vw);
     backdrop-filter: blur(4px);
@@ -323,15 +323,12 @@ body {
     right: -60px;
     background-color: #ffffff;
   }
-  /* .nav .nav_toggle:hover {
-    background-color: #ffffff;
-  } */
   .nav_toggle.active {
     color: #ffffff;
     background-color: transparent;
     right: 0px;
     transform: rotate(360deg);
-  }
+  } */
 }
 
 .stop-scroll {
