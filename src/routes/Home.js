@@ -19,35 +19,57 @@ const Home = () => {
     "#4",
   ]);
 
-  const keyword_list = [
-    { data: "first", keyword: "시원한" },
-    { data: "second", keyword: "따뜻한" },
-    { data: "third", keyword: "시니컬한" },
-    { data: "fourth", keyword: "흥겨운" },
-    { data: "space", keyword: "설레는" },
-    { data: "fall", keyword: "그리운" },
-    { data: "winter", keyword: "벅차는" },
-    { data: "rock", keyword: "지겨운" },
-    { data: "ballad", keyword: "나른한" },
-    { data: "jazz", keyword: "애절한" },
-    { data: "jazz", keyword: "담담한" },
-    { data: "jazz", keyword: "신비로운" },
-    { data: "jazz", keyword: "청량한" },
-    { data: "jazz", keyword: "간절한" },
+  const keyword_list_1 = [
+    { data: "시원한", keyword: "시원한" },
+    { data: "따뜻한", keyword: "따뜻한" },
+    { data: "시니컬한", keyword: "시니컬한" },
+    { data: "흥겨운", keyword: "흥겨운" },
+    { data: "설레는", keyword: "설레는" },
+    { data: "그리운", keyword: "그리운" },
+    { data: "벅차는", keyword: "벅차는" },
+    { data: "지겨운", keyword: "지겨운" },
+    { data: "나른한", keyword: "나른한" },
+    { data: "애절한", keyword: "애절한" },
+    { data: "담담한", keyword: "담담한" },
+    { data: "신비로운", keyword: "신비로운" },
+    { data: "청량한", keyword: "청량한" },
+    { data: "간절한", keyword: "간절한" },
+  ];
+
+  const keyword_list_2 = [
+    { data: "연애/썸", keyword: "연애/썸" },
+    { data: "일상", keyword: "일상" },
+    { data: "꿈/성장", keyword: "꿈/성장" },
+    { data: "이별", keyword: "이별" },
+    { data: "짝사랑", keyword: "짝사랑" },
+    { data: "응원", keyword: "응원" },
+    { data: "비", keyword: "비" },
+    { data: "우주", keyword: "우주" },
+    { data: "추억", keyword: "추억" },
+    { data: "우정과사랑사이", keyword: "우정과사랑사이" },
+  ];
+  const keyword_list_3 = [
+    { data: "J-POP", keyword: "J-POP" },
+    { data: "Rock", keyword: "Rock" },
+    { data: "발라드", keyword: "발라드" },
+    { data: "랩/힙합", keyword: "랩/힙합" },
+    { data: "댄스", keyword: "댄스" },
+    { data: "OST", keyword: "OST" },
+    { data: "R&B/Soul", keyword: "R&B/Soul" },
   ];
 
   const star_data = [
     {
       title: "사건의 지평선",
-      key1: "first",
-      key2: "fall",
+      key1: "시원한",
+      key2: "우주",
       x: 450,
       y: 550,
     },
     {
       title: "오르트구름",
-      key1: "first",
-      key2: "fall",
+      key1: "시원한",
+      key2: "우주",
       x: 540,
       y: 240,
     },
@@ -79,8 +101,8 @@ const Home = () => {
     // },
     {
       title: "AQUALOVERS 〜DEEP into the night〜",
-      key1: "first",
-      key2: "rock",
+      key1: "시원한",
+      key2: "청량한",
       key3: "winter",
       x: 880,
       y: 380,
@@ -113,17 +135,25 @@ const Home = () => {
 
   const onClick = (event) => {
     const keyword_btn = event.target;
-    keyword_btn.classList.toggle("on");
-
     const selected = event.target.innerText;
     const selectedValue = keyword_btn.parentElement.dataset.filter;
 
-    if (keyword_btn.className === "on") {
-      setSelect([...select, selected]);
-      setSelectValue([...selectValue, selectedValue]);
-    } else if (keyword_btn.className === "") {
-      setSelect(select.filter((key) => key !== selected));
-      setSelectValue(selectValue.filter((key) => key !== selectedValue));
+    if (selectValue.length === 6) {
+      if (keyword_btn.className === "btn on") {
+        keyword_btn.classList.toggle("on");
+        setSelect(select.filter((key) => key !== selected));
+        setSelectValue(selectValue.filter((key) => key !== selectedValue));
+        return;
+      }
+    } else if (selectValue.length < 6) {
+      keyword_btn.classList.toggle("on");
+      if (keyword_btn.className === "btn on") {
+        setSelect([...select, selected]);
+        setSelectValue([...selectValue, selectedValue]);
+      } else if (keyword_btn.className === "btn") {
+        setSelect(select.filter((key) => key !== selected));
+        setSelectValue(selectValue.filter((key) => key !== selectedValue));
+      }
     }
   };
 
@@ -154,8 +184,9 @@ const Home = () => {
     event.preventDefault();
   };
   const resize = useRef();
+  const result = useRef();
   const onAnimTest = () => {
-    resize.current.classList.toggle("toggle");
+    result.current.classList.toggle("active");
   };
 
   const toggleBtn = useRef();
@@ -171,25 +202,23 @@ const Home = () => {
     <>
       <Navigation
         onSubmit={onSubmit}
-        keyword_list={keyword_list}
+        keyword_list_1={keyword_list_1}
+        keyword_list_2={keyword_list_2}
+        keyword_list_3={keyword_list_3}
         onClick={onClick}
         playerTag={playerTag}
       />
       <div className="select_key">
         <ul>
-          <li>
-            <span>시원한</span>
-          </li>
-          <li>
-            <span>청량한</span>
-          </li>
-          <li>
-            <span>우주</span>
-          </li>
+          {selectValue.map((item, index) => (
+            <li key={index}>
+              <span className="btn on">{item}</span>
+            </li>
+          ))}
         </ul>
       </div>
       <div className="result_container">
-        <div className="result_box">
+        <div ref={result} className="result_box">
           <div className="result_header">result: 000</div>
           <div className="result_list">
             <ul>
@@ -210,35 +239,45 @@ const Home = () => {
             </ul>
           </div>
         </div>
+      </div>
+      <div className="player_container">
         <div className="player_box">
-          <div className="play_btn"></div>
-          <div className="thumbnail"></div>
+          <div className="thumbnail">
+            <iframe
+              width="320"
+              height="180"
+              src="https://www.youtube.com/embed/BBdC1rl5sKY?rel=0"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            ></iframe>
+          </div>
           <div className="song_data">
             <div className="song_title">사건의 지평선</div>
             <div className="song_detail">
-              ENDTHEORY / 락 / 2022.01.30 / ♥ 52명
+              One More Time, One More Track \ 락 \ 2022.01.30 \ ♥ 52명
             </div>
+            <ul className="keyword_list">
+              <li>
+                <span>시원한</span>
+              </li>
+              <li>
+                <span>따뜻한</span>
+              </li>
+              <li>
+                <span>우주</span>
+              </li>
+              <li>
+                <span>청량한</span>
+              </li>
+              <li>
+                <span>-</span>
+              </li>
+              <li>
+                <span>-</span>
+              </li>
+            </ul>
           </div>
-          <ul className="keyword_list">
-            <li>
-              <span>시원한</span>
-            </li>
-            <li>
-              <span>따뜻한</span>
-            </li>
-            <li>
-              <span>우주</span>
-            </li>
-            <li>
-              <span>청량한</span>
-            </li>
-            <li>
-              <span>-</span>
-            </li>
-            <li>
-              <span>-</span>
-            </li>
-          </ul>
         </div>
       </div>
       <div className="container">

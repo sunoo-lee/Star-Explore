@@ -1,27 +1,59 @@
-import React, { useRef, useState, forwardRef } from "react";
+import React, { useRef, useState, forwardRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRotateRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRotateRight,
+  faMagnifyingGlass,
+  faArrowUp,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Navigation = (prop, ref) => {
-  const toggleBtn = useRef();
+  const toggleBtn = useRef([]);
   let nav_toggle = useRef();
-  const [nav, setNav] = useState(false);
+  const [nav, setNav] = useState("keyword");
 
-  const navToggle = () => {
-    toggleBtn.current.classList.toggle("active");
-    nav_toggle.current.classList.toggle("active");
-    document.body.classList.toggle("stop-scroll", nav);
-    setNav(!nav);
+  const setKeyword = () => {
+    toggleBtn.current[0].classList.add("active");
+    toggleBtn.current[1].classList.remove("active");
+    setNav("keyword");
+  };
+  const setSearch = () => {
+    toggleBtn.current[0].classList.remove("active");
+    toggleBtn.current[1].classList.add("active");
+    setNav("search");
   };
 
+  const [value, setValue] = useState("");
+  const onChange = (event) => {
+    setValue(event.target.value);
+    console.log(value);
+  };
+
+  const recommend = useRef();
+
+  useEffect(() => {
+    if (value === "") {
+      recommend.current.classList.remove("active");
+    } else {
+      recommend.current.classList.add("active");
+    }
+  }, [value]);
+
   return (
-    <nav ref={nav_toggle} className="nav active">
+    <nav ref={nav_toggle} className={`nav ${nav}`}>
       <div className="nav_header">
         <div className="header_top">
-          <h1>keyword</h1>
+          <h1>{nav}</h1>
           <div className="nav_tabs">
-            <div className="tab_button active"></div>
-            <div className="tab_button"></div>
+            <div
+              ref={(item) => (toggleBtn.current[0] = item)}
+              onClick={setKeyword}
+              className="tab_button active"
+            ></div>
+            <div
+              ref={(item) => (toggleBtn.current[1] = item)}
+              onClick={setSearch}
+              className="tab_button"
+            ></div>
           </div>
         </div>
         <div className="refresh_btn">
@@ -32,9 +64,11 @@ const Navigation = (prop, ref) => {
         <div className="keyword">
           <h2>emotion</h2>
           <ul className="key_1">
-            {prop.keyword_list.map((item, index) => (
+            {prop.keyword_list_1.map((item, index) => (
               <li data-filter={item.data} key={index}>
-                <span onClick={prop.onClick}>{item.keyword}</span>
+                <span className="btn" onClick={prop.onClick}>
+                  {item.keyword}
+                </span>
               </li>
             ))}
           </ul>
@@ -42,9 +76,11 @@ const Navigation = (prop, ref) => {
         <div className="keyword">
           <h2>theme</h2>
           <ul className="key_2">
-            {prop.keyword_list.map((item, index) => (
+            {prop.keyword_list_2.map((item, index) => (
               <li data-filter={item.data} key={index}>
-                <span onClick={prop.onClick}>{item.keyword}</span>
+                <span className="btn" onClick={prop.onClick}>
+                  {item.keyword}
+                </span>
               </li>
             ))}
           </ul>
@@ -52,13 +88,54 @@ const Navigation = (prop, ref) => {
         <div className="keyword">
           <h2>genre</h2>
           <ul className="key_3">
-            {prop.keyword_list.map((item, index) => (
+            {prop.keyword_list_3.map((item, index) => (
               <li data-filter={item.data} key={index}>
-                <span onClick={prop.onClick}>{item.keyword}</span>
+                <span className="btn" onClick={prop.onClick}>
+                  {item.keyword}
+                </span>
               </li>
             ))}
           </ul>
         </div>
+      </div>
+      <div className="title_search">
+        <form autoComplete="off" className="search_form">
+          <div className="input_box">
+            <input
+              type="text"
+              name="search"
+              id="search_box"
+              placeholder="제목으로 검색"
+              onChange={onChange}
+              value={value}
+            />
+            <span>
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </span>
+          </div>
+          <div ref={recommend} id="recommend">
+            <ul>
+              <li className="item">
+                사건의 지평선
+                <span>
+                  <FontAwesomeIcon icon={faArrowUp} />
+                </span>
+              </li>
+              {/* <li className="item">
+                사건의 지평선 윤하
+                <span>
+                  <FontAwesomeIcon icon={faArrowUp} />
+                </span>
+              </li>
+              <li className="item">
+                사건의 지평선 노래방
+                <span>
+                  <FontAwesomeIcon icon={faArrowUp} />
+                </span>
+              </li> */}
+            </ul>
+          </div>
+        </form>
       </div>
     </nav>
   );
