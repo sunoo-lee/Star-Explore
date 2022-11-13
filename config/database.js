@@ -5,7 +5,7 @@ const dbInfo = {
     port: '3306',
     user: process.env.user,
     password: process.env.password,
-    datebase: 'testyounhamusic'
+    database: 'younhamusic'
 };
 
 module.exports = {

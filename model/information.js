@@ -1,5 +1,5 @@
 const { resourceLimits } = require("worker_threads");
-const sql = require("../cofing/database.js");
+const sql = require("../config/database.js");
 
 //곡의 정보로
 //song title, album title, album number, release date, embed code
@@ -20,9 +20,12 @@ const Information = function(songInformation) {
 //노래 제목 일부를 가지고, 노래 검색을함
 //첫단어부터 검색할 수 있도록 함
 //Ex, B라고 검색하면 B도 시작하는 노래 제목을 모두 검색함
-Information.findByTitle = (SEsongtitle, result) => {
-    sql.query(  `SELECT * FROM Information
-                where song_title = '${SEsongtitle}%'`, (err, res) => { //첫문자부터, 해당 문자 포함한 노래 제목 검색
+Information.findByTitle = (schema , SEsongtitle, result) => {
+    
+    let query_to_find_title = `SELECT * FROM ${schema}
+                               WHERE song_title = '${SEsongtitle}%'`;
+
+    sql.init().query(query_to_find_title, (err, res) => { //첫문자부터, 해당 문자 포함한 노래 제목 검색
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -39,3 +42,5 @@ Information.findByTitle = (SEsongtitle, result) => {
           result(null);
     });
 };
+
+module.exports = Information;

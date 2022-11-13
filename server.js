@@ -3,8 +3,11 @@ const dotenv = require('dotenv').config();
 const path = require('path');
 const DBconfig = require(__dirname + '/config/database.js');
 const connect = DBconfig.init();
-const test = require('./controller/test');
+
 DBconfig.connect(connect);
+
+const testRouter = require('./router/test');
+const songInformationRouter= require('./router/songInformation');
 
 const app = express();
 
@@ -16,9 +19,9 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'star-explore/build')));
 
+app.use('/', testRouter);
 
-
-app.use('/', test);
+app.use('/songInformation', songInformationRouter);
 
 // app.get('/', (req, res) =>{
     
