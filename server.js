@@ -23,12 +23,6 @@ app.use('/', testRouter);
 
 app.use('/songInformation', songInformationRouter);
 
-// app.get('/', (req, res) =>{
-    
-//     let test = "hello, react";
-//     res.json(test);
-// });
-
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), "빈 포트에서 대기");
 });
