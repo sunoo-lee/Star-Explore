@@ -1,6 +1,6 @@
 const express = require('express');
-const dotenv = require('dotenv').config();
 const path = require('path');
+const dotenv = require('dotenv').config();
 const DBconfig = require(__dirname + '/config/database.js');
 const connect = DBconfig.init();
 

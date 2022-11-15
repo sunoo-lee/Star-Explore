@@ -21,11 +21,6 @@ const Information = function (songInformation) {
 //검색창으로 검색하는 경우, 해당 함수를 사용함
 Information.findBysearchbar = (SEsonginfo, result) => {
 
-  let special_pattern = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g;
-    
-  if(special_pattern.test(SEsonginfo) != true)
-    return;
-  
   //첫문자부터, 해당 문자 포함한 노래 제목 | 발음 | 번안 검색
 	let query_to_find_title = `SELECT * FROM total_songs_information
                                WHERE song_title like '${SEsonginfo}%'
