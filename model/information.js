@@ -8,11 +8,11 @@ const sql = require("../config/database.js");
 //song title, album title, album number, release date는 검색해야만 볼 수 있음
 
 const Information = function (songInformation) {
-  this.songtitle = songInformation.songtitle;
-  this.albumtitle = songInformation.albumtitle;
-  this.albumnumber = songInformation.albumnumber;
-  this.releasedate = songInformation.releasedate;
-  this.embedCode = songInformation.embedCode;
+	this.songtitle = songInformation.songtitle;
+	this.albumtitle = songInformation.albumtitle;
+	this.albumnumber = songInformation.albumnumber;
+	this.releasedate = songInformation.releasedate;
+	this.embedCode = songInformation.embedCode;
 }
 
 //검색창에 입력된 단어 일부를 가지고, 노래 검색을 함
@@ -21,11 +21,16 @@ const Information = function (songInformation) {
 //검색창으로 검색하는 경우, 해당 함수를 사용함
 Information.findBysearchbar = (SEsonginfo, result) => {
 
+  let special_pattern = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g;
+    
+  if(special_pattern.test(SEsonginfo) != true)
+    return;
+  
   //첫문자부터, 해당 문자 포함한 노래 제목 | 발음 | 번안 검색
-  let query_to_find_title = `SELECT * FROM total_songs_information
-                             WHERE song_title like '${SEsonginfo}%'
-                             OR pronunciation like '${SEsonginfo}%'
-                             OR translation like '${SEsonginfo}%'`;
+	let query_to_find_title = `SELECT * FROM total_songs_information
+                               WHERE song_title like '${SEsonginfo}%'
+                               OR pronunciation like '${SEsonginfo}%'
+                               OR translation like '${SEsonginfo}%'`;
 
   sql.init().query(query_to_find_title, (err, res) => {
     if (err) {
@@ -43,6 +48,8 @@ Information.findBysearchbar = (SEsonginfo, result) => {
     //not found
     console.log("not found");
     result(null);
+
+    sql.init().end();
   })
 }
 

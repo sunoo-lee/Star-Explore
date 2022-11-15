@@ -1,3 +1,5 @@
+const sql = require("../config/database.js");
+
 //검색하는 용도로만 쓰임
 
 //키워드로 검색할 때

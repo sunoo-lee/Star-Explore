@@ -5,6 +5,7 @@ const Information = require('../model/information');
 
 // http://localhost:8080/songInformation/:SEsonginfo
 router.get('/:SEsonginfo', (req, res) => {
+
     Information.findBysearchbar(req.params.SEsonginfo, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
@@ -17,7 +18,9 @@ router.get('/:SEsonginfo', (req, res) => {
                     message: "Error retrieving song with search result " + req.params.SEsonginfo
                 });
             }
-        } else res.json(data);
+        }
+        else
+            res.json(data);
     })
 })
 

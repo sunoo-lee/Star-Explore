@@ -8,8 +8,10 @@ const Graphics = function (songGraphics) {
 }
 
 //곡 그래픽 정보를 모두 가져옴
-Graphics.getAll = result => {
-	sql.query("SELECT * FROM grphic", (err, res) => {
+Graphics.findAll = result => {
+	let query_to_find_all_graphic_info = "SELECT * FROM graphic";
+
+	sql.init().query(query_to_find_all_graphic_info, (err, res) => {
 		if (err) {
 			consolg.log("error: ", err);
 			result(null, err);
@@ -20,3 +22,5 @@ Graphics.getAll = result => {
 		result(null, res);
 	})
 }
+
+module.exports = Graphics;
