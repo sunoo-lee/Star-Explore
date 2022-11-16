@@ -1,4 +1,5 @@
 import React, { useRef, useState, forwardRef, useEffect } from "react";
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRotateRight,
@@ -25,18 +26,36 @@ const Navigation = (prop, ref) => {
   const [value, setValue] = useState("");
   const onChange = (event) => {
     setValue(event.target.value);
-    console.log(value);
   };
 
   const recommend = useRef();
-
+  const [data, setData] = useState([]);
   useEffect(() => {
     if (value === "") {
       recommend.current.classList.remove("active");
     } else {
       recommend.current.classList.add("active");
     }
+    sendRequest(value);
+    console.log(data);
   }, [value]);
+
+  const sendRequest = async (input) => {
+    if (
+      input === "" ||
+      input === "." ||
+      input === ".." ||
+      input === "/" ||
+      input === "//" ||
+      input === "#" ||
+      input === "##"
+    ) {
+      return;
+    }
+    axios
+      .get(`http://localhost:8080/songInformation/search=${input}`)
+      .then((response) => setData(response.data));
+  };
 
   return (
     <nav ref={nav_toggle} className={`nav ${nav}`}>
@@ -115,24 +134,18 @@ const Navigation = (prop, ref) => {
           </div>
           <div ref={recommend} id="recommend">
             <ul>
-              <li className="item">
-                사건의 지평선
-                <span>
-                  <FontAwesomeIcon icon={faArrowUp} />
-                </span>
-              </li>
-              {/* <li className="item">
-                사건의 지평선 윤하
-                <span>
-                  <FontAwesomeIcon icon={faArrowUp} />
-                </span>
-              </li>
-              <li className="item">
-                사건의 지평선 노래방
-                <span>
-                  <FontAwesomeIcon icon={faArrowUp} />
-                </span>
-              </li> */}
+              {data ? (
+                data.map((item, index) => (
+                  <li className="item" key={index}>
+                    {item.song_title}
+                    <span>
+                      <FontAwesomeIcon icon={faArrowUp} />
+                    </span>
+                  </li>
+                ))
+              ) : (
+                <li className="item">결과 없음</li>
+              )}
             </ul>
           </div>
         </form>

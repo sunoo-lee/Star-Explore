@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.1.3",
     "gh-pages": "^4.0.0",
     "jquery": "^3.6.1",
     "react": "^18.2.0",
@@ -43,5 +44,6 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://sunoo-lee.github.io/Star-Explore"
+  "homepage": "https://sunoo-lee.github.io/Star-Explore",
+  "proxy": "http://localhost:8080"
 }

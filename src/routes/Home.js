@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import Star from "../components/Star";
 import Navigation from "../components/Navigation";
 
@@ -35,7 +36,6 @@ const Home = () => {
     { data: "청량한", keyword: "청량한" },
     { data: "간절한", keyword: "간절한" },
   ];
-
   const keyword_list_2 = [
     { data: "연애/썸", keyword: "연애/썸" },
     { data: "일상", keyword: "일상" },
@@ -185,9 +185,19 @@ const Home = () => {
   };
   const resize = useRef();
   const result = useRef();
-  const onAnimTest = () => {
+
+  const [testdata, setTestdata] = useState("");
+
+  const sendRequest = async () => {
     result.current.classList.toggle("active");
+    axios
+      .get("http://localhost:8080/songInformation/사")
+      .then((response) => setTestdata(response.data));
   };
+
+  useEffect(() => {
+    console.log(typeof testdata);
+  }, [testdata]);
 
   const toggleBtn = useRef();
 
@@ -200,6 +210,9 @@ const Home = () => {
 
   return (
     <>
+      <button onClick={sendRequest} className="anim_test">
+        test
+      </button>
       <Navigation
         onSubmit={onSubmit}
         keyword_list_1={keyword_list_1}
@@ -282,9 +295,6 @@ const Home = () => {
       </div>
       <div className="container">
         <div className="star_filter">
-          <button onClick={onAnimTest} className="anim_test">
-            toggle
-          </button>
           <div ref={resize} className="product">
             {data.map((star, index) => (
               <Star
