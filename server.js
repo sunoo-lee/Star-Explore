@@ -1,10 +1,10 @@
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv').config();
-const DBconfig = require(__dirname + '/config/database.js');
-const connect = DBconfig.init();
+// const DBconfig = require(__dirname + '/config/database.js');
+// const connect = DBconfig.init();
 
-DBconfig.connect(connect);
+// DBconfig.connect(connect);
 
 const testRouter = require('./router/test');
 const songInformationRouter= require('./router/songInformation');
