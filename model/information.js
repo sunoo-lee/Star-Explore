@@ -1,4 +1,4 @@
-const sql = require("../config/database.js");
+const db = require("../config/database.js");
 
 //곡의 정보로
 //song title, album title, album number, release date, embed code
@@ -21,31 +21,41 @@ const Information = function (songInformation) {
 //검색창으로 검색하는 경우, 해당 함수를 사용함
 Information.findBysearchbar = (SEsonginfo, result) => {
 
-  //첫문자부터, 해당 문자 포함한 노래 제목 | 발음 | 번안 검색
-	let query_to_find_title = `SELECT * FROM total_songs_information
-                               WHERE song_title like '${SEsonginfo}%'
-                               OR pronunciation like '${SEsonginfo}%'
-                               OR translation like '${SEsonginfo}%'`;
+	db.getConnection(function (err, connection) {
+		
+		if (!err) {
+			console.log(SEsonginfo);
+			//첫문자부터, 해당 문자 포함한 노래 제목 | 발음 | 번안 검색
+			let query_to_find_title = `SELECT * FROM total_songs_information
+									   WHERE song_title like '${SEsonginfo}%'
+									   OR pronunciation like '${SEsonginfo}%'
+									   OR translation like '${SEsonginfo}%'`;
 
-  sql.init().query(query_to_find_title, (err, res) => {
-    if (err) {
-    	console.log("error: ", err);
-    	result(err, null);
-    	return;
-    }
+			connection.query(query_to_find_title, (err, res) => {
 
-    if (res.length) {
-    	console.log("found information: ", res);
-    	result(null, res);
-    	return;
-    }
+				if (err) {
+					console.log("error: ", err);
+					result(err, null);
+					return;
+				}
 
-    //not found
-    console.log("not found");
-    result(null);
-
-    sql.init().end();
-  })
+				if (res.length) {
+					console.log("found information: ", res);
+					result(null, res);
+					return;
+				}
+				//not found
+				console.log("not found");
+				result(null);
+			})
+			connection.release();
+		}
+		connection.on('error', function(err)	{
+			console.error('mysql connection error ' + err);
+		})
+	})
 }
+
+
 
 module.exports = Information;
