@@ -3,7 +3,7 @@ const router = express.Router();
 const Information = require('../model/information');
 
 
-// http://localhost:8080/songInformation/search=:SEsonginfo
+// http://localhost:8080/information/search=:SEsonginfo
 router.get('/search=:SEsonginfo', (req, res) => {
 
     // let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
