@@ -74,7 +74,7 @@ body {
 }
 
 .btn:hover {
-  background: rgba(64, 125, 217, 0.671);
+  background: var(--blue_color);
   color: var(--font-color);
 }
 .btn.on:hover {

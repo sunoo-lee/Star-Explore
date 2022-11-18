@@ -14,6 +14,10 @@ const Star = (prop, ref) => {
       data-key1={prop.key1}
       data-key2={prop.key2}
       data-key3={prop.key3}
+      data-genre={prop.key4}
+      data-theme1={prop.key5}
+      data-theme2={prop.key6}
+      data-theme3={prop.key7}
       onClick={prop.onClick}
       style={style}
     >

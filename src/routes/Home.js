@@ -21,41 +21,45 @@ const Home = () => {
   ]);
 
   const keyword_list_1 = [
-    { data: "시원한", keyword: "시원한" },
     { data: "따뜻한", keyword: "따뜻한" },
     { data: "시니컬한", keyword: "시니컬한" },
-    { data: "흥겨운", keyword: "흥겨운" },
-    { data: "설레는", keyword: "설레는" },
+    { data: "시원한", keyword: "시원한" },
     { data: "그리운", keyword: "그리운" },
-    { data: "벅차는", keyword: "벅차는" },
-    { data: "지겨운", keyword: "지겨운" },
     { data: "나른한", keyword: "나른한" },
-    { data: "애절한", keyword: "애절한" },
+    { data: "벅차는", keyword: "벅차는" },
+    { data: "설레는", keyword: "설레는" },
+    { data: "아련한", keyword: "아련한" },
+    { data: "지겨운", keyword: "지겨운" },
+    { data: "흥겨운", keyword: "흥겨운" },
+    { data: "간절한", keyword: "간절한" },
     { data: "담담한", keyword: "담담한" },
     { data: "신비로운", keyword: "신비로운" },
+    { data: "애절한", keyword: "애절한" },
     { data: "청량한", keyword: "청량한" },
-    { data: "간절한", keyword: "간절한" },
   ];
   const keyword_list_2 = [
-    { data: "연애/썸", keyword: "연애/썸" },
-    { data: "일상", keyword: "일상" },
-    { data: "꿈/성장", keyword: "꿈/성장" },
+    { data: "꿈", keyword: "꿈" },
+    { data: "사랑", keyword: "사랑" },
+    { data: "연주곡", keyword: "연주곡" },
     { data: "이별", keyword: "이별" },
+    { data: "일상", keyword: "일상" },
     { data: "짝사랑", keyword: "짝사랑" },
-    { data: "응원", keyword: "응원" },
     { data: "비", keyword: "비" },
+    { data: "성장", keyword: "성장" },
     { data: "우주", keyword: "우주" },
     { data: "추억", keyword: "추억" },
-    { data: "우정과사랑사이", keyword: "우정과사랑사이" },
+    { data: "윤하", keyword: "윤하" },
+    { data: "응원", keyword: "응원" },
   ];
   const keyword_list_3 = [
+    { data: "댄스", keyword: "댄스" },
     { data: "J-POP", keyword: "J-POP" },
+    { data: "OST", keyword: "OST" },
+    { data: "POP", keyword: "POP" },
+    { data: "R&B", keyword: "R&B" },
+    { data: "랩/힙합", keyword: "랩/힙합" },
     { data: "Rock", keyword: "Rock" },
     { data: "발라드", keyword: "발라드" },
-    { data: "랩/힙합", keyword: "랩/힙합" },
-    { data: "댄스", keyword: "댄스" },
-    { data: "OST", keyword: "OST" },
-    { data: "R&B/Soul", keyword: "R&B/Soul" },
   ];
 
   // const star_data = [
@@ -183,11 +187,12 @@ const Home = () => {
   const result = useRef();
 
   const [star_graphic, setStar_graphic] = useState([]);
+  const [keywords, setKeywords] = useState([]);
   const [coordinate, setCoordinate] = useState([]);
 
   const sendRequest = () => {
     axios
-      .get("http://localhost:8080/songGraphicsInformationRouter")
+      .get("http://localhost:8080/graphics")
       .then((response) => setStar_graphic(response.data));
   };
 
@@ -201,21 +206,24 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/songGraphicsInformationRouter")
+      .get("http://localhost:8080/graphics")
       .then((response) => setStar_graphic(response.data));
+    axios
+      .get("http://localhost:8080/keywords")
+      .then((response) => setKeywords(response.data));
     console.log("data load done");
   }, []);
 
-  useEffect(() => {
-    if (star_graphic.length !== 0) {
-      dataParsing();
-      console.log(star_graphic);
-    }
-  }, [star_graphic]);
+  // useEffect(() => {
+  //   if (star_graphic.length !== 0) {
+  //     dataParsing();
+  //     console.log(star_graphic);
+  //   }
+  // }, [star_graphic]);
 
   useEffect(() => {
-    if (coordinate.length !== 0) console.log("coor: ", coordinate);
-  }, [coordinate]);
+    console.log(keywords);
+  }, [keywords]);
 
   const space_toggle = () => {
     resize.current.classList.toggle("toggle");
@@ -313,29 +321,24 @@ const Home = () => {
         <div className="star_filter">
           <div ref={resize} className="product">
             {/* <div className="center_star"></div> */}
-            {coordinate.length !== 0
+            {keywords.length !== 0
               ? star_graphic.map((star, index) => (
                   <Star
                     ref={(item) => (selectedKey.current[index] = item)}
                     key={index}
                     title={star.song_title}
-                    x={coordinate[index][0]}
-                    y={coordinate[index][1]}
+                    x={star.x}
+                    y={star.y}
+                    key1={keywords[index].emotion1}
+                    key2={keywords[index].emotion2}
+                    key3={keywords[index].emotion3}
+                    key4={keywords[index].genre}
+                    key5={keywords[index].theme1}
+                    key6={keywords[index].theme2}
+                    key7={keywords[index].theme3}
                   />
                 ))
               : ""}
-            {/* {data.map((star, index) => (
-              <Star
-                ref={(item) => (selectedKey.current[index] = item)}
-                key={index}
-                key1={star.key1}
-                key2={star.key2}
-                key3={star.key3}
-                title={star.title}
-                x={star.x}
-                y={star.y}
-              />
-            ))} */}
           </div>
         </div>
       </div>
