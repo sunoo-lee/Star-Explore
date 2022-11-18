@@ -1,23 +1,82 @@
-const sql = require("../config/database.js");
+const db = require("../config/database.js");
 
-//검색하는 용도로만 쓰임
+const Keyword = function(pos_keyword) {
+    this.keyword = pos_keyword.keyword;
+    this.column_name = pos_keyword.column_name;
+}
 
-//키워드로 검색할 때
+Keyword.getAll = (result) => {
+
+	db.getConnection(function(err, connection) {
+		
+		if(!err) {
+			let query_to_find_all_keyword_info = `SELECT * FROM total_songs_keyword_information`;
+
+			connection.query(query_to_find_all_keyword_info, (err, res) => {
+				
+				connection.release();
+
+				if (err) {
+					console.log("error: ", err);
+					result(null, err);
+					return;
+				}
+
+				console.log("found information: ", res);
+				result(null, res);
+				return;
+			})
+		}
+		else {
+			console.error('mysql connection error ' + err);
+			throw err;
+		}
+	})
+}
 
 
-//제목으로 먼저 검색했을 때
-//해당 제목의 노래의 keywords를 가져옴
-//그 노래에서 keywords를 선택시
-
-//키워드 선택을 해제했을 때
-//이게 삭제는 아닌데
-
-//2개를 선택했을 때 키워드를 하나 해제한다면
-
-//3개를 선택했을 때 키워드를 하나 해제한다면
-//3개 선택했을 때 키워드를 두개 해제한다면
-
-//모두 해제됐을 때 원래 화면으로 돌아감
 
 
+// Information.find_keyword_index = (keyword, result) => {
 
+// 	db.getConnection(function (err, connection) {
+		
+// 		if (!err) {
+// 			console.log(SEsonginfo);
+// 			//첫문자부터, 해당 문자 포함한 노래 제목 | 발음 | 번안 검색
+// 			let query_to_select_keyword = `SELECT song_title, album_title, album_number, release_date, embedcode FROM total_songs_information
+// 									   WHERE song_title like '${SEsonginfo}%'
+// 									   OR pronunciation like '${SEsonginfo}%'
+// 									   OR translation like '${SEsonginfo}%'`;
+
+// 			connection.query(query_to_select_keyword, (err, res) => {
+				
+// 				connection.release();
+				
+// 				if (err) {
+// 					console.log("error: ", err);
+// 					result(err, null);
+// 					return;
+// 				}
+
+// 				//console.log(res.length);
+// 				if (res.length) {
+// 					console.log("found information: ", res);
+// 					result(null, res);
+// 					return;
+// 				}
+// 				//not found
+// 				console.log("not found");
+// 				result(null);
+// 			})
+// 		}
+// 		else {
+// 			console.error('mysql connection error ' + err);
+// 			throw err;
+// 		}
+// 	})
+// }
+
+
+
+module.exports = Keyword;
