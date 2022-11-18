@@ -36,8 +36,13 @@ const Navigation = (prop, ref) => {
     } else {
       recommend.current.classList.add("active");
     }
-    sendRequest(value);
-    console.log(data);
+    const debounce = setTimeout(() => {
+      sendRequest(value);
+      // console.log(data);
+    }, 200);
+    return () => {
+      clearTimeout(debounce);
+    };
   }, [value]);
 
   const sendRequest = async (input) => {

@@ -8,10 +8,10 @@ const Home = () => {
   const [selectValue, setSelectValue] = useState([]);
 
   const selectedKey = useRef([]);
-  let nav_toggle = useRef();
-  const [nav, setNav] = useState(false);
+  // let nav_toggle = useRef();
+  // const [nav, setNav] = useState(false);
 
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   const [playerTag, setPlayerTag] = useState([
     "Select Music",
     "#1",
@@ -58,80 +58,80 @@ const Home = () => {
     { data: "R&B/Soul", keyword: "R&B/Soul" },
   ];
 
-  const star_data = [
-    {
-      title: "사건의 지평선",
-      key1: "시원한",
-      key2: "우주",
-      x: 450,
-      y: 550,
-    },
-    {
-      title: "오르트구름",
-      key1: "시원한",
-      key2: "우주",
-      x: 540,
-      y: 240,
-    },
-    // {
-    //   title: "살별",
-    //   key1: "second",
-    //   key2: "rock",
-    // },
-    // {
-    //   title: "물의 여행",
-    //   key1: "third",
-    //   key2: "winter",
-    // },
-    // {
-    //   title: "반짝, 빛을 내",
-    //   key1: "fourth",
-    //   key2: "space",
-    // },
-    // {
-    //   title: "6년 230일",
-    //   key1: "first",
-    //   key2: "ballad",
-    // },
-    // {
-    //   title: "P.R.R.W",
-    //   key1: "second",
-    //   key2: "jazz",
-    //   key3: "winter",
-    // },
-    {
-      title: "AQUALOVERS 〜DEEP into the night〜",
-      key1: "시원한",
-      key2: "청량한",
-      key3: "winter",
-      x: 880,
-      y: 380,
-    },
-    // {
-    //   title: "Truly",
-    //   key1: "second",
-    //   key2: "ballad",
-    //   key3: "fall",
-    // },
-    // {
-    //   title: "별의 조각",
-    //   key1: "fourth",
-    //   key2: "jazz",
-    //   key3: "winter",
-    // },
-    // {
-    //   title: "하나의 달",
-    //   key1: "third",
-    //   key2: "rock",
-    //   key3: "fall",
-    // },
-    // {
-    //   title: "사건의 지평선",
-    //   key1: "second",
-    //   key2: "space",
-    //   key3: "winter",
-    // },
-  ];
+  // const star_data = [
+  //   {
+  //     title: "사건의 지평선",
+  //     key1: "시원한",
+  //     key2: "우주",
+  //     x: 450,
+  //     y: 550,
+  //   },
+  //   {
+  //     title: "오르트구름",
+  //     key1: "시원한",
+  //     key2: "우주",
+  //     x: 540,
+  //     y: 240,
+  //   },
+  //   // {
+  //   //   title: "살별",
+  //   //   key1: "second",
+  //   //   key2: "rock",
+  //   // },
+  //   // {
+  //   //   title: "물의 여행",
+  //   //   key1: "third",
+  //   //   key2: "winter",
+  //   // },
+  //   // {
+  //   //   title: "반짝, 빛을 내",
+  //   //   key1: "fourth",
+  //   //   key2: "space",
+  //   // },
+  //   // {
+  //   //   title: "6년 230일",
+  //   //   key1: "first",
+  //   //   key2: "ballad",
+  //   // },
+  //   // {
+  //   //   title: "P.R.R.W",
+  //   //   key1: "second",
+  //   //   key2: "jazz",
+  //   //   key3: "winter",
+  //   // },
+  //   {
+  //     title: "AQUALOVERS 〜DEEP into the night〜",
+  //     key1: "시원한",
+  //     key2: "청량한",
+  //     key3: "winter",
+  //     x: 880,
+  //     y: 380,
+  //   },
+  //   // {
+  //   //   title: "Truly",
+  //   //   key1: "second",
+  //   //   key2: "ballad",
+  //   //   key3: "fall",
+  //   // },
+  //   // {
+  //   //   title: "별의 조각",
+  //   //   key1: "fourth",
+  //   //   key2: "jazz",
+  //   //   key3: "winter",
+  //   // },
+  //   // {
+  //   //   title: "하나의 달",
+  //   //   key1: "third",
+  //   //   key2: "rock",
+  //   //   key3: "fall",
+  //   // },
+  //   // {
+  //   //   title: "사건의 지평선",
+  //   //   key1: "second",
+  //   //   key2: "space",
+  //   //   key3: "winter",
+  //   // },
+  // ];
 
   const onClick = (event) => {
     const keyword_btn = event.target;
@@ -158,10 +158,6 @@ const Home = () => {
   };
 
   useEffect(() => {
-    setData(star_data);
-  }, []);
-
-  useEffect(() => {
     for (let i = 0; i < selectedKey.current.length; ++i) {
       const keyValues = Object.values(selectedKey.current[i].dataset);
       const intersection = selectValue.filter((item) =>
@@ -186,33 +182,53 @@ const Home = () => {
   const resize = useRef();
   const result = useRef();
 
-  const [testdata, setTestdata] = useState("");
+  const [star_graphic, setStar_graphic] = useState([]);
+  const [coordinate, setCoordinate] = useState([]);
 
-  const sendRequest = async () => {
-    result.current.classList.toggle("active");
+  const sendRequest = () => {
     axios
-      .get("http://localhost:8080/songInformation/사")
-      .then((response) => setTestdata(response.data));
+      .get("http://localhost:8080/songGraphicsInformationRouter")
+      .then((response) => setStar_graphic(response.data));
+  };
+
+  const dataParsing = () => {
+    const data_split = star_graphic.map((item) =>
+      String(item.coordinate).split(".").map(Number)
+    );
+    setCoordinate(data_split);
+    console.log("parsing done");
   };
 
   useEffect(() => {
-    console.log(typeof testdata);
-  }, [testdata]);
+    axios
+      .get("http://localhost:8080/songGraphicsInformationRouter")
+      .then((response) => setStar_graphic(response.data));
+    console.log("data load done");
+  }, []);
 
-  const toggleBtn = useRef();
+  useEffect(() => {
+    if (star_graphic.length !== 0) {
+      dataParsing();
+      console.log(star_graphic);
+    }
+  }, [star_graphic]);
 
-  const navToggle = () => {
-    toggleBtn.current.classList.toggle("active");
-    nav_toggle.current.classList.toggle("active");
-    document.body.classList.toggle("stop-scroll", nav);
-    setNav(!nav);
+  useEffect(() => {
+    if (coordinate.length !== 0) console.log("coor: ", coordinate);
+  }, [coordinate]);
+
+  const space_toggle = () => {
+    resize.current.classList.toggle("toggle");
   };
 
   return (
     <>
-      <button onClick={sendRequest} className="anim_test">
-        test
+      <button onClick={space_toggle} className="anim_test">
+        TOGGLE
       </button>
+      {/* <button onClick={dataParsing} className="anim_test test2">
+        test
+      </button> */}
       <Navigation
         onSubmit={onSubmit}
         keyword_list_1={keyword_list_1}
@@ -256,14 +272,14 @@ const Home = () => {
       <div className="player_container">
         <div className="player_box">
           <div className="thumbnail">
-            <iframe
+            {/* <iframe
               width="320"
               height="180"
               src="https://www.youtube.com/embed/BBdC1rl5sKY?rel=0"
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            ></iframe>
+            ></iframe> */}
           </div>
           <div className="song_data">
             <div className="song_title">사건의 지평선</div>
@@ -296,7 +312,19 @@ const Home = () => {
       <div className="container">
         <div className="star_filter">
           <div ref={resize} className="product">
-            {data.map((star, index) => (
+            {/* <div className="center_star"></div> */}
+            {coordinate.length !== 0
+              ? star_graphic.map((star, index) => (
+                  <Star
+                    ref={(item) => (selectedKey.current[index] = item)}
+                    key={index}
+                    title={star.song_title}
+                    x={coordinate[index][0]}
+                    y={coordinate[index][1]}
+                  />
+                ))
+              : ""}
+            {/* {data.map((star, index) => (
               <Star
                 ref={(item) => (selectedKey.current[index] = item)}
                 key={index}
@@ -307,7 +335,7 @@ const Home = () => {
                 x={star.x}
                 y={star.y}
               />
-            ))}
+            ))} */}
           </div>
         </div>
       </div>

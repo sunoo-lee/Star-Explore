@@ -47,6 +47,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg_color);
   color: var(--blue_color);
+  overflow: hidden;
 }
 
 /* --------------------------------------------------------------- */
@@ -278,7 +279,7 @@ body {
   top: 57px;
   right: 57px;
   width: 250px;
-  height: calc(100vh - 114px);
+  /* height: calc(100vh - 114px); */
   display: flex;
   flex-direction: column;
 }
@@ -447,17 +448,23 @@ body {
 /* --------------------------------------------------------------- */
 
 .container {
-  width: 100vw;
-  height: 100vh;
+  /* width: 100vw; */
+  /* height: 100vh; */
 }
 .star_filter {
-  width: 100%;
-  height: 100%;
+  /* width: 100%; */
+  /* height: 100%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .star_filter .product {
-  width: 100%;
-  height: 100%;
+  width: 2000px;
+  height: 2000px;
+  position: relative;
   transform-origin: center;
+  /* transform: translateX(-50%) translateY(-50%); */
+  transform: translateY(-25%);
   transition: 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .star_filter .product .itemBox {
@@ -475,12 +482,12 @@ body {
 }
 
 .star_filter .product .itemBox .item_img {
-  width: 40px;
-  height: 40px;
+  width: 5px;
+  height: 5px;
 }
 
 .star_filter .product.toggle {
-  transform: scale(0.5);
+  transform: translateY(-25%) scale(0.5);
 }
 
 .star_filter .product.toggle .itemBox {
@@ -498,7 +505,7 @@ body {
 .song_info {
   z-index: 9999;
   position: relative;
-  transform: translateY(-140px);
+  transform: translateY(-100px);
   visibility: hidden;
   opacity: 0;
   transition: all 0.2s;
@@ -537,14 +544,30 @@ body {
 .anim_test {
   text-transform: uppercase;
   padding: 5px 10px;
-  position: absolute;
+  position: fixed;
+  z-index: 99999;
   top: 10px;
   left: 30px;
   border: 1.5px solid var(--blue_color);
   border-radius: var(--bd_radius);
   color: #ffffff;
   background: var(--bg_color);
+  cursor: pointer;
   /* display: none; */
+}
+.test2 {
+  left: 100px;
+}
+
+.center_star {
+  position: absolute;
+  top: 1000px;
+  left: 1000px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--blue_color);
+  border: none;
 }
 
 @media all and (max-width: 1023px) {
