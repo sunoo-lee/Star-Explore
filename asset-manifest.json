@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/Star-Explore/static/css/main.b67d997e.css",
-    "main.js": "/Star-Explore/static/js/main.0b2777b6.js",
+    "main.css": "/Star-Explore/static/css/main.c13bd3d0.css",
+    "main.js": "/Star-Explore/static/js/main.1b35b2bd.js",
     "index.html": "/Star-Explore/index.html",
     "static/media/별_심벌-05.svg": "/Star-Explore/static/media/별_심벌-05.fb929959017037381012f094c172a1d4.svg",
-    "main.b67d997e.css.map": "/Star-Explore/static/css/main.b67d997e.css.map",
-    "main.0b2777b6.js.map": "/Star-Explore/static/js/main.0b2777b6.js.map"
+    "main.c13bd3d0.css.map": "/Star-Explore/static/css/main.c13bd3d0.css.map",
+    "main.1b35b2bd.js.map": "/Star-Explore/static/js/main.1b35b2bd.js.map"
   },
   "entrypoints": [
-    "static/css/main.b67d997e.css",
-    "static/js/main.0b2777b6.js"
+    "static/css/main.c13bd3d0.css",
+    "static/js/main.1b35b2bd.js"
   ]
 }
