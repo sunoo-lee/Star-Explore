@@ -14,8 +14,7 @@ Graphics.getAll = (result) => {
 	db.getConnection(function(err, connection) {
 		
 		if(!err) {
-			let query_to_find_all_graphic_info = `SELECT * FROM total_songs_graphic_information
-												  LIMIT 30`;
+			let query_to_find_all_graphic_info = `SELECT * FROM total_songs_graphic_information`;
 
 			connection.query(query_to_find_all_graphic_info, (err, res) => {
 				
