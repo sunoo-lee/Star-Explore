@@ -1,6 +1,5 @@
 import React, { forwardRef } from "react";
-import { ReactComponent as StarImg } from "../asset/별_심벌-05.svg";
-
+import { ReactComponent as StarImg } from "../asset/별_심벌_최종_0단계.svg";
 const Star = (prop, ref) => {
   const style = {
     position: "absolute",

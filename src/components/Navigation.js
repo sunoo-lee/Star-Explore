@@ -2,15 +2,28 @@ import React, { useRef, useState, forwardRef, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faArrowRotateRight,
   faMagnifyingGlass,
   faArrowUp,
 } from "@fortawesome/free-solid-svg-icons";
+import { ReactComponent as Refresh } from "../asset/키워드_초기화.svg";
+import { ReactComponent as Search } from "../asset/찾아보기_돋보기.svg";
+import { ReactComponent as Enter } from "../asset/찾아보기_엔터.svg";
 
 const Navigation = (prop, ref) => {
   const toggleBtn = useRef([]);
   let nav_toggle = useRef();
+  const keyBtn_ref = useRef([]);
   const [nav, setNav] = useState("keyword");
+
+  useEffect(() => {
+    if (prop.keyState) {
+      return;
+    } else {
+      for (let i = 0; i < keyBtn_ref.current.length; ++i) {
+        keyBtn_ref.current[i].classList.remove("on");
+      }
+    }
+  }, [prop.keyState]);
 
   const setKeyword = () => {
     toggleBtn.current[0].classList.add("active");
@@ -30,6 +43,7 @@ const Navigation = (prop, ref) => {
 
   const recommend = useRef();
   const [data, setData] = useState([]);
+
   useEffect(() => {
     if (value === "") {
       recommend.current.classList.remove("active");
@@ -38,7 +52,6 @@ const Navigation = (prop, ref) => {
     }
     const debounce = setTimeout(() => {
       sendRequest(value);
-      // console.log(data);
     }, 200);
     return () => {
       clearTimeout(debounce);
@@ -58,7 +71,7 @@ const Navigation = (prop, ref) => {
       return;
     }
     axios
-      .get(`http://localhost:8080/songInformation/search=${input}`)
+      .get(`http://localhost:8080/information/search=${input}`)
       .then((response) => setData(response.data));
   };
 
@@ -80,8 +93,8 @@ const Navigation = (prop, ref) => {
             ></div>
           </div>
         </div>
-        <div className="refresh_btn">
-          <FontAwesomeIcon icon={faArrowRotateRight} />
+        <div onClick={prop.onResetKey} className="refresh_btn">
+          <Refresh />
         </div>
       </div>
       <div className="keyword_search">
@@ -90,7 +103,11 @@ const Navigation = (prop, ref) => {
           <ul className="key_1">
             {prop.keyword_list_1.map((item, index) => (
               <li data-filter={item.data} key={index}>
-                <span className="btn" onClick={prop.onClick}>
+                <span
+                  ref={(item) => (keyBtn_ref.current[index] = item)}
+                  className="btn"
+                  onClick={prop.onClick}
+                >
                   {item.keyword}
                 </span>
               </li>
@@ -102,7 +119,11 @@ const Navigation = (prop, ref) => {
           <ul className="key_2">
             {prop.keyword_list_2.map((item, index) => (
               <li data-filter={item.data} key={index}>
-                <span className="btn" onClick={prop.onClick}>
+                <span
+                  ref={(item) => (keyBtn_ref.current[index + 15] = item)}
+                  className="btn"
+                  onClick={prop.onClick}
+                >
                   {item.keyword}
                 </span>
               </li>
@@ -114,7 +135,11 @@ const Navigation = (prop, ref) => {
           <ul className="key_3">
             {prop.keyword_list_3.map((item, index) => (
               <li data-filter={item.data} key={index}>
-                <span className="btn" onClick={prop.onClick}>
+                <span
+                  ref={(item) => (keyBtn_ref.current[index + 27] = item)}
+                  className="btn"
+                  onClick={prop.onClick}
+                >
                   {item.keyword}
                 </span>
               </li>
@@ -134,7 +159,8 @@ const Navigation = (prop, ref) => {
               value={value}
             />
             <span>
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
+              <Search />
+              {/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
             </span>
           </div>
           <div ref={recommend} id="recommend">
