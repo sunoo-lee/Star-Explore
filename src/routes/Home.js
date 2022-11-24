@@ -237,10 +237,6 @@ const Home = () => {
     }
   }, [select_btn]);
 
-  useEffect(() => {
-    console.log(keyState);
-  }, [keyState]);
-
   const [resultCount, setResultCount] = useState(star_data.length);
   const [resultStars, setResultStar] = useState([]);
 
@@ -296,8 +292,8 @@ const Home = () => {
   const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
-    setStar_graphic(star_data);
-    setResultStar(star_data);
+    // setStar_graphic(star_data);
+    // setResultStar(star_data);
 
     axios
       .get("http://localhost:8080/graphics")
@@ -309,26 +305,26 @@ const Home = () => {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    console.log(keywords);
-  }, [keywords]);
+  // useEffect(() => {
+  //   console.log(star_graphic);
+  // }, [star_graphic]);
 
   const space_toggle = () => {
     resize.current.classList.toggle("toggle");
   };
 
+  const [albumInfo, setAlbumInfo] = useState();
+
   const select_result = (event) => {
     // 임시 데이터 가공 코드
     const target = event.target.innerText;
-    const target_star = star_graphic.find(
+    const target_star = keywords.find(
       (element) => element.song_title === target
     );
-    console.log(target_star);
-    // setPlayerTag(
-    //   Object.values(target_star)
-    //     .slice(0, 8)
-    //     .filter((item) => item !== "")
-    // );
+    setPlayerTag(Object.values(target_star).filter((item) => item !== ""));
+    axios
+      .get(`http://localhost:8080/information/search=${target}`)
+      .then((response) => setAlbumInfo(response.data));
   };
 
   const nav_toggle = useRef();
@@ -375,7 +371,7 @@ const Home = () => {
             <ul>
               {resultStars.length !== star_data.length && resultStars.length > 0
                 ? resultStars.map((item, index) => (
-                    <li onClick={select_result} key={index}>
+                    <li data-title={item} onClick={select_result} key={index}>
                       {item}
                     </li>
                   ))
@@ -387,21 +383,27 @@ const Home = () => {
       <div className="player_container">
         <div className="player_box">
           <div className="thumbnail">
-            {/* <iframe
-              width="320"
-              height="180"
-              src="https://www.youtube.com/embed/BBdC1rl5sKY?rel=0"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            ></iframe> */}
+            {albumInfo ? (
+              <iframe
+                width="320"
+                height="180"
+                src={`https://www.youtube.com/embed/${albumInfo[0].embedcode}`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              ></iframe>
+            ) : (
+              ""
+            )}
           </div>
           <div className="song_data">
             <div className="song_title">
               {playerTag[0] ? playerTag[0] : "-"}
             </div>
             <div className="song_detail">
-              One More Time, One More Track \ 락 \ 2022.01.30 \ ♥ 52명
+              {albumInfo
+                ? `${albumInfo[0].album_title} | ${albumInfo[0].release_date} | ♥ ${albumInfo[0].recommend}명`
+                : "- | 0000.00.00 | 0"}
             </div>
             <ul className="keyword_list">
               <li>
