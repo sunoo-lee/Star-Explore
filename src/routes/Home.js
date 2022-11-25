@@ -8,6 +8,7 @@ import { ReactComponent as MobileBtn } from "../asset/모바일버튼_+.svg";
 const Home = () => {
   const [select, setSelect] = useState([]);
   const [select_btn, setSelect_btn] = useState([]);
+  const [select_att, setSelect_att] = useState([]);
 
   const star_ref = useRef([]);
 
@@ -23,45 +24,45 @@ const Home = () => {
   });
 
   const keyword_list_1 = [
-    { data: "따뜻한", keyword: "따뜻한" },
-    { data: "시니컬한", keyword: "시니컬한" },
-    { data: "시원한", keyword: "시원한" },
-    { data: "그리운", keyword: "그리운" },
-    { data: "나른한", keyword: "나른한" },
-    { data: "벅차는", keyword: "벅차는" },
-    { data: "설레는", keyword: "설레는" },
-    { data: "아련한", keyword: "아련한" },
-    { data: "지겨운", keyword: "지겨운" },
-    { data: "흥겨운", keyword: "흥겨운" },
-    { data: "간절한", keyword: "간절한" },
-    { data: "담담한", keyword: "담담한" },
-    { data: "신비로운", keyword: "신비로운" },
-    { data: "애절한", keyword: "애절한" },
-    { data: "청량한", keyword: "청량한" },
+    { data: "따뜻한", keyword: "emotion1" },
+    { data: "시니컬한", keyword: "emotion1" },
+    { data: "시원한", keyword: "emotion1" },
+    { data: "그리운", keyword: "emotion2" },
+    { data: "나른한", keyword: "emotion2" },
+    { data: "벅차는", keyword: "emotion2" },
+    { data: "설레는", keyword: "emotion2" },
+    { data: "아련한", keyword: "emotion2" },
+    { data: "지겨운", keyword: "emotion2" },
+    { data: "흥겨운", keyword: "emotion2" },
+    { data: "간절한", keyword: "emotion3" },
+    { data: "담담한", keyword: "emotion3" },
+    { data: "신비로운", keyword: "emotion3" },
+    { data: "애절한", keyword: "emotion3" },
+    { data: "청량한", keyword: "emotion3" },
   ];
   const keyword_list_2 = [
-    { data: "꿈", keyword: "꿈" },
-    { data: "사랑", keyword: "사랑" },
-    { data: "연주곡", keyword: "연주곡" },
-    { data: "이별", keyword: "이별" },
-    { data: "일상", keyword: "일상" },
-    { data: "짝사랑", keyword: "짝사랑" },
-    { data: "비", keyword: "비" },
-    { data: "성장", keyword: "성장" },
-    { data: "우주", keyword: "우주" },
-    { data: "추억", keyword: "추억" },
-    { data: "윤하", keyword: "윤하" },
-    { data: "응원", keyword: "응원" },
+    { data: "꿈", keyword: "theme1" },
+    { data: "사랑", keyword: "theme1" },
+    { data: "연주곡", keyword: "theme1" },
+    { data: "이별", keyword: "theme1" },
+    { data: "일상", keyword: "theme1" },
+    { data: "짝사랑", keyword: "theme1" },
+    { data: "비", keyword: "theme2" },
+    { data: "성장", keyword: "theme2" },
+    { data: "우주", keyword: "theme2" },
+    { data: "추억", keyword: "theme2" },
+    { data: "윤하", keyword: "theme3" },
+    { data: "응원", keyword: "theme3" },
   ];
   const keyword_list_3 = [
-    { data: "댄스", keyword: "댄스" },
-    { data: "J-POP", keyword: "J-POP" },
-    { data: "OST", keyword: "OST" },
-    { data: "POP", keyword: "POP" },
-    { data: "R&B", keyword: "R&B" },
-    { data: "랩/힙합", keyword: "랩/힙합" },
-    { data: "Rock", keyword: "Rock" },
-    { data: "발라드", keyword: "발라드" },
+    { data: "댄스", keyword: "genre" },
+    { data: "J-POP", keyword: "genre" },
+    { data: "OST", keyword: "genre" },
+    { data: "POP", keyword: "genre" },
+    { data: "R&B", keyword: "genre" },
+    { data: "랩/힙합", keyword: "genre" },
+    { data: "Rock", keyword: "genre" },
+    { data: "발라드", keyword: "genre" },
   ];
 
   const star_data = [
@@ -201,6 +202,7 @@ const Home = () => {
     const keyword_btn = event.target;
     const btn_keyword = event.target.innerText;
     const btn_value = keyword_btn.parentElement.dataset.filter;
+    const btn_att = keyword_btn.parentElement.dataset;
     // select_btn - 선택한 키워드 버튼
     // btn_keyword - 선택한 키워드 텍스트
     // btn_value - 선택한 키워드 값
@@ -211,6 +213,7 @@ const Home = () => {
         keyword_btn.classList.toggle("on");
         setSelect(select.filter((key) => key !== btn_keyword));
         setSelect_btn(select_btn.filter((key) => key !== btn_value));
+        setSelect_att(select_att.filter((key) => key !== btn_att));
         return;
       }
     } else if (select_btn.length < 6) {
@@ -219,9 +222,11 @@ const Home = () => {
         setKeyState(true);
         setSelect([...select, btn_keyword]);
         setSelect_btn([...select_btn, btn_value]);
+        setSelect_att([...select_att, btn_att]);
       } else if (keyword_btn.className === "btn") {
         setSelect(select.filter((key) => key !== btn_keyword));
         setSelect_btn(select_btn.filter((key) => key !== btn_value));
+        setSelect_att(select_att.filter((key) => key !== btn_att));
       }
     }
   };
@@ -247,6 +252,7 @@ const Home = () => {
       const intersection = select_btn.filter((item) =>
         keyValues.includes(item)
       );
+
       if (select_btn.length !== intersection.length) {
         star_ref.current[i].classList.add("hide");
         count = count - 1;
@@ -292,8 +298,8 @@ const Home = () => {
   const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
-    // setStar_graphic(star_data);
-    // setResultStar(star_data);
+    setStar_graphic(star_data);
+    setResultStar(star_data);
 
     axios
       .get("http://localhost:8080/graphics")
@@ -305,13 +311,22 @@ const Home = () => {
     // eslint-disable-next-line
   }, []);
 
-  // useEffect(() => {
-  //   console.log(star_graphic);
-  // }, [star_graphic]);
+  const [result_list, setResult_list] = useState([]);
 
-  const space_toggle = () => {
-    resize.current.classList.toggle("toggle");
+  const space_toggle = () => {};
+
+  const load_result_list = () => {
+    const target_arr = select_att.map((item) => `${item.att}=${item.filter}`);
+    const target = target_arr.join("&");
+    axios
+      .get(`http://localhost:8080/keywords/list?${target}`)
+      .then((response) => setResult_list(response.data));
   };
+
+  useEffect(() => {
+    load_result_list();
+    // eslint-disable-next-line
+  }, [select_att]);
 
   const [albumInfo, setAlbumInfo] = useState();
 
@@ -328,6 +343,7 @@ const Home = () => {
   };
 
   const nav_toggle = useRef();
+  const song_keyword = useRef();
 
   const onNavToggle = () => {
     nav_toggle.current.childNodes[0].classList.toggle("m-toggle");
@@ -365,17 +381,33 @@ const Home = () => {
       <div className="result_container">
         <div ref={result} className="result_box">
           <div className="result_header">
-            result: {String(resultStars.length).padStart(3, "0")}
+            result:{" "}
+            {result_list
+              ? String(result_list.length).padStart(3, "0")
+              : String(resultStars.length).padStart(3, "0")}
           </div>
           <div className="result_list">
             <ul>
-              {resultStars.length !== star_data.length && resultStars.length > 0
-                ? resultStars.map((item, index) => (
-                    <li data-title={item} onClick={select_result} key={index}>
-                      {item}
+              {result_list
+                ? result_list.map((item, index) => (
+                    <li
+                      data-title={item.song_title}
+                      onClick={select_result}
+                      key={index}
+                    >
+                      {item.song_title}
                     </li>
                   ))
                 : ""}
+              {/* {result_list.map((item, index) => (
+                <li
+                  data-title={item.song_title}
+                  onClick={select_result}
+                  key={index}
+                >
+                  {item.song_title}
+                </li>
+              ))} */}
             </ul>
           </div>
         </div>
@@ -402,10 +434,12 @@ const Home = () => {
             </div>
             <div className="song_detail">
               {albumInfo
-                ? `${albumInfo[0].album_title} | ${albumInfo[0].release_date} | ♥ ${albumInfo[0].recommend}명`
+                ? albumInfo[0].recommend !== 0
+                  ? `${albumInfo[0].album_title} | ${albumInfo[0].release_date} | ♥ ${albumInfo[0].recommend}명`
+                  : `${albumInfo[0].album_title} | ${albumInfo[0].release_date}`
                 : "- | 0000.00.00 | 0"}
             </div>
-            <ul className="keyword_list">
+            <ul ref={song_keyword} className="keyword_list">
               <li>
                 <span className="btn">{playerTag[1] ? playerTag[1] : "-"}</span>
               </li>

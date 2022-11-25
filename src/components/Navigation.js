@@ -79,72 +79,91 @@ const Navigation = (prop, ref) => {
     <nav ref={nav_toggle} className={`nav ${nav}`}>
       <div className="nav_header">
         <div className="header_top">
-          <h1>{nav}</h1>
-          <div className="nav_tabs">
-            <div
-              ref={(item) => (toggleBtn.current[0] = item)}
-              onClick={setKeyword}
-              className="tab_button active"
-            ></div>
-            <div
-              ref={(item) => (toggleBtn.current[1] = item)}
-              onClick={setSearch}
-              className="tab_button"
-            ></div>
+          <div className="keyword_top">
+            <h2>KEYWORD</h2>
+            <div className="nav_tabs">
+              <div
+                ref={(item) => (toggleBtn.current[0] = item)}
+                onClick={setKeyword}
+                className="tab_button active"
+              ></div>
+              <div
+                ref={(item) => (toggleBtn.current[1] = item)}
+                onClick={setSearch}
+                className="tab_button"
+              ></div>
+            </div>
+            <div onClick={prop.onResetKey} className="refresh_btn">
+              <Refresh />
+            </div>
           </div>
-        </div>
-        <div onClick={prop.onResetKey} className="refresh_btn">
-          <Refresh />
+          <div className="search_top">
+            <h2>SEARCH</h2>
+            <div className="nav_tabs">
+              <div
+                ref={(item) => (toggleBtn.current[0] = item)}
+                onClick={setKeyword}
+                className="tab_button active"
+              ></div>
+              <div
+                ref={(item) => (toggleBtn.current[1] = item)}
+                onClick={setSearch}
+                className="tab_button"
+              ></div>
+            </div>
+          </div>
         </div>
       </div>
       <div className="keyword_search">
-        <div className="keyword">
-          <h2>emotion</h2>
-          <ul className="key_1">
-            {prop.keyword_list_1.map((item, index) => (
-              <li data-filter={item.data} key={index}>
-                <span
-                  ref={(item) => (keyBtn_ref.current[index] = item)}
-                  className="btn"
-                  onClick={prop.onClick}
-                >
-                  {item.keyword}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="keyword">
-          <h2>theme</h2>
-          <ul className="key_2">
-            {prop.keyword_list_2.map((item, index) => (
-              <li data-filter={item.data} key={index}>
-                <span
-                  ref={(item) => (keyBtn_ref.current[index + 15] = item)}
-                  className="btn"
-                  onClick={prop.onClick}
-                >
-                  {item.keyword}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="keyword">
-          <h2>genre</h2>
-          <ul className="key_3">
-            {prop.keyword_list_3.map((item, index) => (
-              <li data-filter={item.data} key={index}>
-                <span
-                  ref={(item) => (keyBtn_ref.current[index + 27] = item)}
-                  className="btn"
-                  onClick={prop.onClick}
-                >
-                  {item.keyword}
-                </span>
-              </li>
-            ))}
-          </ul>
+        <div className="keyword_wrap">
+          <div className="keyword">
+            <h2>emotion</h2>
+            <ul className="key_1">
+              {prop.keyword_list_1.map((item, index) => (
+                <li data-filter={item.data} data-att={item.keyword} key={index}>
+                  <span
+                    ref={(item) => (keyBtn_ref.current[index] = item)}
+                    className="btn"
+                    onClick={prop.onClick}
+                  >
+                    {item.data}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="keyword">
+            <h2>theme</h2>
+            <ul className="key_2">
+              {prop.keyword_list_2.map((item, index) => (
+                <li data-filter={item.data} data-att={item.keyword} key={index}>
+                  <span
+                    ref={(item) => (keyBtn_ref.current[index + 15] = item)}
+                    className="btn"
+                    onClick={prop.onClick}
+                  >
+                    {item.data}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="keyword">
+            <h2>genre</h2>
+            <ul className="key_3">
+              {prop.keyword_list_3.map((item, index) => (
+                <li data-filter={item.data} data-att={item.keyword} key={index}>
+                  <span
+                    ref={(item) => (keyBtn_ref.current[index + 27] = item)}
+                    className="btn"
+                    onClick={prop.onClick}
+                  >
+                    {item.data}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
       <div className="title_search">
