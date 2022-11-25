@@ -81,6 +81,8 @@ Keyword.getAll = (result) => {
 //서브쿼리 만드는 함수
 let make_sub_query_to_select_keyword = (data) => {
 	
+	//console.log(data);
+
 	let sub_query_to_select_keyword = {};
 	let index;
 	let result;
@@ -89,7 +91,8 @@ let make_sub_query_to_select_keyword = (data) => {
 	if (Object.keys(data).length === 1)	{
 		
 		sub_query_to_select_keyword['_' + index] = ` WHERE ${Object.keys(data)[0]} like '${Object.values(data)[0]}'`;
-		return sub_query_to_select_keyword;
+		result = Object.values(sub_query_to_select_keyword).join('') + ';';
+		return result;
 	}
 	//버튼이 여러개 입력됐을 때
 	else	{
@@ -101,6 +104,7 @@ let make_sub_query_to_select_keyword = (data) => {
 			else	{
 				sub_query_to_select_keyword['_' + index] = ` AND ${Object.keys(data)[index]} like '${Object.values(data)[index]}'`;
 			}
+
 
 		}
 		//console.log(sub_query_to_select_keyword);
@@ -124,7 +128,7 @@ Keyword.filter_out_songs_by_keyword = (data, result) => {
 			let whole_sub_query = make_sub_query_to_select_keyword(data);
 
 			//let sub_query_to_select_keyword = ` WHERE ${Object.keys(data)[0]} like '${Object.values(data)[0]}'`;
-
+			//console.log(query_to_filter_out_songs_by_keyword + whole_sub_query);
 			connection.query(query_to_filter_out_songs_by_keyword + whole_sub_query, (err, res) => {
 				
 				//console.log(query_to_filter_out_songs_by_keyword + sub_query_to_select_keyword);

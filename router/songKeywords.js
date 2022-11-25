@@ -110,9 +110,9 @@ router.get('/:selected_keyword1,', (req, res) => {
 // ex, http://localhost:8080/keywords/list?emotion1=시원한&emotion2=벅차는&genre=J-POP
 router.get('/list', (req, res) => {
 
-    //console.log(Object.keys(req.query));
-    //console.log(Object.values(req.query));
-   // console.log(Object.keys(req.query).length);
+    // console.log(Object.keys(req.query));
+    // console.log(Object.values(req.query));
+    // console.log(Object.keys(req.query).length);
 
     Keyword.filter_out_songs_by_keyword(req.query, (err, data) => {
         if (err) {
