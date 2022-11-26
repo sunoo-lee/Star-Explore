@@ -233,6 +233,7 @@ const Home = () => {
 
   const onResetKey = () => {
     setSelect_btn([]);
+    setSelect_att([]);
     setKeyState(false);
   };
 
@@ -313,8 +314,6 @@ const Home = () => {
 
   const [result_list, setResult_list] = useState([]);
 
-  const space_toggle = () => {};
-
   const load_result_list = () => {
     const target_arr = select_att.map((item) => `${item.att}=${item.filter}`);
     const target = target_arr.join("&");
@@ -340,14 +339,30 @@ const Home = () => {
     axios
       .get(`http://localhost:8080/information/search=${target}`)
       .then((response) => setAlbumInfo(response.data));
+    setToggle_state(2);
   };
 
-  const nav_toggle = useRef();
+  const nav_toggle = useRef([]);
   const song_keyword = useRef();
+  const [toggle_state, setToggle_state] = useState(true);
 
-  const onNavToggle = () => {
-    nav_toggle.current.childNodes[0].classList.toggle("m-toggle");
-    console.dir(nav_toggle.current.childNodes[0].className);
+  const onNavToggle = (event) => {
+    nav_toggle.current[1].classList.toggle("active");
+    if (toggle_state) {
+      nav_toggle.current[0].childNodes[0].classList.toggle("m-toggle");
+    } else if (!toggle_state) {
+      nav_toggle.current[3].classList.toggle("active");
+      setToggle_state(!toggle_state);
+    }
+  };
+  const onPlayerToggle = () => {
+    setToggle_state(false);
+    nav_toggle.current[1].classList.toggle("active");
+    nav_toggle.current[3].classList.toggle("active");
+  };
+
+  const space_toggle = () => {
+    setToggle_state(!toggle_state);
   };
 
   return (
@@ -356,15 +371,19 @@ const Home = () => {
         TOGGLE
       </button>
       {/* <button onClick={onResetKey} className="anim_test test2">
-        {keyState ? "true" : "false"}
+        {toggle_state}
       </button> */}
-      <div ref={nav_toggle} className="nav_container">
+      <div
+        ref={(item) => (nav_toggle.current[0] = item)}
+        className="nav_container"
+      >
         <Navigation
           keyword_list_1={keyword_list_1}
           keyword_list_2={keyword_list_2}
           keyword_list_3={keyword_list_3}
           onClick={onKeyClick}
           onResetKey={onResetKey}
+          onClickResult={select_result}
           playerTag={playerTag}
           keyState={keyState}
         />
@@ -399,23 +418,17 @@ const Home = () => {
                     </li>
                   ))
                 : ""}
-              {/* {result_list.map((item, index) => (
-                <li
-                  data-title={item.song_title}
-                  onClick={select_result}
-                  key={index}
-                >
-                  {item.song_title}
-                </li>
-              ))} */}
             </ul>
           </div>
         </div>
       </div>
-      <div className="player_container">
+      <div
+        ref={(item) => (nav_toggle.current[3] = item)}
+        className="player_container"
+      >
         <div className="player_box">
           <div className="thumbnail">
-            {albumInfo ? (
+            {/* {albumInfo ? (
               <iframe
                 width="320"
                 height="180"
@@ -426,18 +439,35 @@ const Home = () => {
               ></iframe>
             ) : (
               ""
-            )}
+            )} */}
           </div>
           <div className="song_data">
             <div className="song_title">
               {playerTag[0] ? playerTag[0] : "-"}
             </div>
             <div className="song_detail">
-              {albumInfo
-                ? albumInfo[0].recommend !== 0
-                  ? `${albumInfo[0].album_title} | ${albumInfo[0].release_date} | ♥ ${albumInfo[0].recommend}명`
-                  : `${albumInfo[0].album_title} | ${albumInfo[0].release_date}`
-                : "- | 0000.00.00 | 0"}
+              {albumInfo ? (
+                albumInfo[0].recommend !== 0 ? (
+                  <>
+                    <span>{albumInfo[0].album_title}</span>
+                    <br />
+                    <span>{albumInfo[0].release_date}</span>
+                    <span className="like">♥ {albumInfo[0].recommend}명</span>
+                  </>
+                ) : (
+                  <>
+                    <span>{albumInfo[0].album_title}</span>
+                    <br />
+                    <span>{albumInfo[0].release_date}</span>
+                  </>
+                )
+              ) : (
+                <span>
+                  song title
+                  <br />
+                  song.da.te | ♥ 0명
+                </span>
+              )}
             </div>
             <ul ref={song_keyword} className="keyword_list">
               <li>
@@ -502,7 +532,18 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div onClick={onNavToggle} className="mobile_toggle_btn">
+      <div
+        ref={(item) => (nav_toggle.current[2] = item)}
+        onClick={onPlayerToggle}
+        className="more_info"
+      >
+        <span className="btn">more info?</span>
+      </div>
+      <div
+        ref={(item) => (nav_toggle.current[1] = item)}
+        onClick={onNavToggle}
+        className="mobile_toggle_btn"
+      >
         <MobileBtn />
       </div>
     </>
