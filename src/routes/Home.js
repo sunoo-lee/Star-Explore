@@ -67,7 +67,7 @@ const Home = () => {
 
   const star_data = [
     {
-      title: "사건의 지평선",
+      song_title: "사건의 지평선",
       key1: "시원한",
       key2: "우주",
       key3: "",
@@ -79,7 +79,7 @@ const Home = () => {
       y: 1743,
     },
     {
-      title: "오르트구름",
+      song_title: "오르트구름",
       key1: "설레는",
       key2: "우주",
       key3: "",
@@ -91,7 +91,7 @@ const Home = () => {
       y: 492,
     },
     {
-      title: "살별",
+      song_title: "살별",
       key1: "아련한",
       key2: "연주곡",
       key3: "",
@@ -103,7 +103,7 @@ const Home = () => {
       y: 975,
     },
     {
-      title: "물의 여행",
+      song_title: "물의 여행",
       key1: "일상",
       key2: "",
       key3: "청량한",
@@ -115,7 +115,7 @@ const Home = () => {
       y: 1905,
     },
     {
-      title: "반짝, 빛을 내",
+      song_title: "반짝, 빛을 내",
       key1: "짝사랑",
       key2: "간절한",
       key3: "",
@@ -127,7 +127,7 @@ const Home = () => {
       y: 417,
     },
     {
-      title: "6년 230일",
+      song_title: "6년 230일",
       key1: "응원",
       key2: "",
       key3: "신비로운",
@@ -139,7 +139,7 @@ const Home = () => {
       y: 1488,
     },
     {
-      title: "P.R.R.W",
+      song_title: "P.R.R.W",
       key1: "우주",
       key2: "설레는",
       key3: "아련한",
@@ -151,7 +151,7 @@ const Home = () => {
       y: 1384,
     },
     {
-      title: "AQUALOVERS 〜DEEP into the night〜",
+      song_title: "AQUALOVERS 〜DEEP into the night〜",
       key1: "시원한",
       key2: "청량한",
       key3: "설레는",
@@ -163,7 +163,7 @@ const Home = () => {
       y: 1042,
     },
     {
-      title: "Truly",
+      song_title: "Truly",
       key1: "흥겨운",
       key2: "추억",
       key3: "꿈",
@@ -171,7 +171,7 @@ const Home = () => {
       y: 392,
     },
     {
-      title: "별의 조각",
+      song_title: "별의 조각",
       key1: "우주",
       key2: "지겨운",
       key3: "나른한",
@@ -179,7 +179,7 @@ const Home = () => {
       y: 838,
     },
     {
-      title: "하나의 달",
+      song_title: "하나의 달",
       key1: "우주",
       key2: "담담한",
       key3: "짝사랑",
@@ -187,7 +187,7 @@ const Home = () => {
       y: 1105,
     },
     {
-      title: "사건의 지평선",
+      song_title: "사건의 지평선",
       key1: "우주",
       key2: "설레는",
       key3: "청량한",
@@ -287,7 +287,7 @@ const Home = () => {
       resultStars.length === 0 ||
       resultStars.length === star_graphic.length
     ) {
-      result.current.classList.remove("active");
+      // result.current.classList.remove("active");
     }
     // eslint-disable-next-line
   }, [resultStars]);
@@ -315,6 +315,7 @@ const Home = () => {
   const [result_list, setResult_list] = useState([]);
 
   const load_result_list = () => {
+    setResult_list(star_data);
     const target_arr = select_att.map((item) => `${item.att}=${item.filter}`);
     const target = target_arr.join("&");
     axios
@@ -328,48 +329,60 @@ const Home = () => {
   }, [select_att]);
 
   const [albumInfo, setAlbumInfo] = useState();
+  const nav_toggle = useRef([]);
+  const song_keyword = useRef();
+
+  const [toggle_state, setToggle_state] = useState(true);
+  const [playerState, setPlayerState] = useState(false);
 
   const select_result = (event) => {
-    // 임시 데이터 가공 코드
+    // 데이터 가공 코드
     const target = event.target.innerText;
     const target_star = keywords.find(
       (element) => element.song_title === target
     );
+
     setPlayerTag(Object.values(target_star).filter((item) => item !== ""));
+
     axios
       .get(`http://localhost:8080/information/search=${target}`)
       .then((response) => setAlbumInfo(response.data));
-    setToggle_state(2);
+
+    if (!toggle_state) {
+      for (let i = 0; i < result_list.length; ++i) {
+        event.target.parentNode.childNodes[i].classList.remove("on");
+      }
+    }
+
+    nav_toggle.current[2].classList.add("active"); // more info
+    event.target.classList.add("on");
+    setPlayerState(true);
   };
 
-  const nav_toggle = useRef([]);
-  const song_keyword = useRef();
-  const [toggle_state, setToggle_state] = useState(true);
-
-  const onNavToggle = (event) => {
-    nav_toggle.current[1].classList.toggle("active");
+  const onNavToggle = () => {
+    nav_toggle.current[1].classList.toggle("active"); // toggle btn
     if (toggle_state) {
-      nav_toggle.current[0].childNodes[0].classList.toggle("m-toggle");
+      nav_toggle.current[0].classList.toggle("m-toggle"); // nav
+      nav_toggle.current[4].resetValue();
     } else if (!toggle_state) {
-      nav_toggle.current[3].classList.toggle("active");
-      setToggle_state(!toggle_state);
+      nav_toggle.current[3].classList.remove("active"); // player
+      setToggle_state(true);
     }
   };
+
   const onPlayerToggle = () => {
     setToggle_state(false);
-    nav_toggle.current[1].classList.toggle("active");
-    nav_toggle.current[3].classList.toggle("active");
+    nav_toggle.current[1].classList.add("active"); // toggle btn
+    nav_toggle.current[3].classList.add("active"); // player
   };
 
-  const space_toggle = () => {
-    setToggle_state(!toggle_state);
-  };
+  // const space_toggle = () => {};
 
   return (
     <>
-      <button onClick={space_toggle} className="anim_test">
+      {/* <button onClick={space_toggle} className="anim_test">
         TOGGLE
-      </button>
+      </button> */}
       {/* <button onClick={onResetKey} className="anim_test test2">
         {toggle_state}
       </button> */}
@@ -378,6 +391,7 @@ const Home = () => {
         className="nav_container"
       >
         <Navigation
+          ref={(item) => (nav_toggle.current[4] = item)}
           keyword_list_1={keyword_list_1}
           keyword_list_2={keyword_list_2}
           keyword_list_3={keyword_list_3}
@@ -428,7 +442,7 @@ const Home = () => {
       >
         <div className="player_box">
           <div className="thumbnail">
-            {/* {albumInfo ? (
+            {albumInfo ? (
               <iframe
                 width="320"
                 height="180"
@@ -439,7 +453,7 @@ const Home = () => {
               ></iframe>
             ) : (
               ""
-            )} */}
+            )}
           </div>
           <div className="song_data">
             <div className="song_title">

@@ -1,4 +1,10 @@
-import React, { useRef, useState, forwardRef, useEffect } from "react";
+import React, {
+  useRef,
+  useState,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+} from "react";
 import axios from "axios";
 import { ReactComponent as Refresh } from "../asset/키워드_초기화.svg";
 import { ReactComponent as Search } from "../asset/찾아보기_돋보기.svg";
@@ -39,6 +45,14 @@ const Navigation = (prop, ref) => {
   const onChange = (event) => {
     setValue(event.target.value);
   };
+
+  const resetValue = () => {
+    setValue("");
+  };
+
+  useImperativeHandle(ref, () => ({
+    resetValue,
+  }));
 
   const recommend = useRef();
   const [data, setData] = useState([]);
