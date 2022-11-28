@@ -77,6 +77,7 @@ const Home = () => {
       key7: "Rock",
       x: 124,
       y: 1743,
+      size: 5,
     },
     {
       song_title: "오르트구름",
@@ -89,6 +90,7 @@ const Home = () => {
       key7: "",
       x: 207,
       y: 492,
+      size: 4,
     },
     {
       song_title: "살별",
@@ -101,6 +103,8 @@ const Home = () => {
       key7: "비",
       x: 209,
       y: 975,
+
+      size: 3,
     },
     {
       song_title: "물의 여행",
@@ -113,6 +117,7 @@ const Home = () => {
       key7: "",
       x: 387,
       y: 1905,
+      size: 3,
     },
     {
       song_title: "반짝, 빛을 내",
@@ -125,6 +130,7 @@ const Home = () => {
       key7: "",
       x: 508,
       y: 417,
+      size: 4,
     },
     {
       song_title: "6년 230일",
@@ -137,6 +143,7 @@ const Home = () => {
       key7: "OST",
       x: 533,
       y: 1488,
+      size: 2,
     },
     {
       song_title: "P.R.R.W",
@@ -149,6 +156,7 @@ const Home = () => {
       key7: "Rock",
       x: 545,
       y: 1384,
+      size: 1,
     },
     {
       song_title: "AQUALOVERS 〜DEEP into the night〜",
@@ -161,6 +169,7 @@ const Home = () => {
       key7: "Rock",
       x: 603,
       y: 1042,
+      size: 0,
     },
     {
       song_title: "Truly",
@@ -169,6 +178,7 @@ const Home = () => {
       key3: "꿈",
       x: 874,
       y: 392,
+      size: 4,
     },
     {
       song_title: "별의 조각",
@@ -177,6 +187,7 @@ const Home = () => {
       key3: "나른한",
       x: 949,
       y: 838,
+      size: 2,
     },
     {
       song_title: "하나의 달",
@@ -185,6 +196,7 @@ const Home = () => {
       key3: "짝사랑",
       x: 1108,
       y: 1105,
+      size: 3,
     },
     {
       song_title: "사건의 지평선",
@@ -193,6 +205,7 @@ const Home = () => {
       key3: "청량한",
       x: 1116,
       y: 467,
+      size: 0,
     },
   ];
 
@@ -287,7 +300,7 @@ const Home = () => {
       resultStars.length === 0 ||
       resultStars.length === star_graphic.length
     ) {
-      // result.current.classList.remove("active");
+      result.current.classList.remove("active");
     }
     // eslint-disable-next-line
   }, [resultStars]);
@@ -348,7 +361,7 @@ const Home = () => {
       .get(`http://localhost:8080/information/search=${target}`)
       .then((response) => setAlbumInfo(response.data));
 
-    if (!toggle_state) {
+    if (toggle_state) {
       for (let i = 0; i < result_list.length; ++i) {
         event.target.parentNode.childNodes[i].classList.remove("on");
       }
@@ -376,13 +389,15 @@ const Home = () => {
     nav_toggle.current[3].classList.add("active"); // player
   };
 
-  // const space_toggle = () => {};
+  const space_toggle = () => {
+    resize.current.classList.toggle("toggle");
+  };
 
   return (
     <>
-      {/* <button onClick={space_toggle} className="anim_test">
+      <button onClick={space_toggle} className="anim_test">
         TOGGLE
-      </button> */}
+      </button>
       {/* <button onClick={onResetKey} className="anim_test test2">
         {toggle_state}
       </button> */}
@@ -518,6 +533,7 @@ const Home = () => {
                     title={star.song_title}
                     x={star.x}
                     y={star.y}
+                    size={star.size}
                     key1={keywords[index].emotion1}
                     key2={keywords[index].emotion2}
                     key3={keywords[index].emotion3}
@@ -534,6 +550,7 @@ const Home = () => {
                     title={star.title}
                     x={star.x}
                     y={star.y}
+                    size={star.size}
                     key1={star.key1}
                     key2={star.key2}
                     key3={star.key3}

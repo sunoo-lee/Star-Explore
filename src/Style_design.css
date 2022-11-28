@@ -227,8 +227,64 @@ body {
 }
 
 .star_filter .product .itemBox .item_img {
+  /* width: 5px; */
+  /* height: 5px; */
+}
+
+.star_filter .product .itemBox .item_img div.img_0 {
   width: 5px;
   height: 5px;
+  background: url("./asset/별_심벌_최종_0단계.svg");
+}
+.star_filter .product .itemBox .item_img div.img_1 {
+  width: 7px;
+  height: 7px;
+  background: url("./asset/img_1.svg");
+}
+.star_filter .product .itemBox .item_img div.img_2 {
+  width: 9px;
+  height: 9px;
+  background: url("./asset/별_심벌_최종_2단계.svg");
+}
+.star_filter .product .itemBox .item_img div.img_3 {
+  width: 15px;
+  height: 15px;
+  background: url("./asset/별_심벌_최종_3단계.svg");
+}
+.star_filter .product .itemBox .item_img div.img_4 {
+  width: 25px;
+  height: 25px;
+  background: url("./asset/별_심벌_최종_4단계.svg");
+}
+.star_filter .product .itemBox .item_img div.img_5 {
+  width: 32px;
+  height: 32px;
+  background: url("./asset/별_심벌_최종_5단계.svg");
+}
+.star_filter .product .itemBox .item_img div.img_black {
+  width: 200px;
+  height: 200px;
+  background: url("./asset/별_심벌_최종-블랙홀.svg");
+}
+.star_filter .product .itemBox .item_img div.img_event {
+  width: 200px;
+  height: 200px;
+  background: url("./asset/별_심벌_최종-사건의지평선.svg");
+}
+.star_filter .product .itemBox .item_img div.img_comet1 {
+  width: 100px;
+  height: 100px;
+  background: url("./asset/별_심벌_최종-살별.svg");
+}
+.star_filter .product .itemBox .item_img div.img_comet2 {
+  width: 100px;
+  height: 100px;
+  background: url("./asset/별_심벌_최종-혜성.svg");
+}
+.star_filter .product .itemBox .item_img div.img_cloud {
+  width: 100px;
+  height: 100px;
+  background: url("./asset/별_심벌_최종-오르트구름.svg");
 }
 
 .star_filter .product.toggle {
@@ -317,7 +373,7 @@ body {
 }
 
 .center_star {
-  display: none;
+  /* display: none; */
   position: absolute;
   top: 1000px;
   left: 1000px;

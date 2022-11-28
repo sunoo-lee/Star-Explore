@@ -1,11 +1,12 @@
 import React, { forwardRef } from "react";
-import { ReactComponent as StarImg } from "../asset/별_심벌_최종_0단계.svg";
+
 const Star = (prop, ref) => {
   const style = {
     position: "absolute",
     left: `${prop.x}px`,
     top: `${prop.y}px`,
   };
+
   return (
     <div
       ref={ref}
@@ -21,7 +22,7 @@ const Star = (prop, ref) => {
       style={style}
     >
       <div className="item_img">
-        <StarImg />
+        <div className={prop.size}></div>
       </div>
       <div className="song_info">
         <span className="title">{prop.title}</span>
