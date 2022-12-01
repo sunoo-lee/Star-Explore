@@ -132,25 +132,21 @@
   height: var(--star_cloud);
   background: url("./asset/img_cloud.svg");
 }
-
-/* .star_filter .product.toggle {
-  transform: scale(0.5);
+.space_wrap {
+  height: 100%;
+  transform-origin: center;
+  transition: 0.3s;
 }
+.space_wrap.active {
+  transform: scale(0.9);
+}
+
+/* 
 
 .star_filter .product.toggle .itemBox {
   transition: 0.7s;
   transition-delay: 0.3s;
   transform: scale(2);
-} */
-
-/* @media all and (max-height: 2000px) {
-  .star_filter .product {
-    transform: translateY(-25%);
-  }
-  .star_filter .product.toggle {
-    transform: scale(0.5);
-    transform: translateY(-25%) scale(0.5);
-  }
 } */
 
 /* ----------------------info-------------------------- */
@@ -242,6 +238,9 @@
 .song_info.hide {
   display: block;
   /* opacity: 1; */
+}
+.song_info.active {
+  display: block;
 }
 
 .center_star {

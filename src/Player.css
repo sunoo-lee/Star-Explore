@@ -11,8 +11,9 @@
   width: 700px;
   height: 230px;
   bottom: 57px;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 57px;
+  /* left: 50%; */
+  /* transform: translateX(-50%); */
 }
 .player_box {
   position: absolute;

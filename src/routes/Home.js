@@ -366,6 +366,12 @@ const Home = () => {
       (element) => element.song_title === target
     );
 
+    const test_target = star_graphic.findIndex(
+      (element) => element.song_title === target
+    );
+
+    // console.dir(star_ref.current[test_target].classList);
+
     const w_width = document.body.offsetWidth / 2;
     const w_height = document.body.offsetHeight / 2;
 
@@ -390,11 +396,12 @@ const Home = () => {
     if (toggle_state) {
       for (let i = 0; i < result_list.length; ++i) {
         event.target.parentNode.childNodes[i].classList.remove("on");
+        info_ref.current[i].classList.remove("active");
       }
     }
-
+    info_ref.current[test_target].classList.add("active"); //song info
     nav_toggle.current[2].classList.toggle("active"); // more info
-    nav_toggle.current[3].classList.toggle("active");
+    nav_toggle.current[3].classList.add("active"); // song data
     event.target.classList.add("on");
     setPlayerState(true);
   };
@@ -421,10 +428,6 @@ const Home = () => {
   };
 
   const [spaceOffset, setSpaceOffset] = useState([]);
-
-  const testFn = () => {
-    console.log(info_ref.current);
-  };
 
   const space_center = () => {
     const w_width = document.body.offsetWidth;
@@ -475,6 +478,10 @@ const Home = () => {
       (item) => item.textContent === target
     );
     target_info.classList.remove("hide");
+  };
+
+  const testFn = () => {
+    resize.current.classList.toggle("active");
   };
 
   return (
@@ -607,71 +614,73 @@ const Home = () => {
       </div>
 
       <div className="container">
-        <div style={spacePosition} className="star_filter">
-          <div style={spaceOffset} className="taurus"></div>
-          <div style={spaceOffset} ref={resize} className="product">
-            {/* <div className="center_star center_2"></div> */}
-            {keywords.length !== 0
-              ? star_graphic.map((star, index) => (
-                  <Star
-                    ref={(item) => (star_ref.current[index] = item)}
-                    key={index}
-                    title={star.song_title}
-                    x={star.x}
-                    y={star.y}
-                    size={star.size}
-                    key1={keywords[index].emotion1}
-                    key2={keywords[index].emotion2}
-                    key3={keywords[index].emotion3}
-                    key4={keywords[index].genre}
-                    key5={keywords[index].theme1}
-                    key6={keywords[index].theme2}
-                    key7={keywords[index].theme3}
-                    mouseenter={onMouseEnter}
-                    mouseleave={onMouseLeave}
-                  />
-                ))
-              : star_graphic.map((star, index) => (
-                  <Star
-                    ref={(item) => (star_ref.current[index] = item)}
-                    key={index}
-                    title={star.song_title}
-                    x={star.x}
-                    y={star.y}
-                    size={star.size}
-                    key1={star.key1}
-                    key2={star.key2}
-                    key3={star.key3}
-                    key4={star.key4}
-                    key5={star.key5}
-                    key6={star.key6}
-                    key7={star.key7}
-                  />
-                ))}
-          </div>
-          <div style={spaceOffset} className="info_container">
-            <div className="center_star center_2"></div>
-            {star_graphic.length !== 0
-              ? star_graphic.map((star, index) => (
-                  <Info
-                    ref={(item) => (info_ref.current[index] = item)}
-                    key={index}
-                    title={star.song_title}
-                    size={star.size}
-                    x={star.x}
-                    y={star.y}
-                  />
-                ))
-              : star_graphic.map((star, index) => (
-                  <Info
-                    ref={(item) => (info_ref.current[index] = item)}
-                    key={index}
-                    size={star.size}
-                    title={star.song_title}
-                    x={star.x}
-                    y={star.y}
-                  />
-                ))}
+        <div ref={resize} className="space_wrap">
+          <div style={spacePosition} className="star_filter">
+            {/* <div style={spaceOffset} className="taurus"></div> */}
+            <div style={spaceOffset} className="product">
+              {/* <div className="center_star center_2"></div> */}
+              {keywords.length !== 0
+                ? star_graphic.map((star, index) => (
+                    <Star
+                      ref={(item) => (star_ref.current[index] = item)}
+                      key={index}
+                      title={star.song_title}
+                      x={star.x}
+                      y={star.y}
+                      size={star.size}
+                      key1={keywords[index].emotion1}
+                      key2={keywords[index].emotion2}
+                      key3={keywords[index].emotion3}
+                      key4={keywords[index].genre}
+                      key5={keywords[index].theme1}
+                      key6={keywords[index].theme2}
+                      key7={keywords[index].theme3}
+                      mouseenter={onMouseEnter}
+                      mouseleave={onMouseLeave}
+                    />
+                  ))
+                : star_graphic.map((star, index) => (
+                    <Star
+                      ref={(item) => (star_ref.current[index] = item)}
+                      key={index}
+                      title={star.song_title}
+                      x={star.x}
+                      y={star.y}
+                      size={star.size}
+                      key1={star.key1}
+                      key2={star.key2}
+                      key3={star.key3}
+                      key4={star.key4}
+                      key5={star.key5}
+                      key6={star.key6}
+                      key7={star.key7}
+                    />
+                  ))}
+            </div>
+            <div style={spaceOffset} className="info_container">
+              <div className="center_star center_2"></div>
+              {star_graphic.length !== 0
+                ? star_graphic.map((star, index) => (
+                    <Info
+                      ref={(item) => (info_ref.current[index] = item)}
+                      key={index}
+                      title={star.song_title}
+                      size={star.size}
+                      x={star.x}
+                      y={star.y}
+                    />
+                  ))
+                : star_graphic.map((star, index) => (
+                    <Info
+                      ref={(item) => (info_ref.current[index] = item)}
+                      key={index}
+                      size={star.size}
+                      title={star.song_title}
+                      x={star.x}
+                      y={star.y}
+                    />
+                  ))}
+            </div>
           </div>
         </div>
       </div>
