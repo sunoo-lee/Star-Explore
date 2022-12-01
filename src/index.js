@@ -5,6 +5,7 @@ import "./reset.css";
 import "./Style_design.css";
 import "./Navigation.css";
 import "./Player.css";
+import "./Star.css";
 import App from "./components/App";
 // import reportWebVitals from "./reportWebVitals";
 

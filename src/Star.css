@@ -1,0 +1,265 @@
+/* --------------------------------------------------------------- */
+/* ----------------------------star------------------------------ */
+/* --------------------------------------------------------------- */
+
+:root {
+  --star_0: 5px;
+  --star_1: 7px;
+  --star_2: 9px;
+  --star_3: 15px;
+  --star_4: 25px;
+  --star_5: 32px;
+  --star_blackhole: 200px;
+  --star_comet: 100px;
+  --star_cloud: 100px;
+}
+
+.taurus {
+  position: absolute;
+  transition: 0.3s;
+  top: 0px;
+  left: 0px;
+  transform: translate(0px, 0px);
+  width: 2500px;
+  height: 2000px;
+  margin-right: 500px;
+  z-index: 1000;
+  background: #333;
+  background: url("./asset/taurus.svg");
+}
+
+.container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 2000px;
+  height: 2000px;
+}
+.star_filter {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  transition: all 1s ease 0s;
+}
+.star_filter .product {
+  position: absolute;
+  transition: 0.3s;
+  top: 0px;
+  left: 0px;
+  transform: translate(0px, 0px);
+  width: 2500px;
+  height: 2000px;
+  margin-right: 500px;
+  min-width: 2500px;
+  min-height: 2000px;
+  z-index: 1000;
+}
+
+.star_filter .product .itemBox {
+  position: relative;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: 0.2s;
+}
+.star_filter .product .itemBox.hide {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.star_filter .product .itemBox .item_img {
+  width: auto;
+  height: auto;
+  padding: 10px;
+}
+
+.star_filter .product .itemBox .item_img div.img_0 {
+  width: var(--star_0);
+  height: var(--star_0);
+  background: url("./asset/img_0.svg");
+  /* padding: 10px; */
+}
+.star_filter .product .itemBox .item_img div.img_1 {
+  width: var(--star_1);
+  height: var(--star_1);
+  background: url("./asset/img_1.svg");
+}
+.star_filter .product .itemBox .item_img div.img_2 {
+  width: var(--star_2);
+  height: var(--star_2);
+  background: url("./asset/img_2.svg");
+}
+.star_filter .product .itemBox .item_img div.img_3 {
+  width: var(--star_3);
+  height: var(--star_3);
+  background: url("./asset/img_3.svg");
+}
+.star_filter .product .itemBox .item_img div.img_4 {
+  width: var(--star_4);
+  height: var(--star_4);
+  background: url("./asset/img_4.svg");
+}
+.star_filter .product .itemBox .item_img div.img_5 {
+  width: var(--star_5);
+  height: var(--star_5);
+  background: url("./asset/img_5.svg");
+}
+.star_filter .product .itemBox .item_img div.img_black {
+  width: var(--star_blackhole);
+  height: var(--star_blackhole);
+  background: url("./asset/img_black.svg");
+}
+.star_filter .product .itemBox .item_img div.img_event {
+  width: var(--star_blackhole);
+  height: var(--star_blackhole);
+  background: url("./asset/img_event.svg");
+}
+.star_filter .product .itemBox .item_img div.img_comet1 {
+  width: var(--star_comet);
+  height: var(--star_comet);
+  background: url("./asset/img_comet1.svg");
+}
+.star_filter .product .itemBox .item_img div.img_comet2 {
+  width: var(--star_cloud);
+  height: var(--star_comet);
+  background: url("./asset/img_comet2.svg");
+}
+.star_filter .product .itemBox .item_img div.img_cloud {
+  width: var(--star_cloud);
+  height: var(--star_cloud);
+  background: url("./asset/img_cloud.svg");
+}
+
+/* .star_filter .product.toggle {
+  transform: scale(0.5);
+}
+
+.star_filter .product.toggle .itemBox {
+  transition: 0.7s;
+  transition-delay: 0.3s;
+  transform: scale(2);
+} */
+
+/* @media all and (max-height: 2000px) {
+  .star_filter .product {
+    transform: translateY(-25%);
+  }
+  .star_filter .product.toggle {
+    transform: scale(0.5);
+    transform: translateY(-25%) scale(0.5);
+  }
+} */
+
+/* ----------------------info-------------------------- */
+
+.info_container {
+  position: absolute;
+  transition: 0.3s;
+  top: 0px;
+  left: 0px;
+  transform: translate(0px, 0px);
+  width: 2500px;
+  /* height: 2000px; */
+  margin-right: 500px;
+  /* min-width: 2500px; */
+  /* min-height: 2000px; */
+  z-index: 1000;
+}
+
+.song_info {
+  position: absolute;
+  z-index: 10000;
+  /* opacity: 0; */
+  /* display: block; */
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  font-size: 20px;
+  background: var(--blue_color);
+  color: var(--bg_color);
+  border-radius: var(--bd_radius);
+  transition: 0.2s;
+  transform-origin: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+}
+.song_info::before {
+  content: "";
+  height: 60px;
+  width: 1px;
+  border-left: 4px dotted var(--blue_color);
+  position: absolute;
+  left: 50%;
+  top: 35px;
+}
+
+.info_container .song_info.img_0 {
+  transform: translateX(calc(-50% - 2px)) translateY(-101px);
+}
+.info_container .song_info.img_1 {
+  transform: translateX(calc(-50% - 2px)) translateY(-102px);
+}
+.info_container .song_info.img_2 {
+  transform: translateX(calc(-50% - 2px)) translateY(-103px);
+}
+.info_container .song_info.img_3 {
+  transform: translateX(calc(-50% - 2px)) translateY(-105px);
+}
+.info_container .song_info.img_4 {
+  transform: translateX(calc(-50% - 2px)) translateY(-105px);
+}
+.info_container .song_info.img_5 {
+  transform: translateX(calc(-50% - 2px)) translateY(-105px);
+}
+.info_container .song_info.img_black {
+  transform: translateX(calc(-50% - 2px)) translateY(-150px);
+}
+.info_container .song_info.img_event {
+  transform: translateX(calc(-50% - 2px)) translateY(-150px);
+}
+.info_container .song_info.img_comet1 {
+  transform: translateX(calc(-50% - 2px)) translateY(-110px);
+}
+.info_container .song_info.img_comet2 {
+  transform: translateX(calc(-50% - 2px)) translateY(-110px);
+}
+.info_container .song_info.img_cloud {
+  transform: translateX(calc(-50% - 2px)) translateY(-140px);
+}
+
+.song_info .title {
+  display: inline-block;
+  font-size: 1em;
+  padding: 8px 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.song_info.hide {
+  display: block;
+  /* opacity: 1; */
+}
+
+.center_star {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--blue_color);
+  border: none;
+}
+.center_2 {
+  top: 1000px;
+  left: 1000px;
+  width: 20px;
+  height: 20px;
+  background: #d86969;
+}

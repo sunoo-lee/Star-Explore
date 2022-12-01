@@ -191,167 +191,12 @@ body {
   opacity: 1;
 }
 
-/* --------------------------------------------------------------- */
-/* ----------------------------star------------------------------ */
-/* --------------------------------------------------------------- */
-
-/* .container {
-} */
-.star_filter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.star_filter .product {
-  width: 2000px;
-  height: 2000px;
-  min-width: 2000px;
-  min-height: 2000px;
-  position: relative;
-  transform-origin: center;
-
-  transition: 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.star_filter .product .itemBox {
-  position: relative;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.star_filter .product .itemBox.hide {
-  visibility: hidden;
-  opacity: 0;
-}
-
-.star_filter .product .itemBox .item_img {
-  /* width: 5px; */
-  /* height: 5px; */
-}
-
-.star_filter .product .itemBox .item_img div.img_0 {
-  width: 5px;
-  height: 5px;
-  background: url("./asset/별_심벌_최종_0단계.svg");
-}
-.star_filter .product .itemBox .item_img div.img_1 {
-  width: 7px;
-  height: 7px;
-  background: url("./asset/img_1.svg");
-}
-.star_filter .product .itemBox .item_img div.img_2 {
-  width: 9px;
-  height: 9px;
-  background: url("./asset/별_심벌_최종_2단계.svg");
-}
-.star_filter .product .itemBox .item_img div.img_3 {
-  width: 15px;
-  height: 15px;
-  background: url("./asset/별_심벌_최종_3단계.svg");
-}
-.star_filter .product .itemBox .item_img div.img_4 {
-  width: 25px;
-  height: 25px;
-  background: url("./asset/별_심벌_최종_4단계.svg");
-}
-.star_filter .product .itemBox .item_img div.img_5 {
-  width: 32px;
-  height: 32px;
-  background: url("./asset/별_심벌_최종_5단계.svg");
-}
-.star_filter .product .itemBox .item_img div.img_black {
-  width: 200px;
-  height: 200px;
-  background: url("./asset/별_심벌_최종-블랙홀.svg");
-}
-.star_filter .product .itemBox .item_img div.img_event {
-  width: 200px;
-  height: 200px;
-  background: url("./asset/별_심벌_최종-사건의지평선.svg");
-}
-.star_filter .product .itemBox .item_img div.img_comet1 {
-  width: 100px;
-  height: 100px;
-  background: url("./asset/별_심벌_최종-살별.svg");
-}
-.star_filter .product .itemBox .item_img div.img_comet2 {
-  width: 100px;
-  height: 100px;
-  background: url("./asset/별_심벌_최종-혜성.svg");
-}
-.star_filter .product .itemBox .item_img div.img_cloud {
-  width: 100px;
-  height: 100px;
-  background: url("./asset/별_심벌_최종-오르트구름.svg");
-}
-
-.star_filter .product.toggle {
-  transform: scale(0.5);
-}
-
-.star_filter .product.toggle .itemBox {
-  transition: 0.7s;
-  transition-delay: 0.3s;
-  transform: scale(2);
-}
-.star_filter .product.toggle .itemBox .song_info {
-  z-index: 9999;
-  transition: 0.2s;
-}
-
-@media all and (max-height: 2000px) {
-  .star_filter .product {
-    transform: translateY(-25%);
-  }
-  .star_filter .product.toggle {
-    transform: translateY(-25%) scale(0.5);
-  }
-}
-
 @media all and (max-width: 2000px) {
 }
 
-/* ----------------------info-------------------------- */
-
-.song_info {
-  z-index: 9999;
-  position: relative;
-  transform: translateY(-100px);
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.2s;
-  font-size: 20px;
-  background: var(--blue_color);
-  color: var(--bg_color);
-  border-radius: var(--bd_radius);
-}
-.song_info::before {
-  content: "";
-  height: 60px;
-  width: 1px;
-  border-left: 4px dotted var(--blue_color);
-  position: absolute;
-  left: 50%;
-  top: 35px;
-}
-
-.song_info .title {
-  display: inline-block;
-  font-size: 1em;
-  padding: 8px 20px;
-  text-align: center;
-  font-weight: 500;
-}
-
-/* .star_filter .product.toggle .itemBox:hover .song_info {
-  visibility: visible;
-  opacity: 1;
-} */
-.item_img:hover + .song_info {
-  visibility: visible;
-  opacity: 1;
+.more_info,
+.mobile_toggle_btn {
+  display: none;
 }
 
 .anim_test {
@@ -370,18 +215,6 @@ body {
 }
 .test2 {
   left: 100px;
-}
-
-.center_star {
-  /* display: none; */
-  position: absolute;
-  top: 1000px;
-  left: 1000px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--blue_color);
-  border: none;
 }
 
 @media all and (max-width: 1023px) {

@@ -4,6 +4,10 @@ import axios from "axios";
 import Star from "../components/Star";
 import Navigation from "../components/Navigation";
 import { ReactComponent as MobileBtn } from "../asset/모바일버튼_+.svg";
+import song_graphic_data from "../song_graphic.json";
+import song_keywords_data from "../song_keywords.json";
+import song_infomation_data from "../song_infomation.json";
+import Info from "../components/Info";
 
 const Home = () => {
   const [select, setSelect] = useState([]);
@@ -11,6 +15,7 @@ const Home = () => {
   const [select_att, setSelect_att] = useState([]);
 
   const star_ref = useRef([]);
+  const info_ref = useRef([]);
 
   const [playerTag, setPlayerTag] = useState({
     key1: "#1",
@@ -256,7 +261,7 @@ const Home = () => {
     }
   }, [select_btn]);
 
-  const [resultCount, setResultCount] = useState(star_data.length);
+  const [resultCount, setResultCount] = useState(song_graphic_data.length);
   const [resultStars, setResultStar] = useState([]);
 
   useEffect(() => {
@@ -277,7 +282,7 @@ const Home = () => {
 
     let filted_count = star_ref.current
       .filter((item) => item.className === "itemBox")
-      .map((item) => item.childNodes[1].childNodes[0].innerHTML);
+      .map((item) => item.dataset.title);
 
     setResultStar(filted_count);
 
@@ -300,7 +305,7 @@ const Home = () => {
       resultStars.length === 0 ||
       resultStars.length === star_graphic.length
     ) {
-      result.current.classList.remove("active");
+      // result.current.classList.remove("active");
     }
     // eslint-disable-next-line
   }, [resultStars]);
@@ -312,8 +317,9 @@ const Home = () => {
   const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
-    setStar_graphic(star_data);
-    setResultStar(star_data);
+    setStar_graphic(song_graphic_data);
+    setResultStar(song_graphic_data);
+    setKeywords(song_keywords_data);
 
     axios
       .get("http://localhost:8080/graphics")
@@ -328,7 +334,7 @@ const Home = () => {
   const [result_list, setResult_list] = useState([]);
 
   const load_result_list = () => {
-    setResult_list(star_data);
+    setResult_list(song_keywords_data);
     const target_arr = select_att.map((item) => `${item.att}=${item.filter}`);
     const target = target_arr.join("&");
     axios
@@ -348,12 +354,32 @@ const Home = () => {
   const [toggle_state, setToggle_state] = useState(true);
   const [playerState, setPlayerState] = useState(false);
 
+  const [spacePosition, setSpacePosition] = useState([]);
+
   const select_result = (event) => {
     // 데이터 가공 코드
     const target = event.target.innerText;
     const target_star = keywords.find(
       (element) => element.song_title === target
     );
+    const target_coordinate = star_graphic.find(
+      (element) => element.song_title === target
+    );
+
+    const w_width = document.body.offsetWidth / 2;
+    const w_height = document.body.offsetHeight / 2;
+
+    const widthOffset = 1000 - target_coordinate.x;
+    const heightOffset = 1000 - target_coordinate.y;
+    console.log("w/h :", w_width, w_height);
+    // 960 487.5
+    // transform: translate(295px, -406.5px);
+    // transform: translate(295px, -406.5px);
+    // transform: "translate(365px, -900.5px)"
+
+    setSpacePosition({
+      transform: `translate(${widthOffset}px, ${heightOffset}px)`,
+    });
 
     setPlayerTag(Object.values(target_star).filter((item) => item !== ""));
 
@@ -367,10 +393,15 @@ const Home = () => {
       }
     }
 
-    nav_toggle.current[2].classList.add("active"); // more info
+    nav_toggle.current[2].classList.toggle("active"); // more info
+    nav_toggle.current[3].classList.toggle("active");
     event.target.classList.add("on");
     setPlayerState(true);
   };
+
+  useEffect(() => {
+    console.log("s pos: ", spacePosition);
+  }, [spacePosition]);
 
   const onNavToggle = () => {
     nav_toggle.current[1].classList.toggle("active"); // toggle btn
@@ -389,13 +420,66 @@ const Home = () => {
     nav_toggle.current[3].classList.add("active"); // player
   };
 
-  const space_toggle = () => {
-    resize.current.classList.toggle("toggle");
+  const [spaceOffset, setSpaceOffset] = useState([]);
+
+  const testFn = () => {
+    console.log(info_ref.current);
+  };
+
+  const space_center = () => {
+    const w_width = document.body.offsetWidth;
+    const w_height = document.body.offsetHeight;
+
+    const space_x = (2500 - w_width) / 2 - 250;
+    const space_y = (2000 - w_height) / 2;
+
+    if (space_x < 0 && space_y < 0) {
+      setSpaceOffset({
+        transform: `translate(${space_x * -1}px, ${space_y * -1}px)`,
+      });
+    } else if (space_x >= 0 && space_y < 0) {
+      setSpaceOffset({
+        transform: `translate(${space_x * -1}px, ${space_y * -1}px)`,
+      });
+    } else if (space_x < 0 && space_y >= 0) {
+      setSpaceOffset({
+        transform: `translate(${space_x * -1}px, ${space_y * -1}px)`,
+      });
+    } else if (space_x >= 0 && space_y >= 0) {
+      setSpaceOffset({
+        transform: `translate(-${space_x}px, -${space_y}px)`,
+      });
+    }
+    setSpacePosition([]);
+    console.log("w/h: ", w_width, w_height);
+    console.log("s Offset: ", space_x, space_y);
+  };
+
+  useEffect(() => {
+    space_center();
+  }, []);
+
+  const onMouseEnter = (event) => {
+    let target = event.target.parentNode.dataset.title;
+
+    const target_info = info_ref.current.find(
+      (item) => item.textContent === target
+    );
+    target_info.classList.add("hide");
+  };
+
+  const onMouseLeave = (event) => {
+    let target = event.target.parentNode.dataset.title;
+
+    const target_info = info_ref.current.find(
+      (item) => item.textContent === target
+    );
+    target_info.classList.remove("hide");
   };
 
   return (
     <>
-      <button onClick={space_toggle} className="anim_test">
+      <button onClick={testFn} className="anim_test">
         TOGGLE
       </button>
       {/* <button onClick={onResetKey} className="anim_test test2">
@@ -427,7 +511,7 @@ const Home = () => {
         </ul>
       </div>
       <div className="result_container">
-        <div ref={result} className="result_box">
+        <div ref={result} className="result_box active">
           <div className="result_header">
             result:{" "}
             {result_list
@@ -457,7 +541,7 @@ const Home = () => {
       >
         <div className="player_box">
           <div className="thumbnail">
-            {albumInfo ? (
+            {/* {albumInfo ? (
               <iframe
                 width="320"
                 height="180"
@@ -468,7 +552,7 @@ const Home = () => {
               ></iframe>
             ) : (
               ""
-            )}
+            )} */}
           </div>
           <div className="song_data">
             <div className="song_title">
@@ -521,10 +605,12 @@ const Home = () => {
           </div>
         </div>
       </div>
+
       <div className="container">
-        <div className="star_filter">
-          <div ref={resize} className="product">
-            <div className="center_star"></div>
+        <div style={spacePosition} className="star_filter">
+          <div style={spaceOffset} className="taurus"></div>
+          <div style={spaceOffset} ref={resize} className="product">
+            {/* <div className="center_star center_2"></div> */}
             {keywords.length !== 0
               ? star_graphic.map((star, index) => (
                   <Star
@@ -541,13 +627,15 @@ const Home = () => {
                     key5={keywords[index].theme1}
                     key6={keywords[index].theme2}
                     key7={keywords[index].theme3}
+                    mouseenter={onMouseEnter}
+                    mouseleave={onMouseLeave}
                   />
                 ))
               : star_graphic.map((star, index) => (
                   <Star
                     ref={(item) => (star_ref.current[index] = item)}
                     key={index}
-                    title={star.title}
+                    title={star.song_title}
                     x={star.x}
                     y={star.y}
                     size={star.size}
@@ -561,8 +649,33 @@ const Home = () => {
                   />
                 ))}
           </div>
+          <div style={spaceOffset} className="info_container">
+            <div className="center_star center_2"></div>
+            {star_graphic.length !== 0
+              ? star_graphic.map((star, index) => (
+                  <Info
+                    ref={(item) => (info_ref.current[index] = item)}
+                    key={index}
+                    title={star.song_title}
+                    size={star.size}
+                    x={star.x}
+                    y={star.y}
+                  />
+                ))
+              : star_graphic.map((star, index) => (
+                  <Info
+                    ref={(item) => (info_ref.current[index] = item)}
+                    key={index}
+                    size={star.size}
+                    title={star.song_title}
+                    x={star.x}
+                    y={star.y}
+                  />
+                ))}
+          </div>
         </div>
       </div>
+      <div className="center_star"></div>
       <div
         ref={(item) => (nav_toggle.current[2] = item)}
         onClick={onPlayerToggle}

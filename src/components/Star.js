@@ -11,6 +11,7 @@ const Star = (prop, ref) => {
     <div
       ref={ref}
       className="itemBox"
+      data-title={prop.title}
       data-key1={prop.key1}
       data-key2={prop.key2}
       data-key3={prop.key3}
@@ -20,12 +21,13 @@ const Star = (prop, ref) => {
       data-theme3={prop.key7}
       onClick={prop.onClick}
       style={style}
+      // onMouseOver={prop.mouse}
+      // onMouseOut={prop.mouse}
+      onMouseEnter={prop.mouseenter}
+      onMouseLeave={prop.mouseleave}
     >
       <div className="item_img">
         <div className={prop.size}></div>
-      </div>
-      <div className="song_info">
-        <span className="title">{prop.title}</span>
       </div>
     </div>
   );
