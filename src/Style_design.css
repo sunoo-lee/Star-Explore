@@ -269,6 +269,7 @@ body {
   }
   .mobile_toggle_btn {
     position: fixed;
+    display: block;
     z-index: 11000;
     bottom: 70px;
     width: 50px;

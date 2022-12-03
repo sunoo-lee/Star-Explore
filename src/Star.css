@@ -10,6 +10,7 @@
   --star_4: 25px;
   --star_5: 32px;
   --star_blackhole: 200px;
+  --star_event: 60px;
   --star_comet: 100px;
   --star_cloud: 100px;
 }
@@ -111,11 +112,14 @@
   width: var(--star_blackhole);
   height: var(--star_blackhole);
   background: url("./asset/img_black.svg");
+  margin: 25px;
 }
 .star_filter .product .itemBox .item_img div.img_event {
-  width: var(--star_blackhole);
-  height: var(--star_blackhole);
+  width: var(--star_event);
+  height: var(--star_event);
   background: url("./asset/img_event.svg");
+  background-size: 200px 200px;
+  background-position: center;
 }
 .star_filter .product .itemBox .item_img div.img_comet1 {
   width: var(--star_comet);
@@ -158,18 +162,13 @@
   left: 0px;
   transform: translate(0px, 0px);
   width: 2500px;
-  /* height: 2000px; */
   margin-right: 500px;
-  /* min-width: 2500px; */
-  /* min-height: 2000px; */
   z-index: 1000;
 }
 
 .song_info {
   position: absolute;
   z-index: 10000;
-  /* opacity: 0; */
-  /* display: block; */
   display: none;
   flex-direction: column;
   align-items: center;
@@ -192,6 +191,9 @@
   left: 50%;
   top: 35px;
 }
+.song_info.img_black::before {
+  height: 80px;
+}
 
 .info_container .song_info.img_0 {
   transform: translateX(calc(-50% - 2px)) translateY(-101px);
@@ -212,10 +214,10 @@
   transform: translateX(calc(-50% - 2px)) translateY(-105px);
 }
 .info_container .song_info.img_black {
-  transform: translateX(calc(-50% - 2px)) translateY(-150px);
+  transform: translateX(calc(-50% - 2px)) translateY(-170px);
 }
 .info_container .song_info.img_event {
-  transform: translateX(calc(-50% - 2px)) translateY(-150px);
+  transform: translateX(calc(-50% - 2px)) translateY(-125px);
 }
 .info_container .song_info.img_comet1 {
   transform: translateX(calc(-50% - 2px)) translateY(-110px);

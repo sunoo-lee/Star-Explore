@@ -54,6 +54,12 @@ const Navigation = (prop, ref) => {
     resetValue,
   }));
 
+  const resetBtn = () => {
+    for (let i = 0; i < keyBtn_ref.current.length; ++i) {
+      keyBtn_ref.current[i].classList.remove("on");
+    }
+  };
+
   const recommend = useRef();
   const [data, setData] = useState([]);
 
@@ -94,9 +100,6 @@ const Navigation = (prop, ref) => {
 
   return (
     <nav ref={nav_toggle} className={`nav ${nav}`}>
-      {/* <div className="nav_header">
-        <div className="header_top"></div>
-      </div> */}
       <div className="title_search">
         <div className="search_top">
           <h2>SEARCH</h2>
@@ -133,9 +136,9 @@ const Navigation = (prop, ref) => {
                 data.map((item, index) => (
                   <li
                     onClick={(event) => {
-                      prop.onClickResult(event);
-                      prop.onResetKey();
                       setValue("");
+                      prop.onResetKey();
+                      prop.onClickResult(event);
                     }}
                     className="item"
                     key={index}
@@ -168,7 +171,13 @@ const Navigation = (prop, ref) => {
               className="tab_button"
             ></div>
           </div>
-          <div onClick={prop.onResetKey} className="refresh_btn">
+          <div
+            onClick={() => {
+              resetBtn();
+              prop.onResetKey();
+            }}
+            className="refresh_btn"
+          >
             <Refresh />
           </div>
         </div>

@@ -6,7 +6,7 @@ import Navigation from "../components/Navigation";
 import { ReactComponent as MobileBtn } from "../asset/모바일버튼_+.svg";
 import song_graphic_data from "../song_graphic.json";
 import song_keywords_data from "../song_keywords.json";
-import song_infomation_data from "../song_infomation.json";
+// import song_infomation_data from "../song_infomation.json";
 import Info from "../components/Info";
 
 const Home = () => {
@@ -17,16 +17,23 @@ const Home = () => {
   const star_ref = useRef([]);
   const info_ref = useRef([]);
 
-  const [playerTag, setPlayerTag] = useState({
-    key1: "#1",
-    key2: "#2",
-    key3: "#3",
-    key4: "#4",
-    key5: "#5",
-    key6: "#6",
-    key7: "#7",
-    title: "title",
-  });
+  const [playerTag, setPlayerTag] = useState([
+    "#1",
+    "#2",
+    "#3",
+    "#4",
+    "#5",
+    "#6",
+  ]);
+
+  const [playerKey, setPlayerKey] = useState([
+    { data: "따뜻한", keyword: "emotion1" },
+    { data: "시니컬한", keyword: "emotion1" },
+    { data: "시원한", keyword: "emotion1" },
+    { data: "그리운", keyword: "emotion2" },
+    { data: "나른한", keyword: "emotion2" },
+    { data: "벅차는", keyword: "emotion2" },
+  ]);
 
   const keyword_list_1 = [
     { data: "따뜻한", keyword: "emotion1" },
@@ -217,6 +224,7 @@ const Home = () => {
   const [keyState, setKeyState] = useState(false);
 
   const onKeyClick = (event) => {
+    reset_info_toggle();
     const keyword_btn = event.target;
     const btn_keyword = event.target.innerText;
     const btn_value = keyword_btn.parentElement.dataset.filter;
@@ -244,21 +252,109 @@ const Home = () => {
       } else if (keyword_btn.className === "btn") {
         setSelect(select.filter((key) => key !== btn_keyword));
         setSelect_btn(select_btn.filter((key) => key !== btn_value));
-        setSelect_att(select_att.filter((key) => key !== btn_att));
+        setSelect_att(
+          select_att.filter((key) => key.filter !== btn_att.filter)
+        );
+      }
+    }
+
+    if (playerState) {
+      for (let i = 0; i < 6; ++i) {
+        if (
+          song_keyword.current.childNodes[i].childNodes[0].innerText ===
+            btn_keyword &&
+          keyword_btn.className === "btn on"
+        ) {
+          song_keyword.current.childNodes[i].childNodes[0].classList.add("on");
+        } else if (
+          song_keyword.current.childNodes[i].childNodes[0].innerText ===
+            btn_keyword &&
+          keyword_btn.className === "btn"
+        ) {
+          song_keyword.current.childNodes[i].childNodes[0].classList.remove(
+            "on"
+          );
+        }
+      }
+    } else {
+      return;
+    }
+  };
+
+  const onPlayerKeyClick = (event) => {
+    if (event.target.innerText === "-") {
+      return;
+    }
+    // const keyword_combine = [
+    //   ...keyword_list_1,
+    //   ...keyword_list_2,
+    //   ...keyword_list_3,
+    // ];
+    const keyword_btn = event.target;
+    const target_data = keyword_btn.innerText;
+    // const target_list = keyword_combine.find(
+    //   (item) => item.data === target_data
+    // );
+    let target_att = { filter: "", att: "" };
+    let target_value = "-";
+    if (target_data) {
+      // target_att = { filter: target_data, att: target_list.keyword };
+      target_value = keyword_btn.parentNode.dataset.filter;
+      target_att = keyword_btn.parentNode.dataset;
+    }
+
+    // 최대 6개 선택
+    if (select_btn.length === 6) {
+      if (keyword_btn.className === "btn on") {
+        keyword_btn.classList.toggle("on");
+        setSelect(select.filter((key) => key !== target_data));
+        setSelect_btn(select_btn.filter((key) => key !== target_value));
+        setSelect_att(select_att.filter((key) => key !== target_att));
+        return;
+      }
+    } else if (select_btn.length < 6) {
+      keyword_btn.classList.toggle("on");
+      if (keyword_btn.className === "btn on") {
+        setKeyState(true);
+        setSelect([...select, target_data]);
+        setSelect_btn([...select_btn, target_value]);
+        setSelect_att([...select_att, target_att]);
+      } else if (keyword_btn.className === "btn") {
+        setSelect(select.filter((key) => key !== target_value));
+        setSelect_btn(select_btn.filter((key) => key !== target_value));
+        setSelect_att(
+          select_att.filter((key) => key.filter !== target_att.filter)
+        );
+        // console.dir(select_att);
       }
     }
   };
 
   const onResetKey = () => {
+    setSpacePosition([]);
+    setKeyState(false);
+    reset_info_toggle();
+    for (let i = 0; i < result_list.length; ++i) {
+      result.current.childNodes[1].childNodes[0].childNodes[i].classList.remove(
+        "on"
+      );
+    }
+    for (let i = 0; i < song_keyword.current.childNodes.length; ++i) {
+      const target = song_keyword.current.childNodes[i].childNodes[0];
+      target.classList.remove("on");
+    }
     setSelect_btn([]);
     setSelect_att([]);
-    setKeyState(false);
+    setSelect([]);
   };
 
   useEffect(() => {
     if (select_btn.length === 0) {
       setKeyState(false);
+      setSelect_att([]);
     }
+    // console.log(select_btn);
+    // console.log(select_att);
   }, [select_btn]);
 
   const [resultCount, setResultCount] = useState(song_graphic_data.length);
@@ -305,7 +401,7 @@ const Home = () => {
       resultStars.length === 0 ||
       resultStars.length === star_graphic.length
     ) {
-      // result.current.classList.remove("active");
+      result.current.classList.remove("active");
     }
     // eslint-disable-next-line
   }, [resultStars]);
@@ -336,16 +432,54 @@ const Home = () => {
   const load_result_list = () => {
     setResult_list(song_keywords_data);
     const target_arr = select_att.map((item) => `${item.att}=${item.filter}`);
+    // console.log("target_arr: ", target_arr);
     const target = target_arr.join("&");
+    // console.log("target: ", target);
     axios
       .get(`http://localhost:8080/keywords/list?${target}`)
       .then((response) => setResult_list(response.data));
   };
 
+  const navKeyControl = () => {
+    const target_path =
+      nav_toggle.current[0].childNodes[0].childNodes[1].childNodes[1];
+    const key_1 = target_path.childNodes[0].children[1].childNodes;
+    const key_2 = target_path.childNodes[1].children[1].childNodes;
+    const key_3 = target_path.childNodes[2].children[1].childNodes;
+
+    for (let i = 0; i < key_1.length; ++i) {
+      if (select.find((item) => item === key_1[i].dataset.filter)) {
+        key_1[i].childNodes[0].classList.add("on");
+      } else {
+        key_1[i].childNodes[0].classList.remove("on");
+      }
+    }
+    for (let i = 0; i < key_2.length; ++i) {
+      if (select.find((item) => item === key_2[i].dataset.filter)) {
+        key_2[i].childNodes[0].classList.add("on");
+      } else {
+        key_2[i].childNodes[0].classList.remove("on");
+      }
+    }
+    for (let i = 0; i < key_3.length; ++i) {
+      if (select.find((item) => item === key_3[i].dataset.filter)) {
+        key_3[i].childNodes[0].classList.add("on");
+      } else {
+        key_3[i].childNodes[0].classList.remove("on");
+      }
+    }
+  };
+
   useEffect(() => {
+    navKeyControl();
     load_result_list();
     // eslint-disable-next-line
   }, [select_att]);
+
+  useEffect(() => {
+    load_result_list();
+    // eslint-disable-next-line
+  }, [select]);
 
   const [albumInfo, setAlbumInfo] = useState();
   const nav_toggle = useRef([]);
@@ -370,14 +504,8 @@ const Home = () => {
       (element) => element.song_title === target
     );
 
-    // console.dir(star_ref.current[test_target].classList);
-
-    const w_width = document.body.offsetWidth / 2;
-    const w_height = document.body.offsetHeight / 2;
-
     const widthOffset = 1000 - target_coordinate.x;
     const heightOffset = 1000 - target_coordinate.y;
-    console.log("w/h :", w_width, w_height);
     // 960 487.5
     // transform: translate(295px, -406.5px);
     // transform: translate(295px, -406.5px);
@@ -387,7 +515,15 @@ const Home = () => {
       transform: `translate(${widthOffset}px, ${heightOffset}px)`,
     });
 
-    setPlayerTag(Object.values(target_star).filter((item) => item !== ""));
+    const tag_array = Object.values(target_star)
+      .filter((item) => item !== "")
+      .filter((item) => item !== null);
+
+    for (let i = tag_array.length; i < 7; ++i) {
+      tag_array.push("-");
+    }
+
+    setPlayerTag(tag_array.filter((item) => item !== null));
 
     axios
       .get(`http://localhost:8080/information/search=${target}`)
@@ -396,19 +532,87 @@ const Home = () => {
     if (toggle_state) {
       for (let i = 0; i < result_list.length; ++i) {
         event.target.parentNode.childNodes[i].classList.remove("on");
-        info_ref.current[i].classList.remove("active");
       }
+      reset_info_toggle();
     }
+
     info_ref.current[test_target].classList.add("active"); //song info
     nav_toggle.current[2].classList.toggle("active"); // more info
     nav_toggle.current[3].classList.add("active"); // song data
     event.target.classList.add("on");
+    onSetPlayerTagData();
     setPlayerState(true);
+  };
+  useEffect(() => {
+    onSetPlayerTagData();
+    // eslint-disable-next-line
+  }, [playerState, playerTag]);
+
+  const onSetPlayerTagData = () => {
+    const keyword_combine = [
+      ...keyword_list_1,
+      ...keyword_list_2,
+      ...keyword_list_3,
+    ];
+
+    const keyword_btn = playerTag.map((item) =>
+      keyword_combine.find((target) => target.data === item)
+    );
+    keyword_btn.shift();
+    setPlayerKey(keyword_btn);
+  };
+
+  const select_search_result = (event) => {
+    const target = event.target.innerText;
+
+    axios
+      .get(`http://localhost:8080/information/search=${target}`)
+      .then((response) => setAlbumInfo(response.data));
+
+    const target_star = keywords.find(
+      (element) => element.song_title === target
+    );
+    const target_coordinate = star_graphic.find(
+      (element) => element.song_title === target
+    );
+
+    const test_target = star_graphic.findIndex(
+      (element) => element.song_title === target
+    );
+
+    const widthOffset = 1000 - target_coordinate.x;
+    const heightOffset = 1000 - target_coordinate.y;
+
+    setSpacePosition({
+      transform: `translate(${widthOffset}px, ${heightOffset}px)`,
+    });
+    reset_info_toggle();
+
+    setPlayerTag(Object.values(target_star).filter((item) => item !== ""));
+
+    info_ref.current[test_target].classList.add("active"); //song info
+    nav_toggle.current[2].classList.toggle("active"); // more info
+    nav_toggle.current[3].classList.add("active"); // song data
   };
 
   useEffect(() => {
-    console.log("s pos: ", spacePosition);
-  }, [spacePosition]);
+    for (let i = 0; i < song_keyword.current.childNodes.length; ++i) {
+      const target = song_keyword.current.childNodes[i].childNodes[0];
+      const target_list = select.find((item) => item === target.innerText);
+      if (target_list) {
+        target.classList.add("on");
+      } else {
+        target.classList.remove("on");
+      }
+    }
+    // eslint-disable-next-line
+  }, [playerTag]);
+
+  const reset_info_toggle = () => {
+    for (let i = 0; i < info_ref.current.length; ++i) {
+      info_ref.current[i].classList.remove("active");
+    }
+  };
 
   const onNavToggle = () => {
     nav_toggle.current[1].classList.toggle("active"); // toggle btn
@@ -454,17 +658,20 @@ const Home = () => {
       });
     }
     setSpacePosition([]);
-    console.log("w/h: ", w_width, w_height);
-    console.log("s Offset: ", space_x, space_y);
   };
 
   useEffect(() => {
     space_center();
+    // onSetPlayerTagOn();
   }, []);
 
   const onMouseEnter = (event) => {
-    let target = event.target.parentNode.dataset.title;
-
+    let target;
+    if (event.target.className === "item_img") {
+      target = event.target.parentNode.dataset.title;
+    } else {
+      target = event.target.parentNode.parentNode.dataset.title;
+    }
     const target_info = info_ref.current.find(
       (item) => item.textContent === target
     );
@@ -472,8 +679,12 @@ const Home = () => {
   };
 
   const onMouseLeave = (event) => {
-    let target = event.target.parentNode.dataset.title;
-
+    let target;
+    if (event.target.className === "item_img") {
+      target = event.target.parentNode.dataset.title;
+    } else {
+      target = event.target.parentNode.parentNode.dataset.title;
+    }
     const target_info = info_ref.current.find(
       (item) => item.textContent === target
     );
@@ -503,7 +714,8 @@ const Home = () => {
           keyword_list_3={keyword_list_3}
           onClick={onKeyClick}
           onResetKey={onResetKey}
-          onClickResult={select_result}
+          onClickResult={select_search_result}
+          // onClickResult={select_result}
           playerTag={playerTag}
           keyState={keyState}
         />
@@ -518,7 +730,7 @@ const Home = () => {
         </ul>
       </div>
       <div className="result_container">
-        <div ref={result} className="result_box active">
+        <div ref={result} className="result_box">
           <div className="result_header">
             result:{" "}
             {result_list
@@ -548,7 +760,7 @@ const Home = () => {
       >
         <div className="player_box">
           <div className="thumbnail">
-            {/* {albumInfo ? (
+            {albumInfo ? (
               <iframe
                 width="320"
                 height="180"
@@ -559,7 +771,7 @@ const Home = () => {
               ></iframe>
             ) : (
               ""
-            )} */}
+            )}
           </div>
           <div className="song_data">
             <div className="song_title">
@@ -590,24 +802,25 @@ const Home = () => {
               )}
             </div>
             <ul ref={song_keyword} className="keyword_list">
-              <li>
-                <span className="btn">{playerTag[1] ? playerTag[1] : "-"}</span>
-              </li>
-              <li>
-                <span className="btn">{playerTag[2] ? playerTag[2] : "-"}</span>
-              </li>
-              <li>
-                <span className="btn">{playerTag[3] ? playerTag[3] : "-"}</span>
-              </li>
-              <li>
-                <span className="btn">{playerTag[4] ? playerTag[4] : "-"}</span>
-              </li>
-              <li>
-                <span className="btn">{playerTag[5] ? playerTag[5] : "-"}</span>
-              </li>
-              <li>
-                <span className="btn">{playerTag[6] ? playerTag[6] : "-"}</span>
-              </li>
+              {playerKey
+                ? playerKey.map((item, index) => (
+                    <li
+                      key={index}
+                      data-filter={item ? item.data : ""}
+                      data-att={item ? item.keyword : ""}
+                    >
+                      <span
+                        onClick={onPlayerKeyClick}
+                        // className={
+                        //   PlayerClass[index] ? PlayerClass[index] : "btn"
+                        // }
+                        className="btn"
+                      >
+                        {playerTag[index + 1] ? playerTag[index + 1] : "-"}
+                      </span>
+                    </li>
+                  ))
+                : ""}
             </ul>
           </div>
         </div>

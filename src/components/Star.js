@@ -21,10 +21,10 @@ const Star = (prop, ref) => {
       data-theme3={prop.key7}
       onClick={prop.onClick}
       style={style}
-      // onMouseOver={prop.mouse}
-      // onMouseOut={prop.mouse}
-      onMouseEnter={prop.mouseenter}
-      onMouseLeave={prop.mouseleave}
+      onMouseOver={prop.mouseenter}
+      onMouseOut={prop.mouseleave}
+      // onMouseEnter={prop.mouseenter}
+      // onMouseLeave={prop.mouseleave}
     >
       <div className="item_img">
         <div className={prop.size}></div>
