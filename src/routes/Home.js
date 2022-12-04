@@ -8,6 +8,8 @@ import song_graphic_data from "../song_graphic.json";
 import song_keywords_data from "../song_keywords.json";
 // import song_infomation_data from "../song_infomation.json";
 import Info from "../components/Info";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 const Home = () => {
   const [select, setSelect] = useState([]);
@@ -528,7 +530,8 @@ const Home = () => {
     );
 
     const widthOffset = 1000 - target_coordinate.x;
-    const heightOffset = 1000 - target_coordinate.y;
+    // const heightOffset = 1000 - target_coordinate.y; // scale 1.0
+    const heightOffset = 1100 - target_coordinate.y; // scale 1.3
     // 960 487.5
     // transform: translate(295px, -406.5px);
     // transform: translate(295px, -406.5px);
@@ -561,7 +564,8 @@ const Home = () => {
 
     info_ref.current[test_target].classList.add("active"); //song info
     nav_toggle.current[2].classList.add("active"); // more info
-    // nav_toggle.current[3].classList.add("active"); // song data
+    nav_toggle.current[3].classList.remove("hide"); // song data
+    // nav_toggle.current[3].classList.add("minimize"); // song data
     resize.current.classList.add("active");
     event.target.classList.add("on");
     onSetPlayerTagData();
@@ -723,9 +727,29 @@ const Home = () => {
     target_info.classList.remove("hide");
   };
 
-  const testFn = () => {
-    resize.current.classList.toggle("active");
+  const song_title_ref = useRef("");
+
+  const playerBtnToggle = () => {
+    nav_toggle.current[3].classList.toggle("minimize");
   };
+
+  const testFn = () => {
+    // resize.current.classList.toggle("active");
+  };
+
+  useEffect(() => {
+    const target = song_title_ref.current.childNodes[0].childNodes[0];
+    if (albumInfo) {
+      const title_length = albumInfo[0].album_title.length;
+      if (title_length > 30) {
+        target.parentNode.style.fontSize = "12px";
+      } else if (title_length <= 30) {
+        target.parentNode.style.fontSize = "14px";
+      }
+    } else {
+      return;
+    }
+  }, [albumInfo]);
 
   return (
     <>
@@ -789,7 +813,7 @@ const Home = () => {
       </div>
       <div
         ref={(item) => (nav_toggle.current[3] = item)}
-        className="player_container"
+        className="player_container hide"
       >
         <div className="player_box">
           <div className="thumbnail">
@@ -810,7 +834,7 @@ const Home = () => {
             <div className="song_title">
               {playerTag[0] ? playerTag[0] : "-"}
             </div>
-            <div className="song_detail">
+            <div ref={song_title_ref} className="song_detail">
               {albumInfo ? (
                 albumInfo[0].recommend !== 0 ? (
                   <>
@@ -855,6 +879,9 @@ const Home = () => {
                   ))
                 : ""}
             </ul>
+          </div>
+          <div onClick={playerBtnToggle} className="player_toggle_btn">
+            <FontAwesomeIcon icon={faChevronUp} />
           </div>
         </div>
       </div>
