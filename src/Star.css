@@ -8,7 +8,7 @@
   --star_2: 9px;
   --star_3: 15px;
   --star_4: 25px;
-  --star_5: 32px;
+  --star_5: 36px;
   --star_blackhole: 200px;
   --star_event: 60px;
   --star_comet: 100px;
@@ -80,6 +80,7 @@
 .star_filter .product .itemBox .item_img div.img_0 {
   width: var(--star_0);
   height: var(--star_0);
+  /* background: url("./asset/img_0.svg"); */
   background: url("./asset/img_0.svg");
   /* padding: 10px; */
 }
@@ -106,6 +107,7 @@
 .star_filter .product .itemBox .item_img div.img_5 {
   width: var(--star_5);
   height: var(--star_5);
+  /* background: url("./asset/img_5.svg"); */
   background: url("./asset/img_5.svg");
 }
 .star_filter .product .itemBox .item_img div.img_black {
@@ -139,10 +141,11 @@
 .space_wrap {
   height: 100%;
   transform-origin: center;
-  transition: 0.3s;
+  transition: 0.5s;
+  transform: scale(1.3);
 }
 .space_wrap.active {
-  transform: scale(0.9);
+  transform: scale(1);
 }
 
 /* 

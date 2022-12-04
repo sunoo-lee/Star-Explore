@@ -6,9 +6,9 @@ import React, {
   useImperativeHandle,
 } from "react";
 import axios from "axios";
-import { ReactComponent as Refresh } from "../asset/키워드_초기화.svg";
-import { ReactComponent as Search } from "../asset/찾아보기_돋보기.svg";
-import { ReactComponent as Enter } from "../asset/찾아보기_엔터.svg";
+import { ReactComponent as Refresh } from "../asset/reset.svg";
+import { ReactComponent as Search } from "../asset/search.svg";
+import { ReactComponent as Enter } from "../asset/arrow.svg";
 
 const Navigation = (prop, ref) => {
   const toggleBtn = useRef([]);
@@ -174,7 +174,7 @@ const Navigation = (prop, ref) => {
           <div
             onClick={() => {
               resetBtn();
-              prop.onResetKey();
+              prop.onResetPos();
             }}
             className="refresh_btn"
           >

@@ -254,7 +254,8 @@ body {
   }
   .result_box.active .result_list {
     padding: 0px 12.5px 0px 20px;
-    max-height: 220px;
+    max-height: 200px;
+    max-height: 22vh;
   }
 
   .result_box .result_list ul li {

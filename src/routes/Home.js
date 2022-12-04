@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Star from "../components/Star";
 import Navigation from "../components/Navigation";
-import { ReactComponent as MobileBtn } from "../asset/모바일버튼_+.svg";
+import { ReactComponent as MobileBtn } from "../asset/mobile_btn.svg";
 import song_graphic_data from "../song_graphic.json";
 import song_keywords_data from "../song_keywords.json";
 // import song_infomation_data from "../song_infomation.json";
@@ -331,6 +331,24 @@ const Home = () => {
   };
 
   const onResetKey = () => {
+    setKeyState(false);
+    reset_info_toggle();
+    for (let i = 0; i < result_list.length; ++i) {
+      result.current.childNodes[1].childNodes[0].childNodes[i].classList.remove(
+        "on"
+      );
+    }
+    for (let i = 0; i < song_keyword.current.childNodes.length; ++i) {
+      const target = song_keyword.current.childNodes[i].childNodes[0];
+      target.classList.remove("on");
+    }
+    setSelect_btn([]);
+    setSelect_att([]);
+    setSelect([]);
+    setSpacePosition([]);
+  };
+
+  const onResetPos = () => {
     setSpacePosition([]);
     setKeyState(false);
     reset_info_toggle();
@@ -343,6 +361,7 @@ const Home = () => {
       const target = song_keyword.current.childNodes[i].childNodes[0];
       target.classList.remove("on");
     }
+    resize.current.classList.remove("active");
     setSelect_btn([]);
     setSelect_att([]);
     setSelect([]);
@@ -386,10 +405,14 @@ const Home = () => {
     setResultCount(count);
 
     if (select_btn.length > 0 && resultCount > 0) {
-      resize.current.classList.add("toggle");
+      resize.current.classList.add("active");
+      console.log("toggle test");
     } else if (select_btn.length === 0) {
-      resize.current.classList.remove("toggle");
-      setResultCount(star_data.length);
+      // onResetKey();
+
+      // resize.current.classList.remove("active");
+      // setResultCount(star_data.length);
+      console.log("toggle test2");
     }
     // eslint-disable-next-line
   }, [select_btn]);
@@ -537,8 +560,9 @@ const Home = () => {
     }
 
     info_ref.current[test_target].classList.add("active"); //song info
-    nav_toggle.current[2].classList.toggle("active"); // more info
-    nav_toggle.current[3].classList.add("active"); // song data
+    nav_toggle.current[2].classList.add("active"); // more info
+    // nav_toggle.current[3].classList.add("active"); // song data
+    resize.current.classList.add("active");
     event.target.classList.add("on");
     onSetPlayerTagData();
     setPlayerState(true);
@@ -580,6 +604,13 @@ const Home = () => {
       (element) => element.song_title === target
     );
 
+    // const widthOffset = 1000 - target_coordinate.x;
+    // const heightOffset = 1000 - target_coordinate.y;
+
+    // setSpacePosition({
+    //   transform: `translate(${widthOffset}px, ${heightOffset}px)`,
+    // });
+
     const widthOffset = 1000 - target_coordinate.x;
     const heightOffset = 1000 - target_coordinate.y;
 
@@ -591,8 +622,9 @@ const Home = () => {
     setPlayerTag(Object.values(target_star).filter((item) => item !== ""));
 
     info_ref.current[test_target].classList.add("active"); //song info
-    nav_toggle.current[2].classList.toggle("active"); // more info
-    nav_toggle.current[3].classList.add("active"); // song data
+    nav_toggle.current[2].classList.add("active"); // more info
+    // nav_toggle.current[3].classList.add("active"); // song data
+    resize.current.classList.add("active");
   };
 
   useEffect(() => {
@@ -697,9 +729,9 @@ const Home = () => {
 
   return (
     <>
-      <button onClick={testFn} className="anim_test">
+      {/* <button onClick={testFn} className="anim_test">
         TOGGLE
-      </button>
+      </button> */}
       {/* <button onClick={onResetKey} className="anim_test test2">
         {toggle_state}
       </button> */}
@@ -714,6 +746,7 @@ const Home = () => {
           keyword_list_3={keyword_list_3}
           onClick={onKeyClick}
           onResetKey={onResetKey}
+          onResetPos={onResetPos}
           onClickResult={select_search_result}
           // onClickResult={select_result}
           playerTag={playerTag}
@@ -760,7 +793,7 @@ const Home = () => {
       >
         <div className="player_box">
           <div className="thumbnail">
-            {albumInfo ? (
+            {/* {albumInfo ? (
               <iframe
                 width="320"
                 height="180"
@@ -771,7 +804,7 @@ const Home = () => {
               ></iframe>
             ) : (
               ""
-            )}
+            )} */}
           </div>
           <div className="song_data">
             <div className="song_title">
@@ -831,7 +864,7 @@ const Home = () => {
           <div style={spacePosition} className="star_filter">
             {/* <div style={spaceOffset} className="taurus"></div> */}
             <div style={spaceOffset} className="product">
-              {/* <div className="center_star center_2"></div> */}
+              <div className="center_star center_2"></div>
               {keywords.length !== 0
                 ? star_graphic.map((star, index) => (
                     <Star

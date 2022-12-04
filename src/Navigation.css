@@ -151,7 +151,8 @@
   font-size: 22px;
 }
 .nav #recommend {
-  opacity: 0;
+  /* opacity: 0; */
+  display: none;
   padding-top: 45px;
   z-index: 100;
   position: absolute;
@@ -176,7 +177,8 @@
   height: 20px;
 }
 .nav #recommend.active {
-  opacity: 1;
+  /* opacity: 1; */
+  display: block;
 }
 
 @media all and (max-width: 1023px) {
