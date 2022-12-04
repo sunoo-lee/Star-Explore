@@ -348,6 +348,7 @@ const Home = () => {
     setSelect_att([]);
     setSelect([]);
     setSpacePosition([]);
+    nav_toggle.current[3].classList.add("hide");
   };
 
   const onResetPos = () => {
@@ -364,6 +365,7 @@ const Home = () => {
       target.classList.remove("on");
     }
     resize.current.classList.remove("active");
+    nav_toggle.current[3].classList.add("hide");
     setSelect_btn([]);
     setSelect_att([]);
     setSelect([]);
@@ -414,6 +416,7 @@ const Home = () => {
 
       // resize.current.classList.remove("active");
       // setResultCount(star_data.length);
+      nav_toggle.current[3].classList.add("hide");
       console.log("toggle test2");
     }
     // eslint-disable-next-line
@@ -739,12 +742,25 @@ const Home = () => {
 
   useEffect(() => {
     const target = song_title_ref.current.childNodes[0].childNodes[0];
+    const width = document.body.offsetWidth;
     if (albumInfo) {
       const title_length = albumInfo[0].album_title.length;
+      const mobile_length =
+        target.parentNode.parentNode.parentNode.childNodes[0].childNodes[0]
+          .length;
+      const target_font = target.parentNode.parentNode.parentNode.childNodes[0];
       if (title_length > 30) {
         target.parentNode.style.fontSize = "12px";
       } else if (title_length <= 30) {
         target.parentNode.style.fontSize = "14px";
+      }
+      if (width < 820 && mobile_length > 9) {
+        target_font.style.fontSize = `${(width * 0.6) / 11}px`;
+        target_font.style.lineHeight = `${(width * 0.6) / 11}px`;
+        console.log(mobile_length);
+      } else {
+        target_font.style.fontSize = "";
+        target_font.style.lineHeight = "";
       }
     } else {
       return;

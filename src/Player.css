@@ -211,8 +211,10 @@
     margin: auto;
   }
   .player_box .song_data .song_title {
+    word-break: keep-all;
     width: auto;
-    font-size: 30px;
+    max-width: 60vw;
+    font-size: 28px;
     margin-bottom: 27px;
   }
   .player_box .song_data .song_detail {
@@ -229,6 +231,8 @@
   }
   .minimize .player_box .song_data .song_title {
     font-size: 14px;
+    width: 100%;
+    max-width: 100%;
   }
   .minimize .player_toggle_btn {
     width: 17px;
