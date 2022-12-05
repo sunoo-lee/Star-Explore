@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Star-Explore/static/css/main.d5fbcb9e.css",
-    "main.js": "/Star-Explore/static/js/main.c3f804f5.js",
+    "main.css": "/Star-Explore/static/css/main.a44c91a2.css",
+    "main.js": "/Star-Explore/static/js/main.6d4fc9ad.js",
     "static/media/img_black.svg": "/Star-Explore/static/media/img_black.8b8890204ffe3703cd98.svg",
     "static/media/img_cloud.svg": "/Star-Explore/static/media/img_cloud.0b646e115b49757e69a89f546682dc6b.svg",
     "static/media/img_comet2.svg": "/Star-Explore/static/media/img_comet2.33402b0f60b02274ae2b.svg",
@@ -19,11 +19,11 @@
     "static/media/reset.svg": "/Star-Explore/static/media/reset.ddb231c944060f7c1d0f0441b4555c0d.svg",
     "static/media/arrow.svg": "/Star-Explore/static/media/arrow.4f4a2701c55f0f6152066e6c021978e3.svg",
     "static/media/search.svg": "/Star-Explore/static/media/search.ecdfd1f898c05ab9ea0a3b8d0cb2f704.svg",
-    "main.d5fbcb9e.css.map": "/Star-Explore/static/css/main.d5fbcb9e.css.map",
-    "main.c3f804f5.js.map": "/Star-Explore/static/js/main.c3f804f5.js.map"
+    "main.a44c91a2.css.map": "/Star-Explore/static/css/main.a44c91a2.css.map",
+    "main.6d4fc9ad.js.map": "/Star-Explore/static/js/main.6d4fc9ad.js.map"
   },
   "entrypoints": [
-    "static/css/main.d5fbcb9e.css",
-    "static/js/main.c3f804f5.js"
+    "static/css/main.a44c91a2.css",
+    "static/js/main.6d4fc9ad.js"
   ]
 }
