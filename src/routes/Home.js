@@ -74,7 +74,7 @@ const Home = () => {
     { data: "J-POP", keyword: "genre" },
     { data: "OST", keyword: "genre" },
     { data: "POP", keyword: "genre" },
-    { data: "R&B", keyword: "genre" },
+    { data: "RnB", keyword: "genre" },
     { data: "랩/힙합", keyword: "genre" },
     { data: "Rock", keyword: "genre" },
     { data: "발라드", keyword: "genre" },
@@ -331,6 +331,22 @@ const Home = () => {
         // console.dir(select_att);
       }
     }
+    toggleResultListOn();
+  };
+
+  const toggleResultListOn = () => {
+    const target = result.current.childNodes[1].childNodes[0];
+    const target_title = albumInfo[albumInfo.length - 1].song_title;
+    console.log(target_title);
+    for (let i = 0; i < target.childNodes.length; ++i) {
+      // console.dir(target.childNodes[i]);
+      // console.dir(target_title);
+      if (target.childNodes[i].textContent === target_title) {
+        target.childNodes[i].classList.add("on");
+      } else {
+        target.childNodes[i].classList.remove("on");
+      }
+    }
   };
 
   const onResetKey = () => {
@@ -411,14 +427,12 @@ const Home = () => {
 
     if (select_btn.length > 0 && resultCount > 0) {
       resize.current.classList.add("active");
-      console.log("toggle test");
     } else if (select_btn.length === 0) {
       // onResetKey();
 
       // resize.current.classList.remove("active");
       // setResultCount(star_data.length);
       nav_toggle.current[3].classList.add("hide");
-      console.log("toggle test2");
     }
     // eslint-disable-next-line
   }, [select_btn]);
@@ -469,6 +483,10 @@ const Home = () => {
       .then((response) => setResult_list(response.data));
   };
 
+  useEffect(() => {
+    toggleResultListOn();
+  }, [result_list]);
+
   const navKeyControl = () => {
     const target_path =
       nav_toggle.current[0].childNodes[0].childNodes[1].childNodes[1];
@@ -502,6 +520,7 @@ const Home = () => {
   useEffect(() => {
     navKeyControl();
     load_result_list();
+
     // eslint-disable-next-line
   }, [select_att]);
 
@@ -510,7 +529,9 @@ const Home = () => {
     // eslint-disable-next-line
   }, [select]);
 
-  const [albumInfo, setAlbumInfo] = useState();
+  const [albumInfo, setAlbumInfo] = useState([
+    { song_title: "노래를 선택해주세요.", album_title: "노래를 선택해주세요." },
+  ]);
   const nav_toggle = useRef([]);
   const song_keyword = useRef();
 
@@ -535,7 +556,7 @@ const Home = () => {
 
     const widthOffset = 1000 - target_coordinate.x;
     // const heightOffset = 1000 - target_coordinate.y; // scale 1.0
-    const heightOffset = 1100 - target_coordinate.y; // scale 1.3
+    const heightOffset = 1000 - target_coordinate.y; // scale 1.3
     // 960 487.5
     // transform: translate(295px, -406.5px);
     // transform: translate(295px, -406.5px);
@@ -611,13 +632,6 @@ const Home = () => {
     const test_target = star_graphic.findIndex(
       (element) => element.song_title === target
     );
-
-    // const widthOffset = 1000 - target_coordinate.x;
-    // const heightOffset = 1000 - target_coordinate.y;
-
-    // setSpacePosition({
-    //   transform: `translate(${widthOffset}px, ${heightOffset}px)`,
-    // });
 
     const widthOffset = 1000 - target_coordinate.x;
     const heightOffset = 1000 - target_coordinate.y;
@@ -758,7 +772,6 @@ const Home = () => {
       if (width < 820 && mobile_length > 9) {
         target_font.style.fontSize = `${(width * 0.6) / 11}px`;
         target_font.style.lineHeight = `${(width * 0.6) / 11}px`;
-        console.log(mobile_length);
       } else {
         target_font.style.fontSize = "";
         target_font.style.lineHeight = "";
@@ -770,7 +783,7 @@ const Home = () => {
 
   return (
     <>
-      {/* <button onClick={testFn} className="anim_test">
+      {/* <button onClick={toggleResultListOn} className="anim_test">
         TOGGLE
       </button> */}
       {/* <button onClick={onResetKey} className="anim_test test2">
@@ -869,9 +882,9 @@ const Home = () => {
                 )
               ) : (
                 <span>
-                  song title
+                  곡을 선택해주세요.
                   <br />
-                  song.da.te | ♥ 0명
+                  0000.00.00 | ♥ 0명
                 </span>
               )}
             </div>
@@ -883,13 +896,7 @@ const Home = () => {
                       data-filter={item ? item.data : ""}
                       data-att={item ? item.keyword : ""}
                     >
-                      <span
-                        onClick={onPlayerKeyClick}
-                        // className={
-                        //   PlayerClass[index] ? PlayerClass[index] : "btn"
-                        // }
-                        className="btn"
-                      >
+                      <span onClick={onPlayerKeyClick} className="btn">
                         {playerTag[index + 1] ? playerTag[index + 1] : "-"}
                       </span>
                     </li>

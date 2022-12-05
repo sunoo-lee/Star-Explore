@@ -230,7 +230,7 @@
     height: 30px;
   }
   .minimize .player_box .song_data .song_title {
-    font-size: 14px;
+    font-size: 14px !important;
     width: 100%;
     max-width: 100%;
   }
