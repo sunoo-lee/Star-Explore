@@ -4,8 +4,8 @@ import axios from "axios";
 import Star from "../components/Star";
 import Navigation from "../components/Navigation";
 import { ReactComponent as MobileBtn } from "../asset/mobile_btn.svg";
-import song_graphic_data from "../song_graphic.json";
-import song_keywords_data from "../song_keywords.json";
+// import song_graphic_data from "../song_graphic.json";
+// import song_keywords_data from "../song_keywords.json";
 // import song_infomation_data from "../song_infomation.json";
 import Info from "../components/Info";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -78,150 +78,6 @@ const Home = () => {
     { data: "랩/힙합", keyword: "genre" },
     { data: "Rock", keyword: "genre" },
     { data: "발라드", keyword: "genre" },
-  ];
-
-  const star_data = [
-    {
-      song_title: "사건의 지평선",
-      key1: "시원한",
-      key2: "우주",
-      key3: "",
-      key4: "꿈",
-      key5: "",
-      key6: "",
-      key7: "Rock",
-      x: 124,
-      y: 1743,
-      size: 5,
-    },
-    {
-      song_title: "오르트구름",
-      key1: "설레는",
-      key2: "우주",
-      key3: "",
-      key4: "",
-      key5: "꿈",
-      key6: "응원",
-      key7: "",
-      x: 207,
-      y: 492,
-      size: 4,
-    },
-    {
-      song_title: "살별",
-      key1: "아련한",
-      key2: "연주곡",
-      key3: "",
-      key4: "",
-      key5: "발라드",
-      key6: "",
-      key7: "비",
-      x: 209,
-      y: 975,
-
-      size: 3,
-    },
-    {
-      song_title: "물의 여행",
-      key1: "일상",
-      key2: "",
-      key3: "청량한",
-      key4: "",
-      key5: "Rock",
-      key6: "",
-      key7: "",
-      x: 387,
-      y: 1905,
-      size: 3,
-    },
-    {
-      song_title: "반짝, 빛을 내",
-      key1: "짝사랑",
-      key2: "간절한",
-      key3: "",
-      key4: "신비로운",
-      key5: "",
-      key6: "발라드",
-      key7: "",
-      x: 508,
-      y: 417,
-      size: 4,
-    },
-    {
-      song_title: "6년 230일",
-      key1: "응원",
-      key2: "",
-      key3: "신비로운",
-      key4: "청량한",
-      key5: "",
-      key6: "",
-      key7: "OST",
-      x: 533,
-      y: 1488,
-      size: 2,
-    },
-    {
-      song_title: "P.R.R.W",
-      key1: "우주",
-      key2: "설레는",
-      key3: "아련한",
-      key4: "",
-      key5: "청량한",
-      key6: "",
-      key7: "Rock",
-      x: 545,
-      y: 1384,
-      size: 1,
-    },
-    {
-      song_title: "AQUALOVERS 〜DEEP into the night〜",
-      key1: "시원한",
-      key2: "청량한",
-      key3: "설레는",
-      key4: "추억",
-      key5: "흥겨운",
-      key6: "",
-      key7: "Rock",
-      x: 603,
-      y: 1042,
-      size: 0,
-    },
-    {
-      song_title: "Truly",
-      key1: "흥겨운",
-      key2: "추억",
-      key3: "꿈",
-      x: 874,
-      y: 392,
-      size: 4,
-    },
-    {
-      song_title: "별의 조각",
-      key1: "우주",
-      key2: "지겨운",
-      key3: "나른한",
-      x: 949,
-      y: 838,
-      size: 2,
-    },
-    {
-      song_title: "하나의 달",
-      key1: "우주",
-      key2: "담담한",
-      key3: "짝사랑",
-      x: 1108,
-      y: 1105,
-      size: 3,
-    },
-    {
-      song_title: "사건의 지평선",
-      key1: "우주",
-      key2: "설레는",
-      key3: "청량한",
-      x: 1116,
-      y: 467,
-      size: 0,
-    },
   ];
 
   const [keyState, setKeyState] = useState(false);
@@ -339,14 +195,18 @@ const Home = () => {
     const target_title = albumInfo[albumInfo.length - 1].song_title;
     console.log(target_title);
     for (let i = 0; i < target.childNodes.length; ++i) {
-      // console.dir(target.childNodes[i]);
-      // console.dir(target_title);
       if (target.childNodes[i].textContent === target_title) {
         target.childNodes[i].classList.add("on");
       } else {
         target.childNodes[i].classList.remove("on");
       }
     }
+    // setAlbumInfo([
+    //   {
+    //     song_title: "노래를 선택해주세요.",
+    //     album_title: "노래를 선택해주세요.",
+    //   },
+    // ]);
   };
 
   const onResetKey = () => {
@@ -365,7 +225,7 @@ const Home = () => {
     setSelect_att([]);
     setSelect([]);
     setSpacePosition([]);
-    nav_toggle.current[3].classList.add("hide");
+    // nav_toggle.current[3].classList.add("hide");
   };
 
   const onResetPos = () => {
@@ -382,7 +242,8 @@ const Home = () => {
       target.classList.remove("on");
     }
     resize.current.classList.remove("active");
-    nav_toggle.current[3].classList.add("hide");
+    // nav_toggle.current[3].classList.add("hide");
+    setPlayerState(false);
     setSelect_btn([]);
     setSelect_att([]);
     setSelect([]);
@@ -397,7 +258,7 @@ const Home = () => {
     // console.log(select_att);
   }, [select_btn]);
 
-  const [resultCount, setResultCount] = useState(song_graphic_data.length);
+  const [resultCount, setResultCount] = useState(270);
   const [resultStars, setResultStar] = useState([]);
 
   useEffect(() => {
@@ -426,14 +287,18 @@ const Home = () => {
     setResultCount(count);
 
     if (select_btn.length > 0 && resultCount > 0) {
-      resize.current.classList.add("active");
+      // resize.current.classList.add("active");
     } else if (select_btn.length === 0) {
-      // onResetKey();
-
-      // resize.current.classList.remove("active");
-      // setResultCount(star_data.length);
+      toggleResultListOn();
       nav_toggle.current[3].classList.add("hide");
+      setAlbumInfo([
+        {
+          song_title: "노래를 선택해주세요.",
+          album_title: "노래를 선택해주세요.",
+        },
+      ]);
     }
+
     // eslint-disable-next-line
   }, [select_btn]);
 
@@ -456,9 +321,9 @@ const Home = () => {
   const [keywords, setKeywords] = useState([]);
 
   useEffect(() => {
-    setStar_graphic(song_graphic_data);
-    setResultStar(song_graphic_data);
-    setKeywords(song_keywords_data);
+    // setStar_graphic(song_graphic_data);
+    // setResultStar(song_graphic_data);
+    // setKeywords(song_keywords_data);
 
     axios
       .get("http://localhost:8080/graphics")
@@ -473,11 +338,9 @@ const Home = () => {
   const [result_list, setResult_list] = useState([]);
 
   const load_result_list = () => {
-    setResult_list(song_keywords_data);
+    // setResult_list(song_keywords_data);
     const target_arr = select_att.map((item) => `${item.att}=${item.filter}`);
-    // console.log("target_arr: ", target_arr);
     const target = target_arr.join("&");
-    // console.log("target: ", target);
     axios
       .get(`http://localhost:8080/keywords/list?${target}`)
       .then((response) => setResult_list(response.data));
@@ -520,12 +383,18 @@ const Home = () => {
   useEffect(() => {
     navKeyControl();
     load_result_list();
+    // if (select_att.length !== 0) {
+    // } else {
+    //   setResultCount(270);
+    // }
 
     // eslint-disable-next-line
   }, [select_att]);
 
   useEffect(() => {
     load_result_list();
+    // if (select.length !== 0) {
+    // }
     // eslint-disable-next-line
   }, [select]);
 
@@ -555,12 +424,7 @@ const Home = () => {
     );
 
     const widthOffset = 1000 - target_coordinate.x;
-    // const heightOffset = 1000 - target_coordinate.y; // scale 1.0
-    const heightOffset = 1000 - target_coordinate.y; // scale 1.3
-    // 960 487.5
-    // transform: translate(295px, -406.5px);
-    // transform: translate(295px, -406.5px);
-    // transform: "translate(365px, -900.5px)"
+    const heightOffset = 1000 - target_coordinate.y; // scale 1.0
 
     setSpacePosition({
       transform: `translate(${widthOffset}px, ${heightOffset}px)`,
@@ -589,15 +453,21 @@ const Home = () => {
 
     info_ref.current[test_target].classList.add("active"); //song info
     nav_toggle.current[2].classList.add("active"); // more info
-    nav_toggle.current[3].classList.remove("hide"); // song data
+    // nav_toggle.current[3].classList.remove("hide"); // song data
     // nav_toggle.current[3].classList.add("minimize"); // song data
-    resize.current.classList.add("active");
+    // resize.current.classList.add("active");
     event.target.classList.add("on");
     onSetPlayerTagData();
     setPlayerState(true);
   };
+
   useEffect(() => {
     onSetPlayerTagData();
+    if (playerState) {
+      nav_toggle.current[3].classList.remove("hide");
+    } else {
+      nav_toggle.current[3].classList.add("hide");
+    }
     // eslint-disable-next-line
   }, [playerState, playerTag]);
 
@@ -645,8 +515,8 @@ const Home = () => {
 
     info_ref.current[test_target].classList.add("active"); //song info
     nav_toggle.current[2].classList.add("active"); // more info
-    // nav_toggle.current[3].classList.add("active"); // song data
-    resize.current.classList.add("active");
+    setPlayerState(true);
+    nav_toggle.current[3].classList.remove("hide"); // song data
   };
 
   useEffect(() => {
