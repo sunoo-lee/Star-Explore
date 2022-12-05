@@ -10,6 +10,7 @@ import song_keywords_data from "../song_keywords.json";
 import Info from "../components/Info";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import Intro from "../components/Intro";
 
 const Home = () => {
   const [select, setSelect] = useState([]);
@@ -988,6 +989,7 @@ const Home = () => {
       >
         <MobileBtn />
       </div>
+      <Intro />
     </>
   );
 };
