@@ -10,7 +10,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  max-width: calc(100% - 280px - 57px);
+  /* max-width: calc(100% - 280px - 57px); */
   /* right: 0px; */
   /* margin-left: 340px; */
   margin: 0 auto;
@@ -20,14 +20,9 @@
 .intro_container {
   display: flex;
   position: relative;
-  /* width: 100%; */
   max-width: 1200px;
   height: 100%;
   margin: 0px auto;
-  padding: 57px;
-  background: var(--bg_color);
-  border: 3px solid var(--blue_color);
-  border-radius: var(--bd_radius);
 }
 
 .intro_btn {
@@ -39,37 +34,23 @@
   border: 2px solid var(--blue_color);
   border-radius: 50%;
   cursor: pointer;
+  color: var(--blue_color);
+  background: url("../asset/btn_exit.svg") no-repeat;
+  background-size: 35px;
+  background-position: center;
+  transition: 0.2s;
 }
 
-.inner_text {
-  width: 40%;
-  height: 100%;
-  font-size: 48px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.inner_text p:first-child {
-  font-size: 64px;
-}
-.inner_text span {
-  /* font-size: 160px; */
-}
-
-.inner_text p:nth-child(2) {
-  margin-bottom: 20px;
-}
-
-.inner_text hr {
-  width: 100%;
+.intro_btn:hover {
+  background: url("../asset/mobile_btn_exit.svg") var(--blue_color) no-repeat;
+  background-size: 35px;
+  background-position: center;
 }
 
 .inner_img {
-  color: var(--blue_color);
-  width: 60%;
+  width: 100%;
   height: 100%;
-  background: url("../asset/img_cloud.svg");
+  background: url("../asset/intro_web.png");
   background-repeat: no-repeat;
   background-size: 100%;
   background-position: center;
@@ -77,46 +58,25 @@
 }
 
 @media all and (max-width: 820px) {
-  .intro_modal {
-    display: flex;
-    align-items: flex-end;
-  }
   .intro_wrap {
-    max-width: 90%;
-    margin: 0 auto;
-    padding: 30px;
-    padding-bottom: 50px;
-    height: auto;
-  }
-  .intro_container {
-    flex-direction: column;
-    max-height: 85vh;
-    height: 650px;
-    padding: 20px 20px 60px 20px;
-  }
-  .intro_btn {
-    top: auto;
-    bottom: 17px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--blue_color);
-    background: url("../asset/mobile_btn.svg") var(--blue_color);
-    padding: 4px;
-  }
-  .inner_text {
-    width: auto;
-    font-size: 20px;
-    text-align: center;
-  }
-  .inner_text span,
-  .inner_text p:first-child {
-    font-size: 20px;
-  }
-  .inner_text p {
-    display: inline;
+    padding: 0px;
   }
   .inner_img {
-    width: auto;
-    margin: 0px;
+    background: url("../asset/intro_mobile.png");
+    background-repeat: no-repeat;
+    background-size: auto 90vh;
+    background-position: center;
+    height: 100vh;
+  }
+
+  .intro_btn {
+    top: auto;
+    bottom: 0px;
+    bottom: min(10vh, 80px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: url("../asset/mobile_btn_exit.svg") var(--blue_color) no-repeat;
+    background-size: 35px;
+    background-position: center;
   }
 }

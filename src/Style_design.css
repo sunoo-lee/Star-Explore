@@ -234,6 +234,15 @@ body {
     padding: 7px 5px;
   }
 
+  .btn:hover {
+    background: var(--bg_color);
+    color: var(--blue_color);
+  }
+  .btn.on:hover {
+    background: var(--bg_color);
+    color: var(--blue_color);
+  }
+
   .result_container {
     width: 140px;
     border-radius: 40px;
