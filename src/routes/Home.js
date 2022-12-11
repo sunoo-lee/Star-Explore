@@ -566,7 +566,7 @@ const Home = () => {
       }
     }
     // eslint-disable-next-line
-  }, [playerTag]);
+  }, [playerKey]);
 
   useEffect(() => {
     onSetPlayerTagData();
