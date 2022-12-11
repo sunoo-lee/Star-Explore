@@ -11,8 +11,6 @@ import Star from "../components/Star";
 import Navigation from "../components/Navigation";
 import { ReactComponent as MobileBtn } from "../asset/mobile_btn.svg";
 import Info from "../components/Info";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import Intro from "../components/Intro";
 import Result from "../components/Result";
 
