@@ -143,6 +143,8 @@ body {
 }
 .result_box.active .result_list {
   opacity: 1;
+  scrollbar-color: var(--blue_color) transparent;
+  scrollbar-width: thin;
 }
 .result_box .result_list {
   height: calc(100% - 80px);

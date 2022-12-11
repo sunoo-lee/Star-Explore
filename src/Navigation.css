@@ -83,6 +83,8 @@
 .nav .keyword_wrap {
   height: calc(100vh - 265px);
   overflow-y: scroll;
+  scrollbar-color: var(--blue_color) transparent;
+  scrollbar-width: thin;
 }
 
 .nav .keyword_search .keyword h3 {
