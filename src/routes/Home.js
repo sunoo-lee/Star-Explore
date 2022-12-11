@@ -599,6 +599,11 @@ const Home = () => {
         target_font.style.fontSize = "";
         target_font.style.lineHeight = "";
       }
+      if (playerTag[0].length > 15) {
+        song_title_ref.current.parentNode.childNodes[0].style.fontSize = "18px";
+      } else {
+        song_title_ref.current.parentNode.childNodes[0].style.fontSize = "";
+      }
     } else {
       return;
     }
@@ -706,9 +711,7 @@ const Home = () => {
                 : ""}
             </ul>
           </div>
-          <div onClick={playerBtnToggle} className="player_toggle_btn">
-            <FontAwesomeIcon icon={faChevronUp} />
-          </div>
+          <div onClick={playerBtnToggle} className="player_toggle_btn"></div>
         </div>
       </div>
 
@@ -737,23 +740,7 @@ const Home = () => {
                       mouseleave={onMouseLeave}
                     />
                   ))
-                : star_graphic.map((star, index) => (
-                    <Star
-                      ref={(item) => (star_ref.current[index] = item)}
-                      key={index}
-                      title={star.song_title}
-                      x={star.x}
-                      y={star.y}
-                      size={star.size}
-                      key1={star.key1}
-                      key2={star.key2}
-                      key3={star.key3}
-                      key4={star.key4}
-                      key5={star.key5}
-                      key6={star.key6}
-                      key7={star.key7}
-                    />
-                  ))}
+                : ""}
             </div>
             <div style={spaceOffset} className="info_container">
               {star_graphic.length !== 0
@@ -767,16 +754,7 @@ const Home = () => {
                       y={star.y}
                     />
                   ))
-                : star_graphic.map((star, index) => (
-                    <Info
-                      ref={(item) => (info_ref.current[index] = item)}
-                      key={index}
-                      size={star.size}
-                      title={star.song_title}
-                      x={star.x}
-                      y={star.y}
-                    />
-                  ))}
+                : ""}
             </div>
           </div>
         </div>
