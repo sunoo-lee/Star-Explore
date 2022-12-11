@@ -29,9 +29,9 @@ Information.findBysearchbar = (SEsonginfo, result) => {
 			console.log(SEsonginfo);
 			//첫문자부터, 해당 문자 포함한 노래 제목 | 발음 | 번안 검색
 			let query_to_find_title = `SELECT song_title, album_title, album_number, release_date, recommend ,embedcode FROM total_songs_information
-									   WHERE song_title like '${SEsonginfo}%'
-									   OR pronunciation like '${SEsonginfo}%'
-									   OR translation like '${SEsonginfo}%'`;
+									   WHERE song_title like "${SEsonginfo}%"
+									   OR pronunciation like "${SEsonginfo}%"
+									   OR translation like "${SEsonginfo}%"`;
 
 			connection.query(query_to_find_title, (err, res) => {
 				
@@ -45,7 +45,7 @@ Information.findBysearchbar = (SEsonginfo, result) => {
 
 				//console.log(res.length);
 				if (res.length) {
-					console.log("found information: ", res);
+					//console.log("found information: ", res);
 					result(null, res);
 					return;
 				}

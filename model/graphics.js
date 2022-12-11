@@ -26,7 +26,7 @@ Graphics.getAll = (result) => {
 					return;
 				}
 
-				console.log("found information: ", res);
+				//console.log("found information: ", res);
 				result(null, res);
 				return;
 			})
