@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./reset.css";
-// import "./Style.css";
-import "./Style_design.css";
+import "./Style.css";
 import "./Navigation.css";
 import "./Player.css";
 import "./Star.css";

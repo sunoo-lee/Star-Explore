@@ -1,10 +1,9 @@
-import React, { forwardRef } from "react";
+import React, { memo, forwardRef } from "react";
 
-const Info = (prop, ref) => {
+const Info = forwardRef((prop, ref) => {
   const style = {
     left: `${prop.x}px`,
     top: `${prop.y}px`,
-    // transform: `translate(-50%}px, ${heightOffset}px)`,
   };
 
   return (
@@ -12,6 +11,6 @@ const Info = (prop, ref) => {
       <span className="title">{prop.title}</span>
     </div>
   );
-};
+});
 
-export default forwardRef(Info);
+export default memo(Info);

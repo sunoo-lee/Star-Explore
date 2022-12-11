@@ -1,12 +1,13 @@
-import React, { forwardRef } from "react";
+import React, { memo, forwardRef, useMemo } from "react";
 
-const Star = (prop, ref) => {
-  const style = {
-    position: "absolute",
-    left: `${prop.x}px`,
-    top: `${prop.y}px`,
-  };
-
+const Star = forwardRef((prop, ref) => {
+  // console.log("test");
+  const style = useMemo(() => {
+    return {
+      left: `${prop.x}px`,
+      top: `${prop.y}px`,
+    };
+  }, []);
   return (
     <div
       ref={ref}
@@ -23,14 +24,12 @@ const Star = (prop, ref) => {
       style={style}
       onMouseOver={prop.mouseenter}
       onMouseOut={prop.mouseleave}
-      // onMouseEnter={prop.mouseenter}
-      // onMouseLeave={prop.mouseleave}
     >
       <div className="item_img">
         <div className={prop.size}></div>
       </div>
     </div>
   );
-};
+});
 
-export default forwardRef(Star);
+export default memo(Star);

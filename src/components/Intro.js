@@ -1,6 +1,5 @@
-import React, { useRef } from "react";
+import React, { memo, useRef } from "react";
 import "./Intro.css";
-import { ReactComponent as Intro_img } from "../asset/img_cloud.svg";
 
 const Intro = () => {
   const modal_ref = useRef();
@@ -19,4 +18,4 @@ const Intro = () => {
   );
 };
 
-export default Intro;
+export default memo(Intro);

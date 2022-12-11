@@ -1,16 +1,20 @@
 // eslint-disable
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import axios from "axios";
 import Star from "../components/Star";
 import Navigation from "../components/Navigation";
 import { ReactComponent as MobileBtn } from "../asset/mobile_btn.svg";
-// import song_graphic_data from "../song_graphic.json";
-// import song_keywords_data from "../song_keywords.json";
-// import song_infomation_data from "../song_infomation.json";
 import Info from "../components/Info";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import Intro from "../components/Intro";
+import Result from "../components/Result";
 
 const Home = () => {
   const [select, setSelect] = useState([]);
@@ -80,120 +84,146 @@ const Home = () => {
     { data: "발라드", keyword: "genre" },
   ];
 
+  const [resultCount, setResultCount] = useState(272);
+  const [resultStars, setResultStar] = useState([]);
+
+  const [star_graphic, setStar_graphic] = useState([]);
+  const [keywords, setKeywords] = useState([]);
+
+  const [result_list, setResult_list] = useState([]);
+
   const [keyState, setKeyState] = useState(false);
+  const [albumInfo, setAlbumInfo] = useState([
+    { song_title: "노래를 선택해주세요.", album_title: "노래를 선택해주세요." },
+  ]);
+  const [toggle_state, setToggle_state] = useState(true);
+  const [playerState, setPlayerState] = useState(false);
 
-  const onKeyClick = (event) => {
-    reset_info_toggle();
-    const keyword_btn = event.target;
-    const btn_keyword = event.target.innerText;
-    const btn_value = keyword_btn.parentElement.dataset.filter;
-    const btn_att = keyword_btn.parentElement.dataset;
-    // select_btn - 선택한 키워드 버튼
-    // btn_keyword - 선택한 키워드 텍스트
-    // btn_value - 선택한 키워드 값
+  const [spacePosition, setSpacePosition] = useState([]);
 
-    // 최대 6개 선택
-    if (select_btn.length === 6) {
-      if (keyword_btn.className === "btn on") {
+  const [spaceOffset, setSpaceOffset] = useState([]);
+
+  const resize = useRef();
+
+  const result = useRef();
+
+  const nav_toggle = useRef([]);
+
+  const song_keyword = useRef();
+
+  const song_title_ref = useRef("");
+
+  const onKeyClick = useCallback(
+    (event) => {
+      reset_info_toggle();
+      const keyword_btn = event.target;
+      const btn_keyword = event.target.innerText;
+      const btn_value = keyword_btn.parentElement.dataset.filter;
+      const btn_att = keyword_btn.parentElement.dataset;
+      // select_btn - 선택한 키워드 버튼
+      // btn_keyword - 선택한 키워드 텍스트
+      // btn_value - 선택한 키워드 값
+
+      // 최대 6개 선택
+      if (select_btn.length === 6) {
+        if (keyword_btn.className === "btn on") {
+          keyword_btn.classList.toggle("on");
+          setSelect(select.filter((key) => key !== btn_keyword));
+          setSelect_btn(select_btn.filter((key) => key !== btn_value));
+          setSelect_att(select_att.filter((key) => key !== btn_att));
+          return;
+        }
+      } else if (select_btn.length < 6) {
         keyword_btn.classList.toggle("on");
-        setSelect(select.filter((key) => key !== btn_keyword));
-        setSelect_btn(select_btn.filter((key) => key !== btn_value));
-        setSelect_att(select_att.filter((key) => key !== btn_att));
-        return;
-      }
-    } else if (select_btn.length < 6) {
-      keyword_btn.classList.toggle("on");
-      if (keyword_btn.className === "btn on") {
-        setKeyState(true);
-        setSelect([...select, btn_keyword]);
-        setSelect_btn([...select_btn, btn_value]);
-        setSelect_att([...select_att, btn_att]);
-      } else if (keyword_btn.className === "btn") {
-        setSelect(select.filter((key) => key !== btn_keyword));
-        setSelect_btn(select_btn.filter((key) => key !== btn_value));
-        setSelect_att(
-          select_att.filter((key) => key.filter !== btn_att.filter)
-        );
-      }
-    }
-
-    if (playerState) {
-      for (let i = 0; i < 6; ++i) {
-        if (
-          song_keyword.current.childNodes[i].childNodes[0].innerText ===
-            btn_keyword &&
-          keyword_btn.className === "btn on"
-        ) {
-          song_keyword.current.childNodes[i].childNodes[0].classList.add("on");
-        } else if (
-          song_keyword.current.childNodes[i].childNodes[0].innerText ===
-            btn_keyword &&
-          keyword_btn.className === "btn"
-        ) {
-          song_keyword.current.childNodes[i].childNodes[0].classList.remove(
-            "on"
+        if (keyword_btn.className === "btn on") {
+          setKeyState(true);
+          setSelect([...select, btn_keyword]);
+          setSelect_btn([...select_btn, btn_value]);
+          setSelect_att([...select_att, btn_att]);
+        } else if (keyword_btn.className === "btn") {
+          setSelect(select.filter((key) => key !== btn_keyword));
+          setSelect_btn(select_btn.filter((key) => key !== btn_value));
+          setSelect_att(
+            select_att.filter((key) => key.filter !== btn_att.filter)
           );
         }
       }
-    } else {
-      return;
-    }
-  };
 
-  const onPlayerKeyClick = (event) => {
-    if (event.target.innerText === "-") {
-      return;
-    }
-    // const keyword_combine = [
-    //   ...keyword_list_1,
-    //   ...keyword_list_2,
-    //   ...keyword_list_3,
-    // ];
-    const keyword_btn = event.target;
-    const target_data = keyword_btn.innerText;
-    // const target_list = keyword_combine.find(
-    //   (item) => item.data === target_data
-    // );
-    let target_att = { filter: "", att: "" };
-    let target_value = "-";
-    if (target_data) {
-      // target_att = { filter: target_data, att: target_list.keyword };
-      target_value = keyword_btn.parentNode.dataset.filter;
-      target_att = keyword_btn.parentNode.dataset;
-    }
-
-    // 최대 6개 선택
-    if (select_btn.length === 6) {
-      if (keyword_btn.className === "btn on") {
-        keyword_btn.classList.toggle("on");
-        setSelect(select.filter((key) => key !== target_data));
-        setSelect_btn(select_btn.filter((key) => key !== target_value));
-        setSelect_att(select_att.filter((key) => key !== target_att));
+      if (playerState) {
+        for (let i = 0; i < 6; ++i) {
+          if (
+            song_keyword.current.childNodes[i].childNodes[0].innerText ===
+              btn_keyword &&
+            keyword_btn.className === "btn on"
+          ) {
+            song_keyword.current.childNodes[i].childNodes[0].classList.add(
+              "on"
+            );
+          } else if (
+            song_keyword.current.childNodes[i].childNodes[0].innerText ===
+              btn_keyword &&
+            keyword_btn.className === "btn"
+          ) {
+            song_keyword.current.childNodes[i].childNodes[0].classList.remove(
+              "on"
+            );
+          }
+        }
+      } else {
         return;
       }
-    } else if (select_btn.length < 6) {
-      keyword_btn.classList.toggle("on");
-      if (keyword_btn.className === "btn on") {
-        setKeyState(true);
-        setSelect([...select, target_data]);
-        setSelect_btn([...select_btn, target_value]);
-        setSelect_att([...select_att, target_att]);
-      } else if (keyword_btn.className === "btn") {
-        setSelect(select.filter((key) => key !== target_value));
-        setSelect_btn(select_btn.filter((key) => key !== target_value));
-        setSelect_att(
-          select_att.filter((key) => key.filter !== target_att.filter)
-        );
-        // console.dir(select_att);
+    },
+    [select]
+  );
+
+  const onPlayerKeyClick = useCallback(
+    (event) => {
+      if (event.target.innerText === "-") {
+        return;
       }
-    }
-    toggleResultListOn();
-  };
+
+      const keyword_btn = event.target;
+      const target_data = keyword_btn.innerText;
+
+      let target_att = { filter: "", att: "" };
+      let target_value = "-";
+      if (target_data) {
+        target_value = keyword_btn.parentNode.dataset.filter;
+        target_att = keyword_btn.parentNode.dataset;
+      }
+
+      // 최대 6개 선택
+      if (select_btn.length === 6) {
+        if (keyword_btn.className === "btn on") {
+          keyword_btn.classList.toggle("on");
+          setSelect(select.filter((key) => key !== target_data));
+          setSelect_btn(select_btn.filter((key) => key !== target_value));
+          setSelect_att(select_att.filter((key) => key !== target_att));
+          return;
+        }
+      } else if (select_btn.length < 6) {
+        keyword_btn.classList.toggle("on");
+        if (keyword_btn.className === "btn on") {
+          setKeyState(true);
+          setSelect([...select, target_data]);
+          setSelect_btn([...select_btn, target_value]);
+          setSelect_att([...select_att, target_att]);
+        } else if (keyword_btn.className === "btn") {
+          setSelect(select.filter((key) => key !== target_value));
+          setSelect_btn(select_btn.filter((key) => key !== target_value));
+          setSelect_att(
+            select_att.filter((key) => key.filter !== target_att.filter)
+          );
+        }
+      }
+      toggleResultListOn();
+    },
+    [select]
+  );
 
   const toggleResultListOn = () => {
     const target = result.current.childNodes[1].childNodes[0];
     const target_title = albumInfo[albumInfo.length - 1].song_title;
-    console.log(target_title);
     for (let i = 0; i < target.childNodes.length; ++i) {
       if (target.childNodes[i].textContent === target_title) {
         target.childNodes[i].classList.add("on");
@@ -201,15 +231,9 @@ const Home = () => {
         target.childNodes[i].classList.remove("on");
       }
     }
-    // setAlbumInfo([
-    //   {
-    //     song_title: "노래를 선택해주세요.",
-    //     album_title: "노래를 선택해주세요.",
-    //   },
-    // ]);
   };
 
-  const onResetKey = () => {
+  const onResetKey = useCallback(() => {
     setKeyState(false);
     reset_info_toggle();
     for (let i = 0; i < result_list.length; ++i) {
@@ -224,131 +248,21 @@ const Home = () => {
     setSelect_btn([]);
     setSelect_att([]);
     setSelect([]);
-    setSpacePosition([]);
-    // nav_toggle.current[3].classList.add("hide");
-  };
+  }, [result_list]);
 
   const onResetPos = () => {
-    setSpacePosition([]);
-    setKeyState(false);
-    reset_info_toggle();
-    for (let i = 0; i < result_list.length; ++i) {
-      result.current.childNodes[1].childNodes[0].childNodes[i].classList.remove(
-        "on"
-      );
-    }
-    for (let i = 0; i < song_keyword.current.childNodes.length; ++i) {
-      const target = song_keyword.current.childNodes[i].childNodes[0];
-      target.classList.remove("on");
-    }
-    resize.current.classList.remove("active");
-    // nav_toggle.current[3].classList.add("hide");
+    onResetKey();
     setPlayerState(false);
-    setSelect_btn([]);
-    setSelect_att([]);
-    setSelect([]);
+    setTimeout(setSpacePosition, 500, []);
   };
 
-  useEffect(() => {
-    if (select_btn.length === 0) {
-      setKeyState(false);
-      setSelect_att([]);
-    }
-    // console.log(select_btn);
-    // console.log(select_att);
-  }, [select_btn]);
-
-  const [resultCount, setResultCount] = useState(270);
-  const [resultStars, setResultStar] = useState([]);
-
-  useEffect(() => {
-    let count = resultCount;
-    for (let i = 0; i < star_ref.current.length; ++i) {
-      const keyValues = Object.values(star_ref.current[i].dataset);
-      const intersection = select_btn.filter((item) =>
-        keyValues.includes(item)
-      );
-
-      if (select_btn.length !== intersection.length) {
-        star_ref.current[i].classList.add("hide");
-        count = count - 1;
-      } else if (select_btn.length === intersection.length) {
-        star_ref.current[i].classList.remove("hide");
-      }
-    }
-
-    let filted_count = star_ref.current
-      .filter((item) => item.className === "itemBox")
-      .map((item) => item.dataset.title);
-
-    setResultStar(filted_count);
-
-    if (count < 0) count = 0;
-    setResultCount(count);
-
-    if (select_btn.length > 0 && resultCount > 0) {
-      // resize.current.classList.add("active");
-    } else if (select_btn.length === 0) {
-      toggleResultListOn();
-      nav_toggle.current[3].classList.add("hide");
-      setAlbumInfo([
-        {
-          song_title: "노래를 선택해주세요.",
-          album_title: "노래를 선택해주세요.",
-        },
-      ]);
-    }
-
-    // eslint-disable-next-line
-  }, [select_btn]);
-
-  useEffect(() => {
-    if (resultStars.length > 0 && resultStars.length !== star_graphic.length) {
-      result.current.classList.add("active");
-    } else if (
-      resultStars.length === 0 ||
-      resultStars.length === star_graphic.length
-    ) {
-      result.current.classList.remove("active");
-    }
-    // eslint-disable-next-line
-  }, [resultStars]);
-
-  const resize = useRef();
-  const result = useRef();
-
-  const [star_graphic, setStar_graphic] = useState([]);
-  const [keywords, setKeywords] = useState([]);
-
-  useEffect(() => {
-    // setStar_graphic(song_graphic_data);
-    // setResultStar(song_graphic_data);
-    // setKeywords(song_keywords_data);
-
-    axios
-      .get("http://localhost:8080/graphics")
-      .then((response) => setStar_graphic(response.data));
-    axios
-      .get("http://localhost:8080/keywords")
-      .then((response) => setKeywords(response.data));
-    console.log("data load done");
-    // eslint-disable-next-line
-  }, []);
-
-  const [result_list, setResult_list] = useState([]);
-
-  const load_result_list = () => {
-    // setResult_list(song_keywords_data);
+  const load_result_list = useCallback(() => {
     const target_arr = select_att.map((item) => `${item.att}=${item.filter}`);
     const target = target_arr.join("&");
     axios
       .get(`http://localhost:8080/keywords/list?${target}`)
       .then((response) => setResult_list(response.data));
-  };
-
-  useEffect(() => {
-    toggleResultListOn();
-  }, [result_list]);
+  }, [select_att]);
 
   const navKeyControl = () => {
     const target_path =
@@ -380,104 +294,64 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    navKeyControl();
-    load_result_list();
-    // if (select_att.length !== 0) {
-    // } else {
-    //   setResultCount(270);
-    // }
+  const select_result = useCallback(
+    (event) => {
+      // 데이터 가공 코드
+      const target = event.target.innerText;
+      const target_star = keywords.find(
+        (element) => element.song_title === target
+      );
+      const target_coordinate = star_graphic.find(
+        (element) => element.song_title === target
+      );
 
-    // eslint-disable-next-line
-  }, [select_att]);
+      const test_target = star_graphic.findIndex(
+        (element) => element.song_title === target
+      );
 
-  useEffect(() => {
-    load_result_list();
-    // if (select.length !== 0) {
-    // }
-    // eslint-disable-next-line
-  }, [select]);
+      const widthOffset = 1000 - target_coordinate.x;
+      const heightOffset = 1000 - target_coordinate.y; // scale 1.0
 
-  const [albumInfo, setAlbumInfo] = useState([
-    { song_title: "노래를 선택해주세요.", album_title: "노래를 선택해주세요." },
-  ]);
-  const nav_toggle = useRef([]);
-  const song_keyword = useRef();
+      setSpacePosition({
+        transform: `translate(${widthOffset}px, ${heightOffset}px)`,
+      });
 
-  const [toggle_state, setToggle_state] = useState(true);
-  const [playerState, setPlayerState] = useState(false);
+      const tag_array = Object.values(target_star)
+        .filter((item) => item !== "")
+        .filter((item) => item !== null);
 
-  const [spacePosition, setSpacePosition] = useState([]);
-
-  const select_result = (event) => {
-    // 데이터 가공 코드
-    const target = event.target.innerText;
-    const target_star = keywords.find(
-      (element) => element.song_title === target
-    );
-    const target_coordinate = star_graphic.find(
-      (element) => element.song_title === target
-    );
-
-    const test_target = star_graphic.findIndex(
-      (element) => element.song_title === target
-    );
-
-    const widthOffset = 1000 - target_coordinate.x;
-    const heightOffset = 1000 - target_coordinate.y; // scale 1.0
-
-    setSpacePosition({
-      transform: `translate(${widthOffset}px, ${heightOffset}px)`,
-    });
-
-    const tag_array = Object.values(target_star)
-      .filter((item) => item !== "")
-      .filter((item) => item !== null);
-
-    for (let i = tag_array.length; i < 7; ++i) {
-      tag_array.push("-");
-    }
-
-    setPlayerTag(tag_array.filter((item) => item !== null));
-
-    axios
-      .get(`http://localhost:8080/information/search=${target}`)
-      .then((response) => setAlbumInfo(response.data));
-
-    if (toggle_state) {
-      for (let i = 0; i < result_list.length; ++i) {
-        event.target.parentNode.childNodes[i].classList.remove("on");
+      for (let i = tag_array.length; i < 7; ++i) {
+        tag_array.push("-");
       }
-      reset_info_toggle();
-    }
 
-    info_ref.current[test_target].classList.add("active"); //song info
-    nav_toggle.current[2].classList.add("active"); // more info
-    // nav_toggle.current[3].classList.remove("hide"); // song data
-    // nav_toggle.current[3].classList.add("minimize"); // song data
-    // resize.current.classList.add("active");
-    event.target.classList.add("on");
-    onSetPlayerTagData();
-    setPlayerState(true);
-  };
+      setPlayerTag(tag_array.filter((item) => item !== null));
 
-  useEffect(() => {
-    onSetPlayerTagData();
-    if (playerState) {
-      nav_toggle.current[3].classList.remove("hide");
-    } else {
-      nav_toggle.current[3].classList.add("hide");
-    }
-    // eslint-disable-next-line
-  }, [playerState, playerTag]);
+      axios
+        .get(`http://localhost:8080/information/search=${target}`)
+        .then((response) => setAlbumInfo(response.data));
+
+      if (toggle_state) {
+        for (let i = 0; i < result_list.length; ++i) {
+          event.target.parentNode.childNodes[i].classList.remove("on");
+        }
+        reset_info_toggle();
+      }
+
+      info_ref.current[test_target].classList.add("active"); //song info
+      // nav_toggle.current[2].classList.add("active"); // more info
+
+      event.target.classList.add("on");
+      onSetPlayerTagData();
+      setPlayerState(true);
+    },
+    [result_list]
+  );
+
+  const keyword_combine = useMemo(() => {
+    return [...keyword_list_1, ...keyword_list_2, ...keyword_list_3];
+  }, []);
 
   const onSetPlayerTagData = () => {
-    const keyword_combine = [
-      ...keyword_list_1,
-      ...keyword_list_2,
-      ...keyword_list_3,
-    ];
-
     const keyword_btn = playerTag.map((item) =>
       keyword_combine.find((target) => target.data === item)
     );
@@ -506,31 +380,19 @@ const Home = () => {
     const widthOffset = 1000 - target_coordinate.x;
     const heightOffset = 1000 - target_coordinate.y;
 
-    setSpacePosition({
+    setTimeout(setSpacePosition, 500, {
       transform: `translate(${widthOffset}px, ${heightOffset}px)`,
     });
+
     reset_info_toggle();
 
     setPlayerTag(Object.values(target_star).filter((item) => item !== ""));
 
     info_ref.current[test_target].classList.add("active"); //song info
-    nav_toggle.current[2].classList.add("active"); // more info
+    // nav_toggle.current[2].classList.add("active"); // more info
     setPlayerState(true);
     nav_toggle.current[3].classList.remove("hide"); // song data
   };
-
-  useEffect(() => {
-    for (let i = 0; i < song_keyword.current.childNodes.length; ++i) {
-      const target = song_keyword.current.childNodes[i].childNodes[0];
-      const target_list = select.find((item) => item === target.innerText);
-      if (target_list) {
-        target.classList.add("on");
-      } else {
-        target.classList.remove("on");
-      }
-    }
-    // eslint-disable-next-line
-  }, [playerTag]);
 
   const reset_info_toggle = () => {
     for (let i = 0; i < info_ref.current.length; ++i) {
@@ -549,15 +411,13 @@ const Home = () => {
     }
   };
 
-  const onPlayerToggle = () => {
-    setToggle_state(false);
-    nav_toggle.current[1].classList.add("active"); // toggle btn
-    nav_toggle.current[3].classList.add("active"); // player
-  };
+  // const onPlayerToggle = () => {
+  //   setToggle_state(false);
+  //   nav_toggle.current[1].classList.add("active"); // toggle btn
+  //   nav_toggle.current[3].classList.add("active"); // player
+  // };
 
-  const [spaceOffset, setSpaceOffset] = useState([]);
-
-  const space_center = () => {
+  const space_center = useCallback(() => {
     const w_width = document.body.offsetWidth;
     const w_height = document.body.offsetHeight;
 
@@ -582,14 +442,9 @@ const Home = () => {
       });
     }
     setSpacePosition([]);
-  };
-
-  useEffect(() => {
-    space_center();
-    // onSetPlayerTagOn();
   }, []);
 
-  const onMouseEnter = (event) => {
+  const onMouseEnter = useCallback((event) => {
     let target;
     if (event.target.className === "item_img") {
       target = event.target.parentNode.dataset.title;
@@ -600,9 +455,9 @@ const Home = () => {
       (item) => item.textContent === target
     );
     target_info.classList.add("hide");
-  };
+  }, []);
 
-  const onMouseLeave = (event) => {
+  const onMouseLeave = useCallback((event) => {
     let target;
     if (event.target.className === "item_img") {
       target = event.target.parentNode.dataset.title;
@@ -613,17 +468,115 @@ const Home = () => {
       (item) => item.textContent === target
     );
     target_info.classList.remove("hide");
-  };
-
-  const song_title_ref = useRef("");
+  }, []);
 
   const playerBtnToggle = () => {
     nav_toggle.current[3].classList.toggle("minimize");
   };
 
-  const testFn = () => {
-    // resize.current.classList.toggle("active");
-  };
+  useEffect(() => {
+    space_center();
+
+    axios
+      .get("http://localhost:8080/graphics")
+      .then((response) => setStar_graphic(response.data));
+    axios
+      .get("http://localhost:8080/keywords")
+      .then((response) => setKeywords(response.data));
+    console.log("data load done");
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    navKeyControl();
+    load_result_list();
+    // if (select_btn.length === 0) {
+    //   setKeyState(false);
+    //   setSelect_att([]);
+    // }
+
+    let count = resultCount;
+    for (let i = 0; i < star_ref.current.length; ++i) {
+      const keyValues = Object.values(star_ref.current[i].dataset);
+      const intersection = select_btn.filter((item) =>
+        keyValues.includes(item)
+      );
+
+      if (select_btn.length !== intersection.length) {
+        star_ref.current[i].classList.add("hide");
+        count = count - 1;
+      } else if (select_btn.length === intersection.length) {
+        star_ref.current[i].classList.remove("hide");
+      }
+    }
+
+    let filted_count = star_ref.current
+      .filter((item) => item.className === "itemBox")
+      .map((item) => item.dataset.title);
+
+    setResultStar(filted_count);
+
+    if (count < 0) count = 0;
+    setResultCount(count);
+
+    if (select_btn.length > 0) {
+      resize.current.childNodes[0].childNodes[0].classList.add("hide");
+      // resize.current.classList.add("active");
+    } else if (select_btn.length === 0) {
+      resize.current.childNodes[0].childNodes[0].classList.remove("hide");
+      toggleResultListOn();
+      setKeyState(false);
+      setSelect_att([]);
+      nav_toggle.current[3].classList.add("hide");
+      setAlbumInfo([
+        {
+          song_title: "노래를 선택해주세요.",
+          album_title: "노래를 선택해주세요.",
+        },
+      ]);
+    }
+
+    // eslint-disable-next-line
+  }, [select_btn]);
+
+  useEffect(() => {
+    if (resultStars.length > 0 && resultStars.length !== star_graphic.length) {
+      result.current.classList.add("active");
+    } else if (
+      resultStars.length === 0 ||
+      resultStars.length === star_graphic.length
+    ) {
+      result.current.classList.remove("active");
+    }
+    // eslint-disable-next-line
+  }, [resultStars]);
+
+  useEffect(() => {
+    toggleResultListOn();
+  }, [result_list]);
+
+  useEffect(() => {
+    for (let i = 0; i < song_keyword.current.childNodes.length; ++i) {
+      const target = song_keyword.current.childNodes[i].childNodes[0];
+      const target_list = select.find((item) => item === target.innerText);
+      if (target_list) {
+        target.classList.add("on");
+      } else {
+        target.classList.remove("on");
+      }
+    }
+    // eslint-disable-next-line
+  }, [playerTag]);
+
+  useEffect(() => {
+    onSetPlayerTagData();
+    if (playerState) {
+      nav_toggle.current[3].classList.remove("hide");
+    } else {
+      nav_toggle.current[3].classList.add("hide");
+    }
+    // eslint-disable-next-line
+  }, [playerState, playerTag]);
 
   useEffect(() => {
     const target = song_title_ref.current.childNodes[0].childNodes[0];
@@ -653,12 +606,6 @@ const Home = () => {
 
   return (
     <>
-      {/* <button onClick={toggleResultListOn} className="anim_test">
-        TOGGLE
-      </button> */}
-      {/* <button onClick={onResetKey} className="anim_test test2">
-        {toggle_state}
-      </button> */}
       <div
         ref={(item) => (nav_toggle.current[0] = item)}
         className="nav_container"
@@ -672,7 +619,6 @@ const Home = () => {
           onResetKey={onResetKey}
           onResetPos={onResetPos}
           onClickResult={select_search_result}
-          // onClickResult={select_result}
           playerTag={playerTag}
           keyState={keyState}
         />
@@ -694,21 +640,7 @@ const Home = () => {
               ? String(result_list.length).padStart(3, "0")
               : String(resultStars.length).padStart(3, "0")}
           </div>
-          <div className="result_list">
-            <ul>
-              {result_list
-                ? result_list.map((item, index) => (
-                    <li
-                      data-title={item.song_title}
-                      onClick={select_result}
-                      key={index}
-                    >
-                      {item.song_title}
-                    </li>
-                  ))
-                : ""}
-            </ul>
-          </div>
+          <Result list={result_list} onClick={select_result} />
         </div>
       </div>
       <div
@@ -717,7 +649,7 @@ const Home = () => {
       >
         <div className="player_box">
           <div className="thumbnail">
-            {/* {albumInfo ? (
+            {albumInfo ? (
               <iframe
                 width="320"
                 height="180"
@@ -728,7 +660,7 @@ const Home = () => {
               ></iframe>
             ) : (
               ""
-            )} */}
+            )}
           </div>
           <div className="song_data">
             <div className="song_title">
@@ -783,9 +715,8 @@ const Home = () => {
       <div className="container">
         <div ref={resize} className="space_wrap">
           <div style={spacePosition} className="star_filter">
-            {/* <div style={spaceOffset} className="taurus"></div> */}
+            <div style={spaceOffset} className="taurus"></div>
             <div style={spaceOffset} className="product">
-              <div className="center_star center_2"></div>
               {keywords.length !== 0
                 ? star_graphic.map((star, index) => (
                     <Star
@@ -825,7 +756,6 @@ const Home = () => {
                   ))}
             </div>
             <div style={spaceOffset} className="info_container">
-              <div className="center_star center_2"></div>
               {star_graphic.length !== 0
                 ? star_graphic.map((star, index) => (
                     <Info
@@ -850,14 +780,6 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="center_star"></div>
-      <div
-        ref={(item) => (nav_toggle.current[2] = item)}
-        onClick={onPlayerToggle}
-        className="more_info"
-      >
-        <span className="btn">more info?</span>
       </div>
       <div
         ref={(item) => (nav_toggle.current[1] = item)}

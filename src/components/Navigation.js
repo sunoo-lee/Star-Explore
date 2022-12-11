@@ -4,13 +4,14 @@ import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
+  memo,
 } from "react";
 import axios from "axios";
 import { ReactComponent as Refresh } from "../asset/reset.svg";
 import { ReactComponent as Search } from "../asset/search.svg";
 import { ReactComponent as Enter } from "../asset/arrow.svg";
 
-const Navigation = (prop, ref) => {
+const Navigation = forwardRef((prop, ref) => {
   const toggleBtn = useRef([]);
   let nav_toggle = useRef();
   const keyBtn_ref = useRef([]);
@@ -234,6 +235,6 @@ const Navigation = (prop, ref) => {
       </div>
     </nav>
   );
-};
+});
 
-export default forwardRef(Navigation);
+export default memo(Navigation);

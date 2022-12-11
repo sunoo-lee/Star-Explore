@@ -1,6 +1,5 @@
-/* --------------------------------------------------------------- */
 /* ---------------------------player----------------------------- */
-/* --------------------------------------------------------------- */
+
 .player_container.hide {
   display: none;
 }
@@ -181,9 +180,7 @@
     width: 330px;
     bottom: 140px;
     left: 50%;
-    /* transform: translateX(-50%) translateY(100vh); */
     transform: translateX(-50%) translateY(0vh);
-    /* transition: 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28); */
   }
   .player_container.active {
     transform: translateX(-50%) translateY(0vh);
@@ -191,6 +188,7 @@
   .player_box {
     flex-direction: column-reverse;
     padding: 20px;
+    min-height: 430px;
   }
   .player_box ul {
     display: flex;
