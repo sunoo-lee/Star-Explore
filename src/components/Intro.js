@@ -1,7 +1,7 @@
 import React, { useMemo, memo, useRef, useState, useEffect } from "react";
 import "./Intro.css";
-import Intro_web from "../asset/intro_web.png";
-import Intro_mobile from "../asset/intro_mobile.png";
+import Intro_web from "./../asset/intro_web.png";
+import Intro_mobile from "./../asset/intro_mobile.png";
 
 const Intro = () => {
   const modal_ref = useRef();

@@ -40,6 +40,6 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://sunoo-lee.github.io/Star-Explore",
+  "homepage": ".",
   "proxy": "http://localhost:8080"
 }

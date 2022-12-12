@@ -84,13 +84,13 @@
   width: var(--star_0);
   height: var(--star_0);
   /* background: url("./asset/img_0.svg"); */
-  background: url("./asset/img_0.svg");
+  background: url("../src/asset/img_0.svg");
   /* padding: 10px; */
 }
 .star_filter .product .itemBox .item_img div.img_1 {
   width: var(--star_1);
   height: var(--star_1);
-  background: url("./asset/img_1.svg");
+  background: url("/src/asset/img_1.svg");
 }
 .star_filter .product .itemBox .item_img div.img_2 {
   width: var(--star_2);
