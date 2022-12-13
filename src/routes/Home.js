@@ -171,6 +171,7 @@ const Home = () => {
         return;
       }
     },
+    // eslint-disable-next-line
     [select]
   );
 
@@ -216,6 +217,7 @@ const Home = () => {
       }
       toggleResultListOn();
     },
+    // eslint-disable-next-line
     [select]
   );
 
@@ -342,11 +344,13 @@ const Home = () => {
       onSetPlayerTagData();
       setPlayerState(true);
     },
+    // eslint-disable-next-line
     [result_list]
   );
 
   const keyword_combine = useMemo(() => {
     return [...keyword_list_1, ...keyword_list_2, ...keyword_list_3];
+    // eslint-disable-next-line
   }, []);
 
   const onSetPlayerTagData = () => {
@@ -441,6 +445,7 @@ const Home = () => {
       });
     }
     setSpacePosition([]);
+    // eslint-disable-next-line
   }, [document.body.offsetWidth, document.body.offsetHeight]);
 
   const onMouseEnter = useCallback((event) => {
@@ -488,6 +493,7 @@ const Home = () => {
 
   useEffect(() => {
     space_center();
+    // eslint-disable-next-line
   }, [document.body.offsetWidth, document.body.offsetHeight]);
 
   useEffect(() => {
@@ -556,6 +562,7 @@ const Home = () => {
 
   useEffect(() => {
     toggleResultListOn();
+    // eslint-disable-next-line
   }, [result_list]);
 
   useEffect(() => {
@@ -610,6 +617,7 @@ const Home = () => {
     } else {
       return;
     }
+    // eslint-disable-next-line
   }, [albumInfo]);
 
   return (

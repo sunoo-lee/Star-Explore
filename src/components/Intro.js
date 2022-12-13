@@ -16,6 +16,7 @@ const Intro = () => {
 
   useEffect(() => {
     onModToggle();
+    // eslint-disable-next-line
   }, []);
 
   const onClick = () => {

@@ -12,8 +12,15 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
   -ms-overflow-style: none;
+  -webkit-overflow-scrolling: none;
   scrollbar-width: none;
 }
 input,

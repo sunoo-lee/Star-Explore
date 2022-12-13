@@ -247,7 +247,7 @@
   .nav {
     margin: 45px 35px;
     width: calc(100vw - 70px);
-    height: calc(100% - 24vh);
+    height: calc(100% - 28vh);
     padding: 26px 22px;
     overflow: hidden;
   }
@@ -335,7 +335,8 @@
   }
 
   .nav #recommend.active {
-    padding-top: 36px;
+    /* padding-top: 36px; */
+    padding-top: 45px;
   }
 
   .nav .search_form .input_box {

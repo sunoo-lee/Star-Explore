@@ -57,12 +57,10 @@
   .intro_wrap {
     padding: 0px;
   }
-  .inner_img {
-    /* bottom: 50px; */
-  }
 
   .inner_img img {
     max-height: 80vh;
+    width: auto;
     /* max-width: 80vw; */
   }
 
