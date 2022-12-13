@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/Star-Explore/static/css/main.f5ca2755.css",
+    "main.css": "/Star-Explore/static/css/main.c8302e8f.css",
     "main.js": "/Star-Explore/static/js/main.28a47a9e.js",
     "static/media/intro_web.png": "/Star-Explore/static/media/intro_web.97ac472d6900d10f79f8.png",
     "static/media/intro_mobile.png": "/Star-Explore/static/media/intro_mobile.680802812fd39a753ac1.png",
@@ -25,11 +25,11 @@
     "static/media/reset.svg": "/Star-Explore/static/media/reset.ddb231c944060f7c1d0f0441b4555c0d.svg",
     "static/media/arrow.svg": "/Star-Explore/static/media/arrow.4f4a2701c55f0f6152066e6c021978e3.svg",
     "static/media/search.svg": "/Star-Explore/static/media/search.ecdfd1f898c05ab9ea0a3b8d0cb2f704.svg",
-    "main.f5ca2755.css.map": "/Star-Explore/static/css/main.f5ca2755.css.map",
+    "main.c8302e8f.css.map": "/Star-Explore/static/css/main.c8302e8f.css.map",
     "main.28a47a9e.js.map": "/Star-Explore/static/js/main.28a47a9e.js.map"
   },
   "entrypoints": [
-    "static/css/main.f5ca2755.css",
+    "static/css/main.c8302e8f.css",
     "static/js/main.28a47a9e.js"
   ]
 }
