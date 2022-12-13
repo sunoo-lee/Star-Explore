@@ -210,8 +210,8 @@
     word-break: keep-all;
     width: auto;
     max-width: 60vw;
-    font-size: 28px;
-    margin-bottom: 27px;
+    font-size: 26px;
+    margin-bottom: 20px;
   }
   .player_box .song_data .song_detail {
     width: 100%;

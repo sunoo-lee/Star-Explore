@@ -1,12 +1,12 @@
 import React, { memo, forwardRef, useMemo } from "react";
 
 const Star = forwardRef((prop, ref) => {
-  // console.log("test");
   const style = useMemo(() => {
     return {
       left: `${prop.x}px`,
       top: `${prop.y}px`,
     };
+    // eslint-disable-next-line
   }, []);
   return (
     <div
@@ -20,10 +20,11 @@ const Star = forwardRef((prop, ref) => {
       data-theme1={prop.key5}
       data-theme2={prop.key6}
       data-theme3={prop.key7}
-      onClick={prop.onClick}
+      // onClick={prop.onClick}
       style={style}
       onMouseOver={prop.mouseenter}
       onMouseOut={prop.mouseleave}
+      onClick={prop.onStarClick}
     >
       <div className="item_img">
         <div className={prop.size}></div>

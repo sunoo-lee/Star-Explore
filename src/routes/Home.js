@@ -305,7 +305,7 @@ const Home = () => {
         (element) => element.song_title === target
       );
 
-      const test_target = star_graphic.findIndex(
+      const info_target = star_graphic.findIndex(
         (element) => element.song_title === target
       );
 
@@ -334,10 +334,10 @@ const Home = () => {
         for (let i = 0; i < result_list.length; ++i) {
           event.target.parentNode.childNodes[i].classList.remove("on");
         }
-        reset_info_toggle();
       }
+      reset_info_toggle();
 
-      info_ref.current[test_target].classList.add("active"); //song info
+      info_ref.current[info_target].classList.add("active"); //song info
       // nav_toggle.current[2].classList.add("active"); // more info
 
       event.target.classList.add("on");
@@ -375,7 +375,7 @@ const Home = () => {
       (element) => element.song_title === target
     );
 
-    const test_target = star_graphic.findIndex(
+    const info_target = star_graphic.findIndex(
       (element) => element.song_title === target
     );
 
@@ -386,11 +386,20 @@ const Home = () => {
       transform: `translate(${widthOffset}px, ${heightOffset}px)`,
     });
 
+    const tag_array = Object.values(target_star)
+      .filter((item) => item !== "")
+      .filter((item) => item !== null);
+
+    for (let i = tag_array.length; i < 7; ++i) {
+      tag_array.push("-");
+    }
+    setPlayerTag(tag_array);
+
     reset_info_toggle();
 
-    setPlayerTag(Object.values(target_star).filter((item) => item !== ""));
+    // setPlayerTag(Object.values(target_star).filter((item) => item !== ""));
 
-    info_ref.current[test_target].classList.add("active"); //song info
+    info_ref.current[info_target].classList.add("active"); //song info
     // nav_toggle.current[2].classList.add("active"); // more info
     setPlayerState(true);
     nav_toggle.current[3].classList.remove("hide"); // song data
@@ -604,7 +613,7 @@ const Home = () => {
       }
       if (width < 820 && mobile_length > 9) {
         target_font.style.fontSize = `${(width * 0.6) / 11}px`;
-        target_font.style.lineHeight = `${(width * 0.6) / 11}px`;
+        target_font.style.lineHeight = `${(width * 0.8) / 11}px`;
       } else {
         target_font.style.fontSize = "";
         target_font.style.lineHeight = "";
@@ -619,6 +628,69 @@ const Home = () => {
     }
     // eslint-disable-next-line
   }, [albumInfo]);
+
+  const select_star = (event) => {
+    // 데이터 가공 코드
+    const target_item = event.target.parentNode;
+    let target;
+    if (target_item.className === "itemBox") {
+      target = target_item.dataset.title;
+    } else if (target_item.className === "item_img") {
+      target = target_item.parentNode.dataset.title;
+    }
+
+    const target_star = keywords.find(
+      (element) => element.song_title === target
+    );
+    const target_coordinate = star_graphic.find(
+      (element) => element.song_title === target
+    );
+
+    const info_target = star_graphic.findIndex(
+      (element) => element.song_title === target
+    );
+
+    const widthOffset = 1000 - target_coordinate.x;
+    const heightOffset = 1000 - target_coordinate.y; // scale 1.0
+
+    setSpacePosition({
+      transform: `translate(${widthOffset}px, ${heightOffset}px)`,
+    });
+
+    const tag_array = Object.values(target_star)
+      .filter((item) => item !== "")
+      .filter((item) => item !== null);
+
+    for (let i = tag_array.length; i < 7; ++i) {
+      tag_array.push("-");
+    }
+    setPlayerTag(tag_array);
+    axios
+      .get(`https://c-2022yh.space/information/search=${target}`)
+      .then((response) => setAlbumInfo(response.data));
+
+    if (toggle_state && result.current.className === "result_box active") {
+      for (let i = 0; i < result_list.length; ++i) {
+        result.current.childNodes[1].childNodes[0].childNodes[
+          i
+        ].classList.remove("on");
+
+        if (
+          result.current.childNodes[1].childNodes[0].childNodes[i].dataset
+            .title === target
+        ) {
+          result.current.childNodes[1].childNodes[0].childNodes[
+            i
+          ].classList.add("on");
+        }
+      }
+    }
+    reset_info_toggle();
+
+    info_ref.current[info_target].classList.add("active"); //song info
+    setPlayerState(true);
+    nav_toggle.current[3].classList.remove("hide"); // song data
+  };
 
   return (
     <>
@@ -665,7 +737,7 @@ const Home = () => {
       >
         <div className="player_box">
           <div className="thumbnail">
-            {albumInfo ? (
+            {/* {albumInfo ? (
               <iframe
                 width="320"
                 height="180"
@@ -676,7 +748,7 @@ const Home = () => {
               ></iframe>
             ) : (
               ""
-            )}
+            )} */}
           </div>
           <div className="song_data">
             <div className="song_title">
@@ -749,6 +821,7 @@ const Home = () => {
                       key7={keywords[index].theme3}
                       mouseenter={onMouseEnter}
                       mouseleave={onMouseLeave}
+                      onStarClick={select_star}
                     />
                   ))
                 : ""}
