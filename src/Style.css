@@ -16,6 +16,13 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+input,
+textarea {
+  -moz-user-select: auto;
+  -webkit-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
+}
 body::-webkit-scrollbar {
   display: none;
 }
@@ -165,7 +172,9 @@ body {
 .result_box .result_list ul li {
   font-size: 22px;
   font-weight: 500;
-  padding-bottom: 22px;
+  line-height: 26px;
+  word-break: keep-all;
+  padding-bottom: 20px;
   color: var(--blue_color);
   cursor: pointer;
   transition: 0.2s;

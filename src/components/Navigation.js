@@ -91,7 +91,7 @@ const Navigation = forwardRef((prop, ref) => {
       return;
     }
     axios
-      .get(`http://localhost:8080/information/search=${input}`)
+      .get(`https://c-2022yh.space/information/search=${input}`)
       .then((response) => setData(response.data));
   };
 
@@ -135,23 +135,26 @@ const Navigation = forwardRef((prop, ref) => {
             <ul>
               {data ? (
                 data.map((item, index) => (
-                  <li
-                    onClick={(event) => {
-                      setValue("");
-                      prop.onResetKey();
-                      prop.onClickResult(event);
-                    }}
-                    className="item"
-                    key={index}
-                  >
-                    {item.song_title}
+                  <li key={index}>
+                    <button
+                      onClick={(event) => {
+                        setValue("");
+                        prop.onResetKey();
+                        prop.onClickResult(event);
+                      }}
+                      className="item"
+                    >
+                      {item.song_title}
+                    </button>
                     <span>
                       <Enter />
                     </span>
                   </li>
                 ))
               ) : (
-                <li className="item">결과 없음</li>
+                <li>
+                  <button className="item">결과 없음</button>
+                </li>
               )}
             </ul>
           </div>

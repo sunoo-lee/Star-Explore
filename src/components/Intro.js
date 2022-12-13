@@ -11,7 +11,7 @@ const Intro = () => {
   }, []);
 
   const onModToggle = () => {
-    setModeToggle(screen_width < 820 ? true : false);
+    setModeToggle(screen_width < 830 ? true : false);
   };
 
   useEffect(() => {

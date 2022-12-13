@@ -258,7 +258,7 @@ const Home = () => {
     const target_arr = select_att.map((item) => `${item.att}=${item.filter}`);
     const target = target_arr.join("&");
     axios
-      .get(`http://localhost:8080/keywords/list?${target}`)
+      .get(`https://c-2022yh.space/keywords/list?${target}`)
       .then((response) => setResult_list(response.data));
   }, [select_att]);
 
@@ -325,7 +325,7 @@ const Home = () => {
       setPlayerTag(tag_array.filter((item) => item !== null));
 
       axios
-        .get(`http://localhost:8080/information/search=${target}`)
+        .get(`https://c-2022yh.space/information/search=${target}`)
         .then((response) => setAlbumInfo(response.data));
 
       if (toggle_state) {
@@ -361,7 +361,7 @@ const Home = () => {
     const target = event.target.innerText;
 
     axios
-      .get(`http://localhost:8080/information/search=${target}`)
+      .get(`https://c-2022yh.space/information/search=${target}`)
       .then((response) => setAlbumInfo(response.data));
 
     const target_star = keywords.find(
@@ -440,7 +440,7 @@ const Home = () => {
       });
     }
     setSpacePosition([]);
-  }, []);
+  }, [document.body.offsetWidth, document.body.offsetHeight]);
 
   const onMouseEnter = useCallback((event) => {
     let target;
@@ -476,14 +476,18 @@ const Home = () => {
     space_center();
 
     axios
-      .get("http://localhost:8080/graphics")
+      .get("https://c-2022yh.space/graphics")
       .then((response) => setStar_graphic(response.data));
     axios
-      .get("http://localhost:8080/keywords")
+      .get("https://c-2022yh.space/keywords")
       .then((response) => setKeywords(response.data));
-    console.log("data load done");
+    // console.log("data load done");
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    space_center();
+  }, [document.body.offsetWidth, document.body.offsetHeight]);
 
   useEffect(() => {
     navKeyControl();
