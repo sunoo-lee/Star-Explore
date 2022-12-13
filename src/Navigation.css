@@ -247,12 +247,11 @@
   .nav {
     margin: 45px 35px;
     width: calc(100vw - 70px);
-    height: calc(100% - 190px);
+    height: calc(100% - 24vh);
     padding: 26px 22px;
     overflow: hidden;
   }
-  .nav {
-  }
+
   .mobile_toggle_btn {
     transition: 0.5s ease-in-out;
     transform-origin: center;
@@ -335,6 +334,10 @@
     display: none;
   }
 
+  .nav #recommend.active {
+    padding-top: 36px;
+  }
+
   .nav .search_form .input_box {
     display: flex;
     align-items: center;
@@ -344,5 +347,9 @@
     position: relative;
     right: auto;
     top: auto;
+  }
+
+  .nav #recommend .item {
+    padding: 10px 40px 10px 18px;
   }
 }

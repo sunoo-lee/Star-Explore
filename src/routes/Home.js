@@ -378,7 +378,7 @@ const Home = () => {
     const widthOffset = 1000 - target_coordinate.x;
     const heightOffset = 1000 - target_coordinate.y;
 
-    setTimeout(setSpacePosition, 500, {
+    setTimeout(setSpacePosition, 300, {
       transform: `translate(${widthOffset}px, ${heightOffset}px)`,
     });
 
@@ -390,6 +390,7 @@ const Home = () => {
     // nav_toggle.current[2].classList.add("active"); // more info
     setPlayerState(true);
     nav_toggle.current[3].classList.remove("hide"); // song data
+    onNavToggle();
   };
 
   const reset_info_toggle = () => {

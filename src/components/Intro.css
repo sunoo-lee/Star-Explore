@@ -1,6 +1,6 @@
 .intro_modal {
   position: relative;
-  background: #00000066;
+  background: #000000b3;
   z-index: 99999;
   width: 100%;
   height: 100vh;
@@ -58,12 +58,12 @@
     padding: 0px;
   }
   .inner_img {
-    bottom: 50px;
+    /* bottom: 50px; */
   }
 
   .inner_img img {
     max-height: 80vh;
-    max-width: 80vw;
+    /* max-width: 80vw; */
   }
 
   .intro_btn {
