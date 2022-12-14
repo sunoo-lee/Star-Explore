@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const Information = require('../model/information');
+const search = require('../model/search');
 
 
-// http://localhost:8080/information/search=:SEsonginfo
-router.get('/search=:SEsonginfo', (req, res) => {
+// http://localhost:8080/search/SE=:SEsonginfo
+router.get('/SE=:SEsonginfo', (req, res) => {
 
     // let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
 
-    Information.findBysearchbar(req.params.SEsonginfo, (err, data) => {
+    search.searchBybar(req.params.SEsonginfo, (err, data) => {
         
         // if(pattern_spc.test(req.params.SEsonginfo) != true)
         //     return res.end();

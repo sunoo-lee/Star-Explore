@@ -6,10 +6,11 @@ const dotenv = require('dotenv').config();
 
 // DBconfig.connect(connect);
 
-const testRouter = require('./router/test');
-const songInformationRouter= require('./router/songInformation');
+//const testRouter = require('./router/test');
+const songSearchRouter= require('./router/songSearch');
 const songGraphicsInformationRouter = require('./router/songGraphics');
 const songKeywordsInformationRouter = require('./router/songKeywords');
+const songTitleRouter = require('./router/songSelect');
 
 const app = express();
 
@@ -19,13 +20,17 @@ app.use(express.json());
 var cors = require('cors');
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, 'star-explore/build')));
+app.use(express.static(path.join(__dirname, 'build')));
 
-app.use('/', testRouter);
-app.use('/information', songInformationRouter);
+app.use('/search', songSearchRouter);
 app.use('/graphics', songGraphicsInformationRouter);
 app.use('/keywords', songKeywordsInformationRouter);
+app.use('/select', songTitleRouter);
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), "빈 포트에서 대기");
+});
+
+app.use('/', function(req, res) {
+    res.sendFile(path.join(__dirname, 'build/index.html'));
 });
