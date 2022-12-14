@@ -91,7 +91,7 @@ const Navigation = forwardRef((prop, ref) => {
       return;
     }
     axios
-      .get(`https://c-2022yh.space/information/search=${input}`)
+      .get(`https://c-2022yh.space/search/SE=${input}`)
       .then((response) => setData(response.data));
   };
 

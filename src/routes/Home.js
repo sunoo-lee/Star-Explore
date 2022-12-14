@@ -255,19 +255,32 @@ const Home = () => {
     const target_att = keyword_btn.parentNode.dataset;
     const target_value = keyword_btn.parentNode.dataset.filter;
 
-    if (keyword_btn.className === "btn") {
-      setKeyState(true);
-      keyword_btn.classList.add("on");
-      setSelect([...select, target_data]);
-      setSelect_btn([...select_btn, target_value]);
-      setSelect_att([...select_att, target_att]);
-    } else {
-      keyword_btn.classList.remove("on");
-      setSelect(select.filter((key) => key !== target_value));
-      setSelect_btn(select_btn.filter((key) => key !== target_value));
-      setSelect_att(
-        select_att.filter((key) => key.filter !== target_att.filter)
-      );
+    if (select_btn.length === 6) {
+      if (keyword_btn.className === "btn on") {
+        keyword_btn.classList.remove("on");
+        setSelect(select.filter((key) => key !== target_value));
+        setSelect_btn(select_btn.filter((key) => key !== target_value));
+        setSelect_att(
+          select_att.filter((key) => key.filter !== target_att.filter)
+        );
+        return;
+      }
+    } else if (select_btn.length < 6) {
+      if (keyword_btn.className === "btn") {
+        setKeyState(true);
+        keyword_btn.classList.add("on");
+        setSelect([...select, target_data]);
+        setSelect_btn([...select_btn, target_value]);
+        setSelect_att([...select_att, target_att]);
+      } else if (keyword_btn.className === "btn on") {
+        keyword_btn.classList.remove("on");
+        setSelect(select.filter((key) => key !== target_value));
+        setSelect_btn(select_btn.filter((key) => key !== target_value));
+        setSelect_att(
+          select_att.filter((key) => key.filter !== target_att.filter)
+        );
+        return;
+      }
     }
   };
 
@@ -314,7 +327,7 @@ const Home = () => {
     // }
 
     axios
-      .get(`https://c-2022yh.space/information/search=${target}`)
+      .get(`https://c-2022yh.space/select/title=${target}`)
       .then((response) => setAlbumInfo(response.data));
 
     if (toggle_state) {
@@ -348,7 +361,7 @@ const Home = () => {
     const target = event.target.innerText;
 
     axios
-      .get(`https://c-2022yh.space/information/search=${target}`)
+      .get(`https://c-2022yh.space/select/title=${target}`)
       .then((response) => setAlbumInfo(response.data));
 
     const target_star = keywords.find(
@@ -643,7 +656,7 @@ const Home = () => {
     }
     setPlayerTag(tag_array);
     axios
-      .get(`https://c-2022yh.space/information/search=${target}`)
+      .get(`https://c-2022yh.space/select/title=${target}`)
       .then((response) => setAlbumInfo(response.data));
 
     if (toggle_state && result.current.className === "result_box active") {
@@ -670,9 +683,9 @@ const Home = () => {
   };
   return (
     <>
-      <div className="anim_test btn" onClick={delete_empty_key}>
+      {/* <div className="anim_test btn" onClick={delete_empty_key}>
         test
-      </div>
+      </div> */}
       <div
         ref={(item) => (nav_toggle.current[0] = item)}
         className="nav_container"
@@ -707,21 +720,6 @@ const Home = () => {
               ? String(result_list.length).padStart(3, "0")
               : String(resultStars.length).padStart(3, "0")}
           </div>
-          {/* <div className="result_list">
-            <ul>
-              {result_list
-                ? result_list.map((item, index) => (
-                    <li
-                      data-title={item.song_title}
-                      onClick={select_result}
-                      key={index}
-                    >
-                      {item.song_title}
-                    </li>
-                  ))
-                : ""}
-            </ul>
-          </div> */}
           <Result list={result_list} onClick={select_result} />
         </div>
       </div>
@@ -731,7 +729,7 @@ const Home = () => {
       >
         <div className="player_box">
           <div className="thumbnail">
-            {/* {albumInfo ? (
+            {albumInfo ? (
               <iframe
                 width="320"
                 height="180"
@@ -742,7 +740,7 @@ const Home = () => {
               ></iframe>
             ) : (
               ""
-            )} */}
+            )}
           </div>
           <div className="song_data">
             <div className="song_title">
