@@ -23,6 +23,7 @@ const Home = () => {
   const info_ref = useRef([]);
 
   const [playerTag, setPlayerTag] = useState([
+    "#0",
     "#1",
     "#2",
     "#3",
@@ -32,6 +33,7 @@ const Home = () => {
   ]);
 
   const [playerKey, setPlayerKey] = useState([
+    { data: "따뜻한", keyword: "emotion1" },
     { data: "따뜻한", keyword: "emotion1" },
     { data: "시니컬한", keyword: "emotion1" },
     { data: "시원한", keyword: "emotion1" },
@@ -111,115 +113,63 @@ const Home = () => {
 
   const song_title_ref = useRef("");
 
-  const onKeyClick = useCallback(
-    (event) => {
-      reset_info_toggle();
-      const keyword_btn = event.target;
-      const btn_keyword = event.target.innerText;
-      const btn_value = keyword_btn.parentElement.dataset.filter;
-      const btn_att = keyword_btn.parentElement.dataset;
-      // select_btn - 선택한 키워드 버튼
-      // btn_keyword - 선택한 키워드 텍스트
-      // btn_value - 선택한 키워드 값
+  const onKeyClick = (event) => {
+    reset_info_toggle();
+    const keyword_btn = event.target;
+    const btn_keyword = event.target.innerText;
+    const btn_value = keyword_btn.parentElement.dataset.filter;
+    const btn_att = keyword_btn.parentElement.dataset;
+    // select_btn - 선택한 키워드 버튼
+    // btn_keyword - 선택한 키워드 텍스트
+    // btn_value - 선택한 키워드 값
 
-      // 최대 6개 선택
-      if (select_btn.length === 6) {
-        if (keyword_btn.className === "btn on") {
-          keyword_btn.classList.toggle("on");
-          setSelect(select.filter((key) => key !== btn_keyword));
-          setSelect_btn(select_btn.filter((key) => key !== btn_value));
-          setSelect_att(select_att.filter((key) => key !== btn_att));
-          return;
-        }
-      } else if (select_btn.length < 6) {
+    // 최대 6개 선택
+    if (select_btn.length === 6) {
+      if (keyword_btn.className === "btn on") {
         keyword_btn.classList.toggle("on");
-        if (keyword_btn.className === "btn on") {
-          setKeyState(true);
-          setSelect([...select, btn_keyword]);
-          setSelect_btn([...select_btn, btn_value]);
-          setSelect_att([...select_att, btn_att]);
-        } else if (keyword_btn.className === "btn") {
-          setSelect(select.filter((key) => key !== btn_keyword));
-          setSelect_btn(select_btn.filter((key) => key !== btn_value));
-          setSelect_att(
-            select_att.filter((key) => key.filter !== btn_att.filter)
+        setSelect(select.filter((key) => key !== btn_keyword));
+        setSelect_btn(select_btn.filter((key) => key !== btn_value));
+        setSelect_att(select_att.filter((key) => key !== btn_att));
+        return;
+      }
+    } else if (select_btn.length < 6) {
+      keyword_btn.classList.toggle("on");
+      if (keyword_btn.className === "btn on") {
+        setKeyState(true);
+        setSelect([...select, btn_keyword]);
+        setSelect_btn([...select_btn, btn_value]);
+        setSelect_att([...select_att, btn_att]);
+      } else if (keyword_btn.className === "btn") {
+        setSelect(select.filter((key) => key !== btn_keyword));
+        setSelect_btn(select_btn.filter((key) => key !== btn_value));
+        setSelect_att(
+          select_att.filter((key) => key.filter !== btn_att.filter)
+        );
+      }
+    }
+
+    if (playerState) {
+      for (let i = 0; i < 6; ++i) {
+        if (
+          song_keyword.current.childNodes[i].childNodes[0].innerText ===
+            btn_keyword &&
+          keyword_btn.className === "btn on"
+        ) {
+          song_keyword.current.childNodes[i].childNodes[0].classList.add("on");
+        } else if (
+          song_keyword.current.childNodes[i].childNodes[0].innerText ===
+            btn_keyword &&
+          keyword_btn.className === "btn"
+        ) {
+          song_keyword.current.childNodes[i].childNodes[0].classList.remove(
+            "on"
           );
         }
       }
-
-      if (playerState) {
-        for (let i = 0; i < 6; ++i) {
-          if (
-            song_keyword.current.childNodes[i].childNodes[0].innerText ===
-              btn_keyword &&
-            keyword_btn.className === "btn on"
-          ) {
-            song_keyword.current.childNodes[i].childNodes[0].classList.add(
-              "on"
-            );
-          } else if (
-            song_keyword.current.childNodes[i].childNodes[0].innerText ===
-              btn_keyword &&
-            keyword_btn.className === "btn"
-          ) {
-            song_keyword.current.childNodes[i].childNodes[0].classList.remove(
-              "on"
-            );
-          }
-        }
-      } else {
-        return;
-      }
-    },
-    // eslint-disable-next-line
-    [select]
-  );
-
-  const onPlayerKeyClick = useCallback(
-    (event) => {
-      if (event.target.innerText === "-") {
-        return;
-      }
-
-      const keyword_btn = event.target;
-      const target_data = keyword_btn.innerText;
-
-      let target_att = { filter: "", att: "" };
-      let target_value = "-";
-      if (target_data) {
-        target_value = keyword_btn.parentNode.dataset.filter;
-        target_att = keyword_btn.parentNode.dataset;
-      }
-
-      // 최대 6개 선택
-      if (select_btn.length === 6) {
-        if (keyword_btn.className === "btn on") {
-          keyword_btn.classList.toggle("on");
-          setSelect(select.filter((key) => key !== target_data));
-          setSelect_btn(select_btn.filter((key) => key !== target_value));
-          setSelect_att(select_att.filter((key) => key !== target_att));
-          return;
-        }
-      } else if (select_btn.length < 6) {
-        keyword_btn.classList.toggle("on");
-        if (keyword_btn.className === "btn on") {
-          setKeyState(true);
-          setSelect([...select, target_data]);
-          setSelect_btn([...select_btn, target_value]);
-          setSelect_att([...select_att, target_att]);
-        } else if (keyword_btn.className === "btn") {
-          setSelect(select.filter((key) => key !== target_value));
-          setSelect_btn(select_btn.filter((key) => key !== target_value));
-          setSelect_att(
-            select_att.filter((key) => key.filter !== target_att.filter)
-          );
-        }
-      }
-      toggleResultListOn();
-    },
-    // eslint-disable-next-line
-    [select]
-  );
+    } else {
+      return;
+    }
+  };
 
   const toggleResultListOn = () => {
     const target = result.current.childNodes[1].childNodes[0];
@@ -256,13 +206,13 @@ const Home = () => {
     setTimeout(setSpacePosition, 500, []);
   };
 
-  const load_result_list = useCallback(() => {
+  const load_result_list = () => {
     const target_arr = select_att.map((item) => `${item.att}=${item.filter}`);
     const target = target_arr.join("&");
     axios
       .get(`https://c-2022yh.space/keywords/list?${target}`)
       .then((response) => setResult_list(response.data));
-  }, [select_att]);
+  };
 
   const navKeyControl = () => {
     const target_path =
@@ -294,59 +244,92 @@ const Home = () => {
     }
   };
 
-  const select_result = useCallback(
-    (event) => {
-      // 데이터 가공 코드
-      const target = event.target.innerText;
-      const target_star = keywords.find(
-        (element) => element.song_title === target
+  const onPlayerKeyClick = (event) => {
+    const keyword_btn = event.target;
+    const target_data = keyword_btn.innerText;
+
+    if (target_data === "-") {
+      return;
+    }
+
+    const target_att = keyword_btn.parentNode.dataset;
+    const target_value = keyword_btn.parentNode.dataset.filter;
+
+    if (keyword_btn.className === "btn") {
+      setKeyState(true);
+      keyword_btn.classList.add("on");
+      setSelect([...select, target_data]);
+      setSelect_btn([...select_btn, target_value]);
+      setSelect_att([...select_att, target_att]);
+    } else {
+      keyword_btn.classList.remove("on");
+      setSelect(select.filter((key) => key !== target_value));
+      setSelect_btn(select_btn.filter((key) => key !== target_value));
+      setSelect_att(
+        select_att.filter((key) => key.filter !== target_att.filter)
       );
-      const target_coordinate = star_graphic.find(
-        (element) => element.song_title === target
-      );
+    }
+  };
 
-      const info_target = star_graphic.findIndex(
-        (element) => element.song_title === target
-      );
-
-      const widthOffset = 1000 - target_coordinate.x;
-      const heightOffset = 1000 - target_coordinate.y; // scale 1.0
-
-      setSpacePosition({
-        transform: `translate(${widthOffset}px, ${heightOffset}px)`,
-      });
-
-      const tag_array = Object.values(target_star)
-        .filter((item) => item !== "")
-        .filter((item) => item !== null);
-
-      for (let i = tag_array.length; i < 7; ++i) {
-        tag_array.push("-");
+  const delete_empty_key = () => {
+    for (let i = 0; i < song_keyword.current.childNodes.length; ++i) {
+      if (song_keyword.current.childNodes[i].dataset.att === "") {
+        song_keyword.current.childNodes[i].style.display = "none";
+      } else {
+        song_keyword.current.childNodes[i].style.display = "block";
       }
+    }
+  };
 
-      setPlayerTag(tag_array.filter((item) => item !== null));
+  useEffect(() => {
+    // delete_empty_key();
+  }, [playerTag]);
 
-      axios
-        .get(`https://c-2022yh.space/information/search=${target}`)
-        .then((response) => setAlbumInfo(response.data));
+  const select_result = (event) => {
+    // 데이터 가공 코드
 
-      if (toggle_state) {
-        for (let i = 0; i < result_list.length; ++i) {
-          event.target.parentNode.childNodes[i].classList.remove("on");
-        }
+    const target = event.target.innerText;
+    const target_star = keywords.find(
+      (element) => element.song_title === target
+    );
+    const target_coordinate = star_graphic.find(
+      (element) => element.song_title === target
+    );
+
+    const info_target = star_graphic.findIndex(
+      (element) => element.song_title === target
+    );
+
+    const widthOffset = 1000 - target_coordinate.x;
+    const heightOffset = 1000 - target_coordinate.y; // scale 1.0
+
+    setSpacePosition({
+      transform: `translate(${widthOffset}px, ${heightOffset}px)`,
+    });
+
+    const tag_array = Object.values(target_star);
+
+    // for (let i = tag_array.length; i < 7; ++i) {
+    //   tag_array.push("-");
+    // }
+
+    axios
+      .get(`https://c-2022yh.space/information/search=${target}`)
+      .then((response) => setAlbumInfo(response.data));
+
+    if (toggle_state) {
+      for (let i = 0; i < result_list.length; ++i) {
+        event.target.parentNode.childNodes[i].classList.remove("on");
       }
-      reset_info_toggle();
+    }
+    reset_info_toggle();
 
-      info_ref.current[info_target].classList.add("active"); //song info
-      // nav_toggle.current[2].classList.add("active"); // more info
-
-      event.target.classList.add("on");
-      onSetPlayerTagData();
-      setPlayerState(true);
-    },
-    // eslint-disable-next-line
-    [result_list]
-  );
+    info_ref.current[info_target].classList.add("active"); //song info
+    event.target.classList.add("on");
+    setPlayerTag(tag_array.filter((item) => item !== null));
+    onSetPlayerTagData();
+    setPlayerState(true);
+  };
 
   const keyword_combine = useMemo(() => {
     return [...keyword_list_1, ...keyword_list_2, ...keyword_list_3];
@@ -400,7 +383,6 @@ const Home = () => {
     // setPlayerTag(Object.values(target_star).filter((item) => item !== ""));
 
     info_ref.current[info_target].classList.add("active"); //song info
-    // nav_toggle.current[2].classList.add("active"); // more info
     setPlayerState(true);
     nav_toggle.current[3].classList.remove("hide"); // song data
     onNavToggle();
@@ -422,12 +404,6 @@ const Home = () => {
       setToggle_state(true);
     }
   };
-
-  // const onPlayerToggle = () => {
-  //   setToggle_state(false);
-  //   nav_toggle.current[1].classList.add("active"); // toggle btn
-  //   nav_toggle.current[3].classList.add("active"); // player
-  // };
 
   const space_center = useCallback(() => {
     const w_width = document.body.offsetWidth;
@@ -489,7 +465,8 @@ const Home = () => {
 
   useEffect(() => {
     space_center();
-
+    onSetPlayerTagData();
+    // delete_empty_key();
     axios
       .get("https://c-2022yh.space/graphics")
       .then((response) => setStar_graphic(response.data));
@@ -506,8 +483,8 @@ const Home = () => {
   }, [document.body.offsetWidth, document.body.offsetHeight]);
 
   useEffect(() => {
-    navKeyControl();
     load_result_list();
+    navKeyControl();
     // if (select_btn.length === 0) {
     //   setKeyState(false);
     //   setSelect_att([]);
@@ -539,7 +516,6 @@ const Home = () => {
 
     if (select_btn.length > 0) {
       resize.current.childNodes[0].childNodes[0].classList.add("hide");
-      // resize.current.classList.add("active");
     } else if (select_btn.length === 0) {
       resize.current.childNodes[0].childNodes[0].classList.remove("hide");
       toggleResultListOn();
@@ -555,7 +531,7 @@ const Home = () => {
     }
 
     // eslint-disable-next-line
-  }, [select_btn]);
+  }, [select]);
 
   useEffect(() => {
     if (resultStars.length > 0 && resultStars.length !== star_graphic.length) {
@@ -584,6 +560,7 @@ const Home = () => {
         target.classList.remove("on");
       }
     }
+    delete_empty_key();
     // eslint-disable-next-line
   }, [playerKey]);
 
@@ -613,7 +590,7 @@ const Home = () => {
       }
       if (width < 820 && mobile_length > 9) {
         target_font.style.fontSize = `${(width * 0.6) / 11}px`;
-        target_font.style.lineHeight = `${(width * 0.8) / 11}px`;
+        // target_font.style.lineHeight = `${(width * 0.6) / 11}px`;
       } else {
         target_font.style.fontSize = "";
         target_font.style.lineHeight = "";
@@ -691,9 +668,11 @@ const Home = () => {
     setPlayerState(true);
     nav_toggle.current[3].classList.remove("hide"); // song data
   };
-
   return (
     <>
+      <div className="anim_test btn" onClick={delete_empty_key}>
+        test
+      </div>
       <div
         ref={(item) => (nav_toggle.current[0] = item)}
         className="nav_container"
@@ -728,6 +707,21 @@ const Home = () => {
               ? String(result_list.length).padStart(3, "0")
               : String(resultStars.length).padStart(3, "0")}
           </div>
+          {/* <div className="result_list">
+            <ul>
+              {result_list
+                ? result_list.map((item, index) => (
+                    <li
+                      data-title={item.song_title}
+                      onClick={select_result}
+                      key={index}
+                    >
+                      {item.song_title}
+                    </li>
+                  ))
+                : ""}
+            </ul>
+          </div> */}
           <Result list={result_list} onClick={select_result} />
         </div>
       </div>
@@ -787,7 +781,7 @@ const Home = () => {
                       data-att={item ? item.keyword : ""}
                     >
                       <span onClick={onPlayerKeyClick} className="btn">
-                        {playerTag[index + 1] ? playerTag[index + 1] : "-"}
+                        {playerTag[index + 1] ? playerTag[index + 1] : ""}
                       </span>
                     </li>
                   ))
