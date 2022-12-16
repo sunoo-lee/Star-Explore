@@ -1,4 +1,4 @@
-import react, { memo } from "react";
+import React, { memo } from "react";
 
 const Result = (prop) => {
   return (

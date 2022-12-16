@@ -51,6 +51,7 @@
 }
 .inner_img img {
   width: 100%;
+  max-height: 80vh;
 }
 
 @media all and (max-width: 820px) {

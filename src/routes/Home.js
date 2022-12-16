@@ -103,7 +103,7 @@ const Home = () => {
 
   const [spaceOffset, setSpaceOffset] = useState([]);
 
-  const resize = useRef();
+  const space = useRef();
 
   const result = useRef();
 
@@ -484,7 +484,7 @@ const Home = () => {
       .get("https://c-2022yh.space/graphics")
       .then((response) => setStar_graphic(response.data));
     axios
-      .get("https://c-2022yh.space/keywords")
+      .get("https://c-2022yh.space/keywords/list")
       .then((response) => setKeywords(response.data));
     // console.log("data load done");
     // eslint-disable-next-line
@@ -498,10 +498,6 @@ const Home = () => {
   useEffect(() => {
     load_result_list();
     navKeyControl();
-    // if (select_btn.length === 0) {
-    //   setKeyState(false);
-    //   setSelect_att([]);
-    // }
 
     let count = resultCount;
     for (let i = 0; i < star_ref.current.length; ++i) {
@@ -528,9 +524,9 @@ const Home = () => {
     setResultCount(count);
 
     if (select_btn.length > 0) {
-      resize.current.childNodes[0].childNodes[0].classList.add("hide");
+      space.current.childNodes[0].childNodes[0].classList.add("hide");
     } else if (select_btn.length === 0) {
-      resize.current.childNodes[0].childNodes[0].classList.remove("hide");
+      space.current.childNodes[0].childNodes[0].classList.remove("hide");
       toggleResultListOn();
       setKeyState(false);
       setSelect_att([]);
@@ -647,14 +643,12 @@ const Home = () => {
       transform: `translate(${widthOffset}px, ${heightOffset}px)`,
     });
 
-    const tag_array = Object.values(target_star)
-      .filter((item) => item !== "")
-      .filter((item) => item !== null);
+    const tag_array = Object.values(target_star);
 
-    for (let i = tag_array.length; i < 7; ++i) {
-      tag_array.push("-");
-    }
-    setPlayerTag(tag_array);
+    // for (let i = tag_array.length; i < 7; ++i) {
+    //   tag_array.push("-");
+    // }
+
     axios
       .get(`https://c-2022yh.space/select/title=${target}`)
       .then((response) => setAlbumInfo(response.data));
@@ -677,15 +671,14 @@ const Home = () => {
     }
     reset_info_toggle();
 
+    setPlayerTag(tag_array);
     info_ref.current[info_target].classList.add("active"); //song info
-    setPlayerState(true);
     nav_toggle.current[3].classList.remove("hide"); // song data
+    setPlayerState(true);
   };
+
   return (
     <>
-      {/* <div className="anim_test btn" onClick={delete_empty_key}>
-        test
-      </div> */}
       <div
         ref={(item) => (nav_toggle.current[0] = item)}
         className="nav_container"
@@ -791,7 +784,7 @@ const Home = () => {
       </div>
 
       <div className="container">
-        <div ref={resize} className="space_wrap">
+        <div ref={space} className="space_wrap">
           <div style={spacePosition} className="star_filter">
             <div style={spaceOffset} className="taurus"></div>
             <div style={spaceOffset} className="product">
