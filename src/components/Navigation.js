@@ -76,6 +76,7 @@ const Navigation = forwardRef((prop, ref) => {
     return () => {
       clearTimeout(debounce);
     };
+    // eslint-disable-next-line
   }, [value]);
 
   const sendRequest = async (input) => {
@@ -90,9 +91,11 @@ const Navigation = forwardRef((prop, ref) => {
     ) {
       return;
     }
+    console.log("input: ", input);
     axios
       .get(`https://c-2022yh.space/search/SE=${input}`)
       .then((response) => setData(response.data));
+    console.log("data: ", data);
   };
 
   const onSubmit = (event) => {

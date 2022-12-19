@@ -359,11 +359,9 @@ const Home = () => {
 
   const select_search_result = (event) => {
     const target = event.target.innerText;
-
     axios
-      .get(`https://c-2022yh.space/select/title=${target}`)
+      .get(`https://c-2022yh.space/select/title?song_title=${target}`)
       .then((response) => setAlbumInfo(response.data));
-
     const target_star = keywords.find(
       (element) => element.song_title === target
     );
@@ -650,7 +648,7 @@ const Home = () => {
     // }
 
     axios
-      .get(`https://c-2022yh.space/select/title=${target}`)
+      .get(`https://c-2022yh.space/select/title?song_title=${target}`)
       .then((response) => setAlbumInfo(response.data));
 
     if (toggle_state && result.current.className === "result_box active") {

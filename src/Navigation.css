@@ -225,7 +225,7 @@
   background: #5b93e1;
 }
 
-@media all and (max-width: 820px) {
+@media all and (max-width: 1024px) {
   ::-webkit-scrollbar {
     width: 5px;
   }
