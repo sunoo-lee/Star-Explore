@@ -108,6 +108,10 @@ const Keyword = require('../model/keywords');
 // 사용방법
 // http://localhost:8080/keywords/list?{attribute}={keyword}
 // ex, http://localhost:8080/keywords/list?emotion1=시원한&emotion2=벅차는&genre=J-POP
+
+
+
+// http://localhost:8080/keywords/list
 router.get('/list', (req, res) => {
 
     // console.log(Object.keys(req.query));

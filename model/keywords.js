@@ -5,34 +5,34 @@ const Keyword = function(keyword_location) {
     this.column_name = keyword_location.column_name;
 }
 
-Keyword.getAll = (result) => {
+// Keyword.getAll = (result) => {
 
-	db.getConnection(function(err, connection) {
+// 	db.getConnection(function(err, connection) {
 		
-		if(!err) {
-			let query_to_find_all_keyword_info = `SELECT * FROM total_songs_keyword_information`;
+// 		if(!err) {
+// 			let query_to_find_all_keyword_info = `SELECT * FROM total_songs_keyword_information`;
 
-			connection.query(query_to_find_all_keyword_info, (err, res) => {
+// 			connection.query(query_to_find_all_keyword_info, (err, res) => {
 				
-				connection.release();
+// 				connection.release();
 
-				if (err) {
-					console.log("error: ", err);
-					result(null, err);
-					return;
-				}
+// 				if (err) {
+// 					console.log("error: ", err);
+// 					result(null, err);
+// 					return;
+// 				}
 
-				//console.log("found information: ", res);
-				result(null, res);
-				return;
-			})
-		}
-		else {
-			console.error('mysql connection error ' + err);
-			throw err;
-		}
-	})
-}
+// 				//console.log("found information: ", res);
+// 				result(null, res);
+// 				return;
+// 			})
+// 		}
+// 		else {
+// 			console.error('mysql connection error ' + err);
+// 			throw err;
+// 		}
+// 	})
+// }
 
 //선택된 키워드의 column 알아보기
 // Keyword.find_keyword_index = (selected_keywords, result) => {
@@ -79,6 +79,7 @@ Keyword.getAll = (result) => {
 // }
 
 //서브쿼리 만드는 함수
+
 let make_sub_query_to_select_keyword = (data) => {
 	
 	//console.log(data);

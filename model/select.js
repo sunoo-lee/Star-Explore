@@ -16,14 +16,14 @@ const select = function (SEsong) {
     this.embedcode = SEsong.embedcode;
 }
 
-select.selectBytitle = (SEtitle, result) => {
+select.selectBytitle = (data, result) => {
 
 	db.getConnection(function (err, connection) {
-		
+	
 		if (!err) {
-			console.log(SEtitle);
+			console.log(Object.values(data)[0]);
 			let query_to_find_title = `SELECT song_title, album_title, album_number, release_date, recommend ,embedcode FROM total_songs_information
-									   WHERE song_title like "${SEtitle}"`;
+									   WHERE song_title like "${Object.values(data)[0]}"`;
 
 			connection.query(query_to_find_title, (err, res) => {
 				
