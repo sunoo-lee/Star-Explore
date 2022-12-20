@@ -3,7 +3,7 @@ const router = express.Router();
 const X_mas = require('../model/christmas');
 
 
-// http://localhost:8080/graphics
+// http://localhost:8080/event/X_MAS
 router.get('/', (req, res) => {
     X_mas.getAll((err, data) => {
         if (err) {
