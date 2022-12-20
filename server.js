@@ -11,6 +11,7 @@ const songSearchRouter= require('./router/songSearch');
 const songGraphicsInformationRouter = require('./router/songGraphics');
 const songKeywordsInformationRouter = require('./router/songKeywords');
 const songTitleRouter = require('./router/songSelect');
+const X_masSongRouter = require('./router/eventChristmas');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use('/search', songSearchRouter);
 app.use('/graphics', songGraphicsInformationRouter);
 app.use('/keywords', songKeywordsInformationRouter);
 app.use('/select', songTitleRouter);
+app.use('/event/X_MAS', X_masSongRouter);
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), "빈 포트에서 대기");
