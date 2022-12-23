@@ -360,3 +360,13 @@
     display: none;
   }
 }
+
+.seasonal .btn {
+  border: 1.5px solid rgb(198, 7, 55);
+  color: rgb(198, 7, 55);
+}
+.seasonal .btn:hover,
+.seasonal .btn.on {
+  background: rgb(198, 7, 55);
+  color: var(--font-color);
+}

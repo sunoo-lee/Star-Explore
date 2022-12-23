@@ -1,7 +1,9 @@
 import React, { useMemo, memo, useRef, useState, useEffect } from "react";
 import "./Intro.css";
-import Intro_web from "./../asset/intro_web.png";
-import Intro_mobile from "./../asset/intro_mobile.png";
+import Intro_web from "./../asset/event/Intro_web.png";
+import Intro_mobile from "./../asset/event/intro_mobile.png";
+// import Intro_web from "./../asset/intro_web.png";
+// import Intro_mobile from "./../asset/intro_mobile.png";
 
 const Intro = () => {
   const modal_ref = useRef();
@@ -31,6 +33,7 @@ const Intro = () => {
               src={modeToggle ? Intro_mobile : Intro_web}
               alt="intro modal"
             />
+            <div className="snow"></div>
             <div onClick={onClick} className="intro_btn"></div>
           </div>
         </div>

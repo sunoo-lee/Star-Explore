@@ -4,7 +4,6 @@ import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
-  memo,
 } from "react";
 import axios from "axios";
 import { ReactComponent as Refresh } from "../asset/reset.svg";
@@ -53,6 +52,7 @@ const Navigation = forwardRef((prop, ref) => {
 
   useImperativeHandle(ref, () => ({
     resetValue,
+    resetBtn,
   }));
 
   const resetBtn = () => {
@@ -87,7 +87,8 @@ const Navigation = forwardRef((prop, ref) => {
       input === "/" ||
       input === "//" ||
       input === "#" ||
-      input === "##"
+      input === "##" ||
+      input === "?"
     ) {
       return;
     }
@@ -190,6 +191,19 @@ const Navigation = forwardRef((prop, ref) => {
         </div>
         <div className="keyword_wrap">
           <div className="keyword">
+            <h3>SEASONAL</h3>
+            <ul className="key_1 seasonal">
+              <li>
+                <span
+                  className={prop.eventState ? "btn on" : "btn"}
+                  onClick={prop.eventBtn}
+                >
+                  Y-MAS
+                </span>
+              </li>
+            </ul>
+          </div>
+          <div className="keyword">
             <h3>emotion</h3>
             <ul className="key_1">
               {prop.keyword_list_1.map((item, index) => (
@@ -243,4 +257,4 @@ const Navigation = forwardRef((prop, ref) => {
   );
 });
 
-export default memo(Navigation);
+export default Navigation;

@@ -115,6 +115,7 @@ const Home = () => {
 
   const onKeyClick = (event) => {
     reset_info_toggle();
+    setSeasonal(false);
     const keyword_btn = event.target;
     const btn_keyword = event.target.innerText;
     const btn_value = keyword_btn.parentElement.dataset.filter;
@@ -186,6 +187,7 @@ const Home = () => {
   const onResetKey = useCallback(() => {
     setKeyState(false);
     reset_info_toggle();
+    setSeasonal(false);
     for (let i = 0; i < result_list.length; ++i) {
       result.current.childNodes[1].childNodes[0].childNodes[i].classList.remove(
         "on"
@@ -217,9 +219,9 @@ const Home = () => {
   const navKeyControl = () => {
     const target_path =
       nav_toggle.current[0].childNodes[0].childNodes[1].childNodes[1];
-    const key_1 = target_path.childNodes[0].children[1].childNodes;
-    const key_2 = target_path.childNodes[1].children[1].childNodes;
-    const key_3 = target_path.childNodes[2].children[1].childNodes;
+    const key_1 = target_path.childNodes[1].children[1].childNodes;
+    const key_2 = target_path.childNodes[2].children[1].childNodes;
+    const key_3 = target_path.childNodes[3].children[1].childNodes;
 
     for (let i = 0; i < key_1.length; ++i) {
       if (select.find((item) => item === key_1[i].dataset.filter)) {
@@ -245,6 +247,8 @@ const Home = () => {
   };
 
   const onPlayerKeyClick = (event) => {
+    reset_info_toggle();
+    setSeasonal(false);
     const keyword_btn = event.target;
     const target_data = keyword_btn.innerText;
 
@@ -281,6 +285,7 @@ const Home = () => {
         );
         return;
       }
+    } else if (select_btn.length === 1) {
     }
   };
 
@@ -327,7 +332,7 @@ const Home = () => {
     // }
 
     axios
-      .get(`https://c-2022yh.space/select/title=${target}`)
+      .get(`https://c-2022yh.space/select/title?song_title=${target}`)
       .then((response) => setAlbumInfo(response.data));
 
     if (toggle_state) {
@@ -494,6 +499,9 @@ const Home = () => {
   }, [document.body.offsetWidth, document.body.offsetHeight]);
 
   useEffect(() => {
+    if (seasonal) {
+      return;
+    }
     load_result_list();
     navKeyControl();
 
@@ -523,6 +531,8 @@ const Home = () => {
 
     if (select_btn.length > 0) {
       space.current.childNodes[0].childNodes[0].classList.add("hide");
+
+      // setEvent(true);
     } else if (select_btn.length === 0) {
       space.current.childNodes[0].childNodes[0].classList.remove("hide");
       toggleResultListOn();
@@ -675,6 +685,69 @@ const Home = () => {
     setPlayerState(true);
   };
 
+  const [seasonal, setSeasonal] = useState(false);
+
+  const onEventBtnClick = () => {
+    if (seasonal) {
+      onResetPos();
+      setSeasonal(false);
+    } else {
+      setSeasonal(true);
+    }
+  };
+
+  useEffect(() => {
+    if (seasonal) {
+      setSelect_btn([]);
+      setSelect_att([]);
+      setSelect([]);
+      setSpacePosition([]);
+      setKeyState(false);
+      reset_info_toggle();
+      setPlayerState(false);
+
+      for (let i = 0; i < song_keyword.current.childNodes.length; ++i) {
+        const target = song_keyword.current.childNodes[i].childNodes[0];
+        target.classList.remove("on");
+      }
+      space.current.childNodes[0].childNodes[0].classList.add("hide");
+      nav_toggle.current[3].classList.add("seasonal");
+      nav_toggle.current[4].resetBtn();
+      result.current.classList.add("active");
+      axios
+        .get(`https://c-2022yh.space/event/X_MAS`)
+        .then((response) => setResult_list(response.data));
+
+      console.log("true");
+    } else {
+      nav_toggle.current[3].classList.remove("seasonal");
+      result.current.classList.remove("active");
+      console.log("false");
+    }
+  }, [seasonal]);
+
+  useEffect(() => {
+    if (seasonal) {
+      for (let i = 0; i < result_list.length; ++i) {
+        result.current.childNodes[1].childNodes[0].childNodes[
+          i
+        ].classList.remove("on");
+      }
+      for (let i = 0; i < star_ref.current.length; ++i) {
+        const target_song = star_ref.current[i];
+        const seasonal_song = result_list.some(
+          (target) => target.song_title === target_song.dataset.title
+        );
+        if (seasonal_song) {
+          target_song.classList.remove("hide");
+        } else {
+          target_song.classList.add("hide");
+        }
+      }
+    }
+    // eslint-disable-next-line
+  }, [result_list]);
+
   return (
     <>
       <div
@@ -692,6 +765,8 @@ const Home = () => {
           onClickResult={select_search_result}
           playerTag={playerTag}
           keyState={keyState}
+          eventBtn={onEventBtnClick}
+          eventState={seasonal}
         />
       </div>
       <div className="select_key">
@@ -727,7 +802,7 @@ const Home = () => {
                 src={`https://www.youtube.com/embed/${albumInfo[0].embedcode}`}
                 title="YouTube video player"
                 frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                // allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               ></iframe>
             ) : (
               ""

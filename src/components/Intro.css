@@ -30,18 +30,21 @@
   right: 30px;
   width: 50px;
   height: 50px;
-  border: 2px solid var(--blue_color);
+  /* border: 2px solid var(--blue_color); */
+  border: 2px solid rgb(294, 216, 197);
   border-radius: 50%;
   cursor: pointer;
   color: var(--blue_color);
-  background: url("../asset/btn_exit.svg") no-repeat;
+  background: url("../asset/event/btn_exit.svg") no-repeat;
   background-size: 35px;
   background-position: center;
   transition: 0.2s;
 }
 
 .intro_btn:hover {
-  background: url("../asset/mobile_btn_exit.svg") var(--blue_color) no-repeat;
+  /* background: url("../asset/mobile_btn_exit.svg") rgb(294, 216, 197) no-repeat; */
+  background: url("../asset/event/mobile_btn_exit.svg") rgb(294, 216, 197)
+    no-repeat;
   background-size: 35px;
   background-position: center;
 }
@@ -70,8 +73,57 @@
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    background: url("../asset/mobile_btn_exit.svg") var(--blue_color) no-repeat;
+    border: 2px solid rgb(198, 7, 55);
+    /* background: url("../asset/mobile_btn_exit.svg") var(--blue_color) no-repeat; */
+    background: url("../asset/event/mobile_btn_exit.svg") rgb(198, 7, 55)
+      no-repeat;
     background-size: 35px;
     background-position: center;
+  }
+}
+
+.snow,
+.snow::after,
+.snow::before {
+  content: "";
+  position: absolute;
+  top: -650px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-image: radial-gradient(4px 4px at 100px 50px, #fff, transparent),
+    radial-gradient(6px 6px at 200px 150px, #fff, transparent),
+    radial-gradient(3px 3px at 300px 250px, #fff, transparent),
+    radial-gradient(4px 4px at 400px 350px, #fff, transparent),
+    radial-gradient(6px 6px at 500px 100px, #fff, transparent),
+    radial-gradient(3px 3px at 50px 200px, #fff, transparent),
+    radial-gradient(4px 4px at 150px 300px, #fff, transparent),
+    radial-gradient(6px 6px at 250px 400px, #fff, transparent),
+    radial-gradient(3px 3px at 350px 500px, #fff, transparent);
+  background-size: 650px 900px;
+
+  animation: snowAnim 5s linear;
+  animation-iteration-count: infinite;
+}
+
+.snow::after {
+  margin-left: -250px;
+  opacity: 0.5;
+  filter: blur(2px);
+  animation-direction: reverse;
+  animation-duration: 6s;
+}
+.snow::before {
+  margin-right: -350px;
+  opacity: 0.7;
+  filter: blur(1px);
+}
+
+@keyframes snowAnim {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100vh);
   }
 }

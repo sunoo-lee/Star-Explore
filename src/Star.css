@@ -11,6 +11,7 @@
   --star_event: 60px;
   --star_comet: 100px;
   --star_cloud: 100px;
+  --star_seasonal: 30px;
 }
 
 .taurus {
@@ -147,6 +148,39 @@
   transition: 0.5s;
 }
 
+/* ----------------------event-------------------------- */
+
+.star_filter .product .itemBox .item_img div.ymas_0 {
+  width: var(--star_seasonal);
+  height: var(--star_seasonal);
+  background: url("./asset/event/ymas_0.svg");
+}
+.star_filter .product .itemBox .item_img div.ymas_1 {
+  width: var(--star_seasonal);
+  height: var(--star_seasonal);
+  background: url("./asset/event/ymas_1.svg");
+}
+.star_filter .product .itemBox .item_img div.ymas_2 {
+  width: var(--star_seasonal);
+  height: var(--star_seasonal);
+  background: url("./asset/event/ymas_2.svg");
+}
+.star_filter .product .itemBox .item_img div.ymas_3 {
+  width: var(--star_seasonal);
+  height: var(--star_seasonal);
+  background: url("./asset/event/ymas_3.svg");
+}
+.star_filter .product .itemBox .item_img div.ymas_4 {
+  width: var(--star_seasonal);
+  height: var(--star_seasonal);
+  background: url("./asset/event/ymas_4.svg");
+}
+.star_filter .product .itemBox .item_img div.ymas_5 {
+  width: var(--star_seasonal);
+  height: var(--star_seasonal);
+  background: url("./asset/event/ymas_5.svg");
+}
+
 /* ----------------------info-------------------------- */
 
 .info_container {
@@ -221,6 +255,15 @@
 }
 .info_container .song_info.img_cloud {
   transform: translateX(calc(-50% - 2px)) translateY(-140px);
+}
+
+.info_container .song_info.ymas_0,
+.info_container .song_info.ymas_1,
+.info_container .song_info.ymas_2,
+.info_container .song_info.ymas_3,
+.info_container .song_info.ymas_4,
+.info_container .song_info.ymas_5 {
+  transform: translateX(calc(-50% - 2px)) translateY(-115px);
 }
 
 .song_info .title {
