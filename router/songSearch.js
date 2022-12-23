@@ -6,8 +6,6 @@ const search = require('../model/search');
 // http://localhost:8080/search/SE=:SEsonginfo
 router.get('/SE=:SEsonginfo', (req, res) => {
 
-    // let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
-
     search.searchBybar(req.params.SEsonginfo, (err, data) => {
         
         // if(pattern_spc.test(req.params.SEsonginfo) != true)

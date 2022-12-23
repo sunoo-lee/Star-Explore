@@ -3,11 +3,12 @@ const router = express.Router();
 const select = require('../model/select');
 
 
-// http://localhost:8080/select/title?song_title=
-router.get('/title', (req, res) => {
+// http://localhost:8080/select/title=:song_title
+router.get('/title=:song_title', (req, res) => {
 
+    console.log(req.params.song_title);
     // let pattern_spc = /[~!@#$%^&*()_+|<>?:{}]/;
-    select.selectBytitle(req.query, (err, data) => {
+    select.selectBytitle(req.params.song_title, (err, data) => {
         
         // if(pattern_spc.test(req.params.SEsonginfo) != true)
         //     return res.end();
